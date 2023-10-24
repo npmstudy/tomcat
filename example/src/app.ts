@@ -1,4 +1,4 @@
-import { httprpc } from '@httprpc/core';
+import { httprpc } from '@tomrpc/core';
 
 const rpc = httprpc({});
 

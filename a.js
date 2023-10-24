@@ -48,31 +48,34 @@ const target = {
 
 const handler = {
   get: function (target, prop, receiver) {
+    console.dir(target);
     prop.split('.').forEach((element) => {
-      console.dir(target);
-      console.dir(element);
+      // console.dir(target);
+      // console.dir(element);
       target[element] = {};
-      console.dir(target);
+      // console.dir(target);
       // if (!target[element])console.dir(target[element]);
       new Proxy(target[element], handler);
     });
 
-    return function () {
-      //
-      console.dir('return fn');
-      console.dir(target);
-      console.dir(prop);
-      if (prop.split('.').length > 0) {
-        target.add = {
-          abc: {},
-        };
-        // console.dir(prop);
-      }
+    if (prop.split('.').length === 0) {
+      return function () {
+        //
+        console.dir('return fn');
+        console.dir(target);
+        console.dir(prop);
+        if (prop.split('.').length > 0) {
+          target.add = {
+            abc: {},
+          };
+          // console.dir(prop);
+        }
 
-      console.dir(receiver);
+        console.dir(receiver);
 
-      // console.dir(arguments);
-    };
+        // console.dir(arguments);
+      };
+    }
   },
 };
 
@@ -80,3 +83,7 @@ const proxy = new Proxy(target, handler);
 // const proxy2 = new Proxy(proxy.add, handler);
 
 console.log(proxy.add.abc(2, 3)); // Output: Calling function: sum, 5
+
+// obj = {}
+// proxy.add()
+// proxy.add.abc()

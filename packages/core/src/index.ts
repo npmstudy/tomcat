@@ -9,7 +9,7 @@ export const lib = () => 'lib';
 
 const log = debug('httprpc');
 
-export function httprpc(config: any) {
+export function httprpc(config?: any) {
   const app = new Koa();
 
   app.use(bodyParser());

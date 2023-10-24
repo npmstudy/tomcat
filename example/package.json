@@ -23,8 +23,8 @@
     "vite": "^4.4.9"
   },
   "dependencies": {
-    "@httprpc/core": "workspace:*",
-    "@httprpc/mountdir": "workspace:*",
+    "@tomrpc/core": "workspace:*",
+    "@tomrpc/client": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
