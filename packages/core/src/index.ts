@@ -12,24 +12,24 @@ const log = debug('httprpc');
 
 export const LifeCycleConfig = {
   beforeAll: async (ctx, next) => {
-    console.log('beforeAll');
+    log('beforeAll');
     await next();
-    console.log('beforeAll end');
+    log('beforeAll end');
   },
   beforeEach: async (ctx, next) => {
-    console.log('beforeEach');
+    log('beforeEach');
     await next();
-    console.log('beforeEach end');
+    log('beforeEach end');
   },
   afterEach: async (ctx, next) => {
-    console.log('afterEach');
+    log('afterEach');
     await next();
-    console.log('afterEach end');
+    log('afterEach end');
   },
   afterAll: async (ctx, next) => {
-    console.log('afterAll');
+    log('afterAll');
     await next();
-    console.log('afterAll end');
+    log('afterAll end');
   },
 };
 
