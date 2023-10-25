@@ -38,11 +38,7 @@ export function httprpc(config?: any) {
   const app = new Koa();
 
   app.use(_cfg.beforeAll);
-
   app.use(bodyParser());
-
-  // console.log(config);
-  // console.log(app);
 
   return Object.assign(this, {
     rpcFunctions: {},
@@ -62,7 +58,7 @@ export function httprpc(config?: any) {
           );
         }
         if (this.rpcFunctions[name]) {
-          // console.log(`add ${name}: ${fn}`);
+          log(`add ${name}: ${fn}`);
           console.log(`this.rpcFunctions[${name}] exisit`);
         }
 
