@@ -33,6 +33,7 @@
   "dependencies": {
     "@koa/bodyparser": "^5.0.0",
     "debug": "^4.3.4",
-    "koa": "^2.14.2"
+    "koa": "^2.14.2",
+    "koa-compose": "^4.1.0"
   }
 }

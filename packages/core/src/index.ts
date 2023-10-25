@@ -1,6 +1,7 @@
 import { bodyParser } from '@koa/bodyparser';
 import debug from 'debug';
 import Koa from 'koa';
+import compose from 'koa-compose';
 
 import { mountMiddleware } from './core';
 import { isArrowFunction } from './utils';
@@ -9,8 +10,34 @@ export const lib = () => 'lib';
 
 const log = debug('httprpc');
 
+export const LifeCycleConfig = {
+  beforeAll: async (ctx, next) => {
+    console.log('beforeAll');
+    await next();
+    console.log('beforeAll end');
+  },
+  beforeEach: async (ctx, next) => {
+    console.log('beforeEach');
+    await next();
+    console.log('beforeEach end');
+  },
+  afterEach: async (ctx, next) => {
+    console.log('afterEach');
+    await next();
+    console.log('afterEach end');
+  },
+  afterAll: async (ctx, next) => {
+    console.log('afterAll');
+    await next();
+    console.log('afterAll end');
+  },
+};
+
 export function httprpc(config?: any) {
+  const _cfg = Object.assign(LifeCycleConfig, config);
   const app = new Koa();
+
+  app.use(_cfg.beforeAll);
 
   app.use(bodyParser());
 
@@ -24,6 +51,7 @@ export function httprpc(config?: any) {
     _mounted: false,
     listen: function (port?: number) {
       this.mount();
+      app.use(_cfg.afterAll);
       this.app.listen(port || 3000);
     },
     add: function (items) {
@@ -45,7 +73,8 @@ export function httprpc(config?: any) {
       log('mount');
 
       if (!this._mounted) {
-        app.use(mountMiddleware(this.rpcFunctions));
+        const mw = compose([_cfg.beforeEach, mountMiddleware(this.rpcFunctions), _cfg.afterEach]);
+        app.use(mw);
         this._mounted = true;
       }
     },
