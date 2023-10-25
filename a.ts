@@ -42,48 +42,36 @@
 // userProxy.set1Name('Jane Doe'); // logs "Called method "setName" with args: ["Jane Doe"]"
 // userProxy.setEmail('jane@doe.com'); // logs "Called method "setEmail" with args: ["jane@doe.com"]"
 
-const target = {
-  sum: (a, b) => a + b,
-};
-
 const handler = {
   get: function (target, prop, receiver) {
-    console.dir(target);
-    prop.split('.').forEach((element) => {
-      // console.dir(target);
-      // console.dir(element);
-      target[element] = {};
-      // console.dir(target);
-      // if (!target[element])console.dir(target[element]);
-      new Proxy(target[element], handler);
-    });
-
-    if (prop.split('.').length === 0) {
-      return function () {
-        //
-        console.dir('return fn');
-        console.dir(target);
-        console.dir(prop);
-        if (prop.split('.').length > 0) {
-          target.add = {
-            abc: {},
-          };
-          // console.dir(prop);
-        }
-
-        console.dir(receiver);
-
-        // console.dir(arguments);
-      };
-    }
+    // console.dir(prop);
+    return function (...args) {
+      console.dir(' - - - ');
+      console.dir(target.namespace + '.' + prop);
+      console.dir(args);
+      return prop;
+    };
   },
 };
 
-const proxy = new Proxy(target, handler);
-// const proxy2 = new Proxy(proxy.add, handler);
+function createClient(namespace = 'default', config = {}) {
+  const target = {};
+  let p = {};
+  const o = [];
+  const fn = (item) => {
+    o.push(o.length === 0 ? target : (o[o.length - 1][item] = {}));
+    p = new Proxy(o[o.length - 1], handler);
+  };
 
-console.log(proxy.add.abc(2, 3)); // Output: Calling function: sum, 5
+  namespace && fn(namespace) && namespace.split('.').forEach(fn);
 
-// obj = {}
-// proxy.add()
-// proxy.add.abc()
+  p.namespace = namespace && namespace.split('.') && namespace.split('.').pop();
+  p.config = config;
+  return p;
+}
+
+const proxy = createClient();
+const proxy2 = createClient('abc.add');
+
+console.log(proxy.add(2, 3));
+console.log(proxy2.abc(1, 3));

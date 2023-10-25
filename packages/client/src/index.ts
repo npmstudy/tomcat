@@ -51,39 +51,41 @@ export class TomClient {
   }
 }
 
-export const createClient = async function (config) {
-  const client = new TomClient(config);
-  const userProxy = new Proxy(client, {
-    get: (target: any, prop: any) => {
-      // create default values for non-existent properties
-      if (!(prop in target)) {
-        return `[${prop} not set]`;
-      }
-      return target[prop];
-    },
-    apply: (target: any, thisArg: any, args: any) => {
-      // client.get('a', 'hello', 'world');
-      console.log(`Called method "${target.name}" with args:`, args);
-      return target.get(target.name, thisArg, args);
-    },
-  });
-  // const userProxy = new Proxy(client, {
+// export const createClient = async function (config) {
 
-  //   get: (target: any, prop: any) => {
-  //     // intercept property access
-  //     console.log(`Getting property "${prop}"`);
-  //     target.name1 = function () {
-  //       return 2;
-  //     };
-  //     if (target[prop]) {
-  //       return target[prop];
-  //     } else {
-  //       // client.get('a', 'hello', 'world');
-  //       client.get;
-  //     }
-  //   },
-  // });
-
-  // console.dir(userProxy.name1());
-  return userProxy;
+const handler = {
+  get: async function (target, prop, receiver) {
+    // console.dir(prop);
+    return async function (...args) {
+      console.dir(' - - - ');
+      console.dir(target.config.namespace + '.' + prop);
+      console.dir(args);
+      const c = new TomClient(target.config);
+      return c.get.apply(null, [target.namespace + '.' + prop, args]);
+    };
+  },
 };
+
+export async function createClient(config = { namespace: 'default' }) {
+  const target = {};
+  let p = { config: config };
+  const o = [];
+  const fn = (item) => {
+    o.push(o.length === 0 ? target : (o[o.length - 1][item] = {}));
+    p = new Proxy(o[o.length - 1], handler);
+  };
+
+  config?.namespace?.split('.').length === 0 && fn(config.namespace);
+  config?.namespace?.split('.').forEach(fn);
+
+  p.config.namespace =
+    config.namespace && config.namespace.split('.') && config.namespace.split('.').pop();
+  p.config = config;
+  return p;
+}
+
+// const proxy = createClient();
+const proxy2 = createClient('abc.add');
+
+// console.log(proxy.add(2, 3));
+console.log(proxy2.abc(1, 3));
