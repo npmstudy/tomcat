@@ -9,7 +9,7 @@ export function mountMiddleware(routers) {
 
     if (!['POST', 'PUT', 'PATCH'].includes(ctx.method) && !ctx.query.$p) {
       console.log('not match $p param, no process');
-      await next();
+      ctx.body = 'not match $p param, no process';
     } else {
       const param = ctx.method === 'POST' ? ctx.request.body : JSON.parse(ctx.query.$p);
 

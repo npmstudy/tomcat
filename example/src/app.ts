@@ -6,12 +6,13 @@ rpc.fn('a', (a: string) => {
   return a;
 });
 
-rpc.fn('a.a', (a: string, b: string, ctx: any) => {
+rpc.fn('a.a', (a: string, ctx: any) => {
+  // console.dir(ctx);
   if (ctx.method === 'POST') {
     console.dir('post');
     return {
       a: a,
-      b: b,
+      // b: b,
     };
   } else {
     console.dir('get' + ctx.method);

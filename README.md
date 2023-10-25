@@ -1,38 +1,35 @@
-# pnpm-monorepo
+# Tomcat
 
 > A PNPM monorepo template for personal projects.
 
-## What is in this repository?
+# Usage
 
-- [PNPM](https://pnpm.io/workspaces) as workspace manager and package manager.
-- [TSUP](https://tsup.egoist.dev/) as a TypeScript universal package.
-- [Vitest](https://vitest.dev/) as a test runner.
-- [Size Limit](https://github.com/ai/size-limit) as a size limit plugin.
-- [Prettier](https://prettier.io/) as a code formatter.
-- [ESLint](https://eslint.org/) as a code linter.
-- [NX](https://nx.dev) as cacheable operations.
-- [Changesets](https://github.com/changesets/changesets/) as a way to manage changes and releases.
+```js
+import { createClient } from '@tomrpc/client'
 
-## Using this repository
-
-- clone the repository or click in "Use this template" button.
-- copy `packages/lib` to `packages/yourlib`
- and edit the `name`, `description` and `author` fields.
-
-## Folder structure
-
-- docs - An empty folder to store documentation.
-- example - A folder with an example project. Think as playground.
-- packages/* - A folder with a library.
-
-## Using Turbo to run commands
-
-NX is a cacheable build tool (and Monorepo manager). This project uses it to run the `build`, `test` and `coverage` commands.
-
-```bash
-# Instead of running `pnpm build`, run:
-nx run-many -t build
+const client = createClient({
+  host: '127.0.0.1',
+  port: 3000,
+  namespace: '',
+});
+const res = await client.a('hello');
+console.dir(res);
 ```
+
+实际上，执行
+
+```
+http://127.0.0.1:3000/a?$p=[%22hello%22]
+```
+
+对应的 Server 函数
+
+```js
+rpc.fn('a', (a: string) => {
+  return a;
+});
+```
+
 
 ## License
 

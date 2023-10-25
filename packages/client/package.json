@@ -1,6 +1,6 @@
 {
   "name": "@tomrpc/client",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "My Awesome lib",
   "license": "MIT",
   "publishConfig": {
@@ -29,6 +29,7 @@
     "happy-dom": "^6.0.4"
   },
   "dependencies": {
+    "debug": "^4.3.4",
     "isomorphic-unfetch": "^4.0.2"
   }
 }

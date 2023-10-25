@@ -4,12 +4,19 @@ const main = async () => {
   const client = createClient({
     host: '127.0.0.1',
     port: 3000,
-    namespace: 'default',
+    namespace: 'a',
+    methodFilter: function (lastKey: string) {
+      if (lastKey === 'a') {
+        return 'post';
+      } else {
+        return 'get';
+      }
+    },
   });
-  // const a = await client.a('hello', 'world');
-  console.dir(client);
+  const res = await client.a('hello');
+  console.dir(res);
 
-  const b = await client.a('hello', 'world');
+  // const b = await client.a('hello');
   // console.dir(b);
 };
 

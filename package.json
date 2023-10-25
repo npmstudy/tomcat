@@ -1,5 +1,5 @@
 {
-  "name": "pnpm-project",
+  "name": "tomcat",
   "private": true,
   "scripts": {
     "build": "nx run-many -t build",
