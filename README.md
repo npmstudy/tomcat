@@ -36,4 +36,4 @@ nx run-many -t build
 
 ## License
 
-MIT @ i5ting
+MIT @ npmstudy
