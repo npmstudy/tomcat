@@ -40,11 +40,29 @@ rpc.fn('a', function (a: string) {
 
 ## 命名空间
 
+server
+
 ```js
 rpc.fn('com.yourcompony.a', function (a: string) {
   return a;
 });
 ```
+
+client
+
+```js
+import { createClient } from '@tomrpc/client';
+
+const client = createClient({
+  host: '127.0.0.1',
+  port: 3000,
+  namespace: 'com.yourcompony',
+});
+
+const res = await client.a('hello');
+console.dir(res);
+```
+
 
 ## Context
 
