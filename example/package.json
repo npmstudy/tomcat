@@ -8,7 +8,6 @@
     "start": "nodemon dist/app",
     "build": "tsup src -- --dts-resolve",
     "build:fast": "tsup src",
-    "dev": "tsx src/app.ts --watch",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "coverage": "vitest run --coverage"
@@ -23,6 +22,7 @@
     "vite": "^4.4.9"
   },
   "dependencies": {
+    "@tomrpc/mount": "workspace:*",
     "@tomrpc/core": "workspace:*",
     "@tomrpc/client": "workspace:*",
     "react": "^18.2.0",

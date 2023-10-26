@@ -1,7 +1,7 @@
-export const lib = () => 'lib';
-import importDir from '@tomrpc/import-dir';
 import debug from 'debug';
-import { flatten } from 'flat';
+
+import mount from './mount';
+import { isFunction } from './utils';
 
 const log = debug('@tomrpc/mount');
 
@@ -9,13 +9,17 @@ const log = debug('@tomrpc/mount');
 // {a.b:2, a.a:1}
 // a.b => /a/b + function
 
-export default async (dir) => {
-  const files = await importDir(dir, {
-    recurse: true,
-    extensions: ['.js', '.json'],
+export default async (rpc, dir) => {
+  const files = await mount(rpc.base, dir);
+
+  Object.keys(files).forEach((key) => {
+    console.dir(key);
+    console.dir(files[key]);
+    if (isFunction(files[key])) {
+      console.log('add funtion key=' + key);
+      rpc.fn(key, files[key]);
+    } else {
+      console.dir(`key=${key} is not a function`);
+    }
   });
-
-  console.log(files);
-
-  return flatten(files);
 };

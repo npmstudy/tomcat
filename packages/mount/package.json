@@ -29,8 +29,9 @@
     "happy-dom": "^6.0.4"
   },
   "dependencies": {
-    "@tomrpc/import-dir": "^1.2.0",
+    "@tomrpc/import-dir": "^1.2.2",
     "debug": "^4.3.4",
+    "desm": "^1.3.0",
     "flat": "^6.0.1"
   }
 }

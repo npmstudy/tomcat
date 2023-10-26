@@ -1,7 +1,9 @@
 /* @ts-ignore */
 import { createServer } from '@tomrpc/core';
+import mount from '@tomrpc/mount';
 
 const rpc = createServer({
+  base: import.meta.url,
   beforeOne: function (ctx: any, key: string) {
     console.log(ctx.path);
     console.log(ctx.method);
@@ -54,10 +56,13 @@ rpc.add({
   },
 });
 
+rpc.base = import.meta.url;
+mount(rpc, './fn');
+
 // https://bobbyhadz.com/blog/typescript-no-overload-matches-this-call
 // rpc.dump();
 // console.dir(rpc.dump());
 
-// rpc.mount();
+rpc.mount();
 
 rpc.listen(3000);
