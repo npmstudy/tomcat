@@ -1,6 +1,6 @@
 # Tomcat
 
-> A PNPM monorepo template for personal projects.
+> Build function-based API with minimal code
 
 # Usage
 
@@ -25,7 +25,7 @@ http://127.0.0.1:3000/a?$p=[%22hello%22]
 对应的 Server 函数
 
 ```js
-rpc.fn('a', (a: string) => {
+rpc.fn('a', function (a: string) {
   return a;
 });
 ```
