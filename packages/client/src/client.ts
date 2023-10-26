@@ -50,7 +50,9 @@ export class TomClient {
       body: JSON.stringify(r),
       headers: { 'Content-Type': 'application/json' },
     });
+
     const data = await response.text();
+    log(data);
     return data;
   }
 }

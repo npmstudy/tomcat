@@ -3,6 +3,7 @@ import debug from 'debug';
 const log = debug('@tomrpc/client');
 
 import { TomClient } from '.';
+import { getHttpMethods } from './utils';
 
 export const defaultConfig = {
   methodFilter: function (lastKey: string) {
@@ -12,10 +13,27 @@ export const defaultConfig = {
     // console.dir(config);
     const o = new TomClient(config);
     const lastKey = key.split('.').pop();
-    const method = config.methodFilter(lastKey).toLowerCase();
+    let method = config.methodFilter(lastKey).toLowerCase();
+    const httpMethods = getHttpMethods();
+    log(key);
+
+    // getUser => get
+    // 优先级比methodFilter高
+    const supportMethods = [];
+    httpMethods.forEach(function (m) {
+      if (lastKey.indexOf(m) != -1) {
+        log(m);
+        supportMethods.push(m);
+        return m;
+      }
+    });
+    log('supportMethods');
+    log(supportMethods);
+
+    if (supportMethods.length > 0) method = supportMethods[0];
     log(lastKey);
     log(method);
-    const _p = [key, ...parms];
+    const _p = [key.replace('default.', ''), ...parms];
     return await o[method](..._p);
   },
 };

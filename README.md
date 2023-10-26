@@ -108,7 +108,34 @@ const res = await client.a('hello');
 console.dir(res);
 ```
 
-稍后会通过com.yourcompony.getXXXX或com.yourcompony.postXXXX实现。
+## 根据方法名确定get/post请求
+
+```js
+
+rpc.fn('getUsers', function (a: string) {
+  return {
+    a: a,
+    msg: 'getUsers',
+  };
+});
+
+rpc.fn('postUsers', function (a: string) {
+  return {
+    a: a,
+    msg: 'postUsers',
+  };
+});
+
+
+
+const res = await client.getUsers('hello');
+const res = await client.postUsers('hello');
+
+```
+
+如果发送get请求`http://127.0.0.1:3000/postUsers?$p=[%22hello%22]
+`，会返回`process fn:postUsers , you need send post request from client
+`
 
 ## 生命周期
 

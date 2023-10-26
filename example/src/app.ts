@@ -9,6 +9,20 @@ const rpc = createServer({
   },
 });
 
+rpc.fn('getUsers', function (a: string) {
+  return {
+    a: a,
+    msg: 'getUsers',
+  };
+});
+
+rpc.fn('postUsers', function (a: string) {
+  return {
+    a: a,
+    msg: 'postUsers',
+  };
+});
+
 rpc.fn('a', (a: string) => {
   return a;
 });

@@ -4,7 +4,7 @@ import Koa from 'koa';
 import compose from 'koa-compose';
 
 import { mountMiddleware } from './core';
-import { isArrowFunction } from './utils';
+import { isArrowFunction, getHttpMethods } from './utils';
 
 export const lib = () => 'lib';
 
@@ -81,7 +81,36 @@ export const createServer = function (config?: any) {
             log('beforeOne');
             const key = ctx.path.replace('/', '').split('/').join('.');
             _cfg.beforeOne(ctx, key);
-            await next();
+
+            const lastKey = key.split('.').pop();
+            const httpMethods = getHttpMethods();
+
+            const supportMethods = [];
+            httpMethods.forEach(function (m) {
+              if (lastKey.indexOf(m) != -1) {
+                console.log(m);
+                supportMethods.push(m);
+                return m;
+              }
+            });
+            console.log(supportMethods);
+
+            if (supportMethods.length === 0) {
+              log('没有匹配到包含get/post等方法的函数');
+              await next();
+            } else if (ctx.method === supportMethods[0]) {
+              log('匹配到包含get/post等方法的函数');
+              await next();
+            } else {
+              log('匹配到包含get/post等方法的函数，但method不对');
+              ctx.body =
+                'process fn:' +
+                lastKey +
+                ' , you need send ' +
+                supportMethods[0] +
+                ' request from client';
+            }
+
             log('beforeOne end');
           },
           mountMiddleware(this.rpcFunctions),
