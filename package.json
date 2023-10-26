@@ -17,8 +17,7 @@
     "project-graph": "nx graph",
     "ci:version": "changeset version",
     "ci:publish": "changeset publish",
-    "publish": "npx changeset && npm run ci:version && npm run ci:publish && ",
-    "example": "pnpm -F example dev"
+    "example": "pnpm -F example start"
   },
   "description": "PNPM monorepo template",
   "license": "MIT",
