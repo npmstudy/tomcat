@@ -7,17 +7,25 @@
   },
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx"
+      ]
     },
     "import/resolver": {
       "typescript": {},
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"],
-        "moduleDirectory": ["node_modules", "src/"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ],
+        "moduleDirectory": [
+          "node_modules",
+          "src/"
+        ]
       }
-    },
-    "react": {
-      "version": "detect"
     },
     "ecmaFeatures": {
       "jsx": true
@@ -25,7 +33,6 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
@@ -41,20 +48,28 @@
     "ecmaVersion": 11,
     "sourceType": "module"
   },
-  "plugins": ["import", "react", "react-hooks", "@typescript-eslint"],
+  "plugins": [
+    "import",
+    "@typescript-eslint"
+  ],
   "rules": {
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "react/prop-types": "off",
-    "react/react-in-jsx-scope": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "import/order": [
       "warn",
       {
         "groups": [
-          ["builtin", "external"],
-          ["internal", "parent"],
-          ["sibling", "index"],
+          [
+            "builtin",
+            "external"
+          ],
+          [
+            "internal",
+            "parent"
+          ],
+          [
+            "sibling",
+            "index"
+          ],
           "object"
         ],
         "newlines-between": "always",
