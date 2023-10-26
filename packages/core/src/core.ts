@@ -1,5 +1,5 @@
 import debug from 'debug';
-const log = debug('httprpc');
+const log = debug('@tomrpc/core');
 
 export function mountMiddleware(routers) {
   log(routers);

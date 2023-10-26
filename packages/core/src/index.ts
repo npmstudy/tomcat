@@ -8,7 +8,7 @@ import { isArrowFunction } from './utils';
 
 export const lib = () => 'lib';
 
-const log = debug('httprpc');
+const log = debug('@tomrpc/core');
 
 export const LifeCycleConfig = {
   beforeAll: async (ctx, next) => {
@@ -31,9 +31,15 @@ export const LifeCycleConfig = {
     await next();
     log('afterAll end');
   },
+  beforeOne: function (ctx, key: string) {
+    log('beforeOne key=' + key);
+  },
+  afterOne: function (ctx, key: string) {
+    log('afterOne key=' + key);
+  },
 };
 
-export function httprpc(config?: any) {
+export const createServer = function (config?: any) {
   const _cfg = Object.assign(LifeCycleConfig, config);
   const app = new Koa();
 
@@ -69,7 +75,25 @@ export function httprpc(config?: any) {
       log('mount');
 
       if (!this._mounted) {
-        const mw = compose([_cfg.beforeEach, mountMiddleware(this.rpcFunctions), _cfg.afterEach]);
+        const mw = compose([
+          _cfg.beforeEach,
+          async (ctx, next) => {
+            log('beforeOne');
+            const key = ctx.path.replace('/', '').split('/').join('.');
+            _cfg.beforeOne(ctx, key);
+            await next();
+            log('beforeOne end');
+          },
+          mountMiddleware(this.rpcFunctions),
+          async (ctx, next) => {
+            log('afterOne');
+            const key = ctx.path.replace('/', '').split('/').join('.');
+            _cfg.afterOne(ctx, key);
+            await next();
+            log('afterOne end');
+          },
+          _cfg.afterEach,
+        ]);
         app.use(mw);
         this._mounted = true;
       }
@@ -84,4 +108,4 @@ export function httprpc(config?: any) {
       this.rpcFunctions[name] = fn;
     },
   });
-}
+};
