@@ -2,6 +2,14 @@
 
 > Build function-based API with minimal code
 
+- Basic
+  - @tomrpc/core 最核心的函数机制
+  - @tomrpc/client 客户端，支持Node.js和浏览器
+- Advance
+  - @tomrpc/mount 自动加载某目录下面的所有文件，如果export的是函数，则通过rpc.fn加入。
+
+
+
 # Usage
 
 ```js
