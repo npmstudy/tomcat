@@ -1,29 +1,29 @@
 export function a(a) {
   return {
     a: a,
-    msg: "getUsers",
+    msg: 'getUsers',
   };
 }
 
 export function b(a) {
   return {
     a: a,
-    msg: "getUsers",
+    msg: 'getUsers',
   };
 }
 
 export const c = function (a) {
   return {
     a: a,
-    msg: "getUsers",
+    msg: 'ccccc',
   };
 };
 
 export const f = function d(a) {
   return {
     a: a,
-    msg: "getUsers",
+    msg: 'getUsers',
   };
 };
 
-export default "1";
+export default '1';
