@@ -7,6 +7,8 @@
   - @tomrpc/client 客户端，支持Node.js和浏览器
 - Advance
   - @tomrpc/mount 自动加载某目录下面的所有文件，如果export的是函数，则通过rpc.fn加入。
+- Application（Todo）
+  - @tomrpc/app 组合core和mount，增加内置中间件、环境判断等，用于应用创建。
 
 
 
