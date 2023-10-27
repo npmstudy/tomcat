@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "nodemon dist/app",
+    "start": "tsx --no-cache src/app.ts",
     "build": "tsup src -- --dts-resolve",
     "build:fast": "tsup src",
     "test": "vitest run",

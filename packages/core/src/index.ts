@@ -88,12 +88,12 @@ export const createServer = function (config?: any) {
             const supportMethods = [];
             httpMethods.forEach(function (m) {
               if (lastKey.indexOf(m) != -1) {
-                console.log(m);
+                log(m);
                 supportMethods.push(m);
                 return m;
               }
             });
-            console.log(supportMethods);
+            // console.log(supportMethods);
 
             if (supportMethods.length === 0) {
               log('没有匹配到包含get/post等方法的函数');
