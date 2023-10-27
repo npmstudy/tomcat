@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import mount from '../mount';
+// import mount from '../mount';
 
 describe('lib', () => {
   it('should render lib', () => {
