@@ -12,11 +12,11 @@ const log = debug('@tomrpc/mount');
 export default async (rpc, dir) => {
   const files = await mount(rpc.base, dir);
 
+  log(files);
+
   Object.keys(files).forEach((key) => {
-    console.dir(key);
-    console.dir(files[key]);
     if (isFunction(files[key])) {
-      console.log('add funtion key=' + key);
+      log('add funtion key=' + key);
       rpc.fn(key, files[key]);
     } else {
       console.dir(`key=${key} is not a function`);
