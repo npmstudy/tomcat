@@ -151,8 +151,6 @@ export const createServer = function (config?: any) {
             const key = ctx.path.replace('/', '').split('/').join('.');
             _cfg.beforeOne(ctx, key);
 
-            console.dir(ctx.jwt);
-
             const lastKey = key.split('.').pop();
             const httpMethods = getHttpMethods();
 
