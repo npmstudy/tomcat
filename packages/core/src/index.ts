@@ -12,11 +12,20 @@ const log = debug('@tomrpc/core');
 
 export const LifeCycleConfig = {
   hooks: {
+    init: [],
     before: [],
     load: [],
     beforeMount: [],
     afterMount: [],
     after: [],
+  },
+  init: async (server) => {
+    const app = server.app;
+    const loadMiddlewares = server.config.hooks.init;
+    console.log(loadMiddlewares);
+    loadMiddlewares.forEach((mw) => {
+      app.use(mw);
+    });
   },
   before: async (server) => {
     const app = server.app;
@@ -28,7 +37,7 @@ export const LifeCycleConfig = {
   load: async (server) => {
     const app = server.app;
     const loadMiddlewares = server.config.hooks.load;
-    console.dir(loadMiddlewares);
+    console.log(loadMiddlewares);
     loadMiddlewares.forEach((mw) => {
       app.use(mw);
     });
@@ -104,6 +113,8 @@ export const createServer = function (config?: any) {
     rpcFunctions: {},
     _mounted: false,
     listen: function (port?: number) {
+      _cfg.init(this);
+
       _cfg.load(this);
 
       _cfg.beforeMount(this);
@@ -139,6 +150,8 @@ export const createServer = function (config?: any) {
             log('beforeOne');
             const key = ctx.path.replace('/', '').split('/').join('.');
             _cfg.beforeOne(ctx, key);
+
+            console.dir(ctx.jwt);
 
             const lastKey = key.split('.').pop();
             const httpMethods = getHttpMethods();

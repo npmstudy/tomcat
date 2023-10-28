@@ -6,12 +6,16 @@ import { createApp } from './src/index';
   const rpc = await createApp({
     name: 'tomapp',
     base: import.meta.url,
-    port: 3000,
+    port: 3001,
     debug: false,
     // mount?: './fn'';
     buildin: {
       serve: { enable: true, root: join(import.meta.url, '.', 'public'), opts: {} },
       cors: { enable: true },
+    },
+    beforeAll: async (ctx, next) => {
+      console.dir(ctx.jwt);
+      await next();
     },
   });
 
