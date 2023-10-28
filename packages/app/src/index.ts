@@ -2,9 +2,10 @@ import { createServer } from '@tomrpc/core';
 import mount from '@tomrpc/mount';
 import debug from 'debug';
 
-import { loadBuildinMiddlewaire, loadCustomMiddlewaire } from './load';
+import { init } from './init';
+import { loadBuildinMiddlewaire, loadInitMiddleware } from './load';
 
-const log = debug('@tomrpc/mount');
+const log = debug('@tomrpc/app');
 
 // {
 //   name:'hi'
@@ -38,6 +39,7 @@ interface IConfig {
     view?: { enable: true };
     jwt?: { enable: true };
   };
+  beforeAll: any;
 }
 
 export async function createApp(cfg: IConfig) {
@@ -55,6 +57,7 @@ export async function createApp(cfg: IConfig) {
     )
   );
 
+  await loadInitMiddleware(rpc, init);
   await loadBuildinMiddlewaire(rpc);
 
   // rpc[load].push([someMw])
