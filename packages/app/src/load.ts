@@ -1,5 +1,3 @@
-import * as mw from './mw';
-
 export async function loadCustomMiddlewaire(rpc?, m?) {
   loadMiddleware(rpc, 'load', m);
 }
@@ -8,6 +6,7 @@ export async function loadBuildinMiddlewaire(rpc?) {
   const buildin = rpc.config.buildin;
   // console.dir(rpc.config);
   // console.dir(buildin);
+  const mw = await import('./mw');
   for (const key in buildin) {
     const m = buildin[key];
     console.dir(m);
