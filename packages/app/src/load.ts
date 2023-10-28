@@ -29,7 +29,7 @@ export async function loadBuildinMiddlewaire(rpc?) {
 }
 
 export async function loadMiddleware(rpc, lifeCycle, mw) {
-  console.dir(lifeCycle);
-  console.dir(mw);
+  log(lifeCycle);
+  log(mw);
   rpc.config.hooks[lifeCycle].push(mw);
 }
