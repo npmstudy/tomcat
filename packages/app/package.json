@@ -27,10 +27,11 @@
   ],
   "devDependencies": {
     "@vitest/coverage-v8": "^0.34.6",
-    "vitest": "^0.34.6",
-    "happy-dom": "^6.0.4"
+    "happy-dom": "^6.0.4",
+    "vitest": "^0.34.6"
   },
   "dependencies": {
+    "@koa/cors": "^4.0.0",
     "@tomrpc/client": "^1.0.0",
     "@tomrpc/core": "^1.0.0",
     "@tomrpc/mount": "^1.0.0",

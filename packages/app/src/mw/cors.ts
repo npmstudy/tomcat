@@ -1,7 +1,10 @@
+import corsMiddleware from '@koa/cors';
+
 export const cors = {
   name: 'cors',
   lifeCycle: 'load',
-  mw: async (ctx: any, next: any) => {
-    await next();
+  mw: (opts = {}) => {
+    console.dir(opts);
+    return corsMiddleware(opts);
   },
 };
