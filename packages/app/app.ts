@@ -1,3 +1,5 @@
+import { dirname, filename, join } from 'desm';
+
 import { createApp } from './src/index';
 
 (async () => {
@@ -8,7 +10,7 @@ import { createApp } from './src/index';
     debug: false,
     // mount?: './fn'';
     buildin: {
-      static: { enable: true },
+      serve: { enable: true, root: join(import.meta.url, '.', 'public'), opts: {} },
     },
   });
 

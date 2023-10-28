@@ -21,6 +21,11 @@ const log = debug('@tomrpc/mount');
 //   debug: true
 //   logLevel:
 // }
+interface IServe {
+  enable?: boolean | false;
+  root: string;
+  opts: object;
+}
 interface IConfig {
   name: string | 'tomapp';
   base?: string;
@@ -28,7 +33,7 @@ interface IConfig {
   debug?: boolean | false;
   mount?: string;
   buildin: {
-    static?: { enable: true };
+    serve?: IServe;
     cors?: { enable: true };
     view?: { enable: true };
     jwt?: { enable: true };
@@ -36,18 +41,21 @@ interface IConfig {
 }
 
 export async function createApp(cfg: IConfig) {
-  const rpc = createServer({
-    // base: import.meta.url,
-    // beforeOne: function (ctx: any, key: string) {
-    //   console.log(ctx.path);
-    //   console.log(ctx.method);
-    //   console.log('beforeOne key=' + key);
-    // },
-  });
+  const rpc = createServer(
+    Object.assign(
+      {
+        base: import.meta.url,
+        beforeOne: function (ctx: any, key: string) {
+          console.log(ctx.path);
+          console.log(ctx.method);
+          console.log('beforeOne key=' + key);
+        },
+      },
+      cfg
+    )
+  );
 
-  console.dir(rpc);
-
-  // const mw = await loadBuildinMiddlewaire(rpc);
+  await loadBuildinMiddlewaire(rpc);
 
   // rpc[load].push([someMw])
   // mount with lifecycle
