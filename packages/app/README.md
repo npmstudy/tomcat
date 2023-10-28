@@ -16,7 +16,9 @@ tom.json
   mount: './fn'
   lifeCyle: {
 
-  }
+  },
+  debug: true
+  logLevel:
 }
 ```
 

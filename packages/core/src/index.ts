@@ -11,6 +11,48 @@ export const lib = () => 'lib';
 const log = debug('@tomrpc/core');
 
 export const LifeCycleConfig = {
+  hooks: {
+    before: [],
+    load: [],
+    beforeMount: [],
+    afterMount: [],
+    after: [],
+  },
+  before: async (server) => {
+    const app = server.app;
+    const loadMiddlewares = server.config.hooks.before;
+    loadMiddlewares.forEach((mw) => {
+      app.use(mw);
+    });
+  },
+  load: async (server) => {
+    const app = server.app;
+    const loadMiddlewares = server.config.hooks.load;
+    loadMiddlewares.forEach((mw) => {
+      app.use(mw);
+    });
+  },
+  after: async (server) => {
+    const app = server.app;
+    const loadMiddlewares = server.config.hooks.after;
+    loadMiddlewares.forEach((mw) => {
+      app.use(mw);
+    });
+  },
+  beforeMount: async (server) => {
+    const app = server.app;
+    const loadMiddlewares = server.config.hooks.beforeMount;
+    loadMiddlewares.forEach((mw) => {
+      app.use(mw);
+    });
+  },
+  afterMount: async (server) => {
+    const app = server.app;
+    const loadMiddlewares = server.config.hooks.afterMount;
+    loadMiddlewares.forEach((mw) => {
+      app.use(mw);
+    });
+  },
   beforeAll: async (ctx, next) => {
     log('beforeAll');
     await next();
@@ -41,19 +83,33 @@ export const LifeCycleConfig = {
 
 export const createServer = function (config?: any) {
   const _cfg = Object.assign(LifeCycleConfig, config);
-  const app = new Koa();
 
-  app.use(_cfg.beforeAll);
+  // 在app时用
+  this.config = _cfg;
+  this.base = _cfg.base;
+
+  const app = new Koa();
   app.use(bodyParser());
+
+  this.app = app;
+  this.use = app.use;
+
+  //
+  app.use(_cfg.beforeAll);
+
+  _cfg.before(this);
+  _cfg.load(this);
 
   return Object.assign(this, {
     rpcFunctions: {},
-    app: app,
-    use: app.use,
     _mounted: false,
     listen: function (port?: number) {
+      _cfg.beforeMount(this);
       this.mount();
+      _cfg.afterMount(this);
+      _cfg.after(this);
       app.use(_cfg.afterAll);
+
       this.app.listen(port || 3000);
     },
     add: function (items) {
