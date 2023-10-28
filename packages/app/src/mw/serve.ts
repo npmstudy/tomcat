@@ -1,7 +1,10 @@
+import serveMiddleware from 'koa-static';
+
 export const serve = {
-  name: '',
+  name: 'serve',
   lifeCycle: 'load',
-  mw: async (ctx: any, next: any) => {
-    await next();
+  mw: (opts) => {
+    console.dir(opts);
+    return serveMiddleware(opts.root, opts);
   },
 };

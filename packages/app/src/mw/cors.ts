@@ -1,5 +1,5 @@
 export const cors = {
-  name: '',
+  name: 'cors',
   lifeCycle: 'load',
   mw: async (ctx: any, next: any) => {
     await next();

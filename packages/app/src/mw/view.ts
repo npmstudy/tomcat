@@ -1,5 +1,5 @@
 export const view = {
-  name: '',
+  name: 'view',
   lifeCycle: 'load',
   mw: async (ctx: any, next: any) => {
     await next();

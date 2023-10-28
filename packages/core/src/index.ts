@@ -28,6 +28,7 @@ export const LifeCycleConfig = {
   load: async (server) => {
     const app = server.app;
     const loadMiddlewares = server.config.hooks.load;
+    console.dir(loadMiddlewares);
     loadMiddlewares.forEach((mw) => {
       app.use(mw);
     });
@@ -98,12 +99,13 @@ export const createServer = function (config?: any) {
   app.use(_cfg.beforeAll);
 
   _cfg.before(this);
-  _cfg.load(this);
 
   return Object.assign(this, {
     rpcFunctions: {},
     _mounted: false,
     listen: function (port?: number) {
+      _cfg.load(this);
+
       _cfg.beforeMount(this);
       this.mount();
       _cfg.afterMount(this);
