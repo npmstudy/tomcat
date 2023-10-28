@@ -11,6 +11,7 @@ import { createApp } from './src/index';
     // mount?: './fn'';
     buildin: {
       serve: { enable: true, root: join(import.meta.url, '.', 'public'), opts: {} },
+      cors: { enable: true },
     },
   });
 
