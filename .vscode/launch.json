@@ -7,13 +7,17 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "启动程序",
+      "name": "Unit test",
       "skipFiles": [
         "<node_internals>/**"
       ],
       "program": "${file}",
-      "outFiles": [
-        "${workspaceFolder}/example/**/*.js"
+      "runtimeArgs": [
+        "--loader",
+        "tsx"
+      ],
+      "args": [
+        "--test"
       ]
     }
   ]

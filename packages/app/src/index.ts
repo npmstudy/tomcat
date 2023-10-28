@@ -1,23 +1,71 @@
+import { createServer } from '@tomrpc/core';
+import mount from '@tomrpc/mount';
 import debug from 'debug';
 
-// import mount from './mount';
-import { isFunction } from './utils';
+import { loadBuildinMiddlewaire, loadCustomMiddlewaire } from './load';
 
 const log = debug('@tomrpc/mount');
 
-// {a:{a:1, b:2}}
-// {a.b:2, a.a:1}
-// a.b => /a/b + function
+// {
+//   name:'hi'
+//   base: import.meta.url
+//   static: 'public'
+//   cors: { enable: true }
+//   view: { enable: true }
+//   jwt: { enable: true }
+//   port: 3000
+//   mount: './fn'
+//   lifeCyle: {
 
-export default async (rpc, dir) => {
-  // const files = await mount(rpc.base, dir);
-  // log(files);
-  // Object.keys(files).forEach((key) => {
-  //   if (isFunction(files[key])) {
-  //     log('add funtion key=' + key);
-  //     rpc.fn(key, files[key]);
-  //   } else {
-  //     console.dir(`key=${key} is not a function`);
-  //   }
-  // });
-};
+//   },
+//   debug: true
+//   logLevel:
+// }
+interface IConfig {
+  name: string | 'tomapp';
+  base?: string;
+  port?: number | 3000;
+  debug?: boolean | false;
+  mount?: string;
+  buildin: {
+    static?: { enable: true };
+    cors?: { enable: true };
+    view?: { enable: true };
+    jwt?: { enable: true };
+  };
+}
+
+export async function createApp(cfg: IConfig) {
+  const rpc = createServer({
+    // base: import.meta.url,
+    // beforeOne: function (ctx: any, key: string) {
+    //   console.log(ctx.path);
+    //   console.log(ctx.method);
+    //   console.log('beforeOne key=' + key);
+    // },
+  });
+
+  console.dir(rpc);
+
+  // const mw = await loadBuildinMiddlewaire(rpc);
+
+  // rpc[load].push([someMw])
+  // mount with lifecycle
+
+  // await loadCustomMiddlewaire(rpc);
+
+  // console.dir(mount);
+  // if (cfg.mount) {
+  //   rpc.base = import.meta.url;
+  //   // await mount(rpc, './fn');
+  // }
+
+  return Object.assign(rpc, {
+    start: function () {
+      if (cfg.debug) {
+        rpc.dump();
+      }
+      rpc.listen(cfg.port);
+    },
+  });
+}
