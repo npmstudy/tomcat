@@ -22,10 +22,26 @@ const log = debug('@tomrpc/app');
 //   debug: true
 //   logLevel:
 // }
+interface ICors {
+  enable?: boolean | false;
+  opts?: object;
+}
 interface IServe {
   enable?: boolean | false;
   root: string;
-  opts: object;
+  opts?: object;
+}
+interface IView {
+  enable?: boolean | false;
+  root: string;
+  opts?: object;
+}
+interface IJwt {
+  enable?: boolean | false;
+  secret?: string;
+  issuer?: string;
+  debug: boolean;
+  unless?: Array<string>;
 }
 interface IConfig {
   name: string | 'tomapp';
@@ -35,9 +51,9 @@ interface IConfig {
   mount?: string;
   buildin: {
     serve?: IServe;
-    cors?: { enable: true };
-    view?: { enable: true };
-    jwt?: { enable: true };
+    cors?: ICors;
+    view?: IView;
+    jwt?: IJwt;
   };
   beforeAll: any;
 }
