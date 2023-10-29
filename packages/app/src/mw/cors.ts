@@ -3,8 +3,8 @@ import corsMiddleware from '@koa/cors';
 export const cors = {
   name: 'cors',
   lifeCycle: 'load',
-  mw: (opts = {}) => {
+  mw: (cfg = { opts: {} }) => {
     // console.dir(opts);
-    return corsMiddleware(opts);
+    return corsMiddleware(cfg.opts);
   },
 };

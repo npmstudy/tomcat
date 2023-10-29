@@ -1,7 +1,10 @@
+import views from 'koa-views';
+
 export const view = {
   name: 'view',
   lifeCycle: 'load',
-  mw: async (ctx: any, next: any) => {
-    await next();
+  mw: (cfg) => {
+    // console.dir(opts);
+    return views(cfg.root, cfg.opts);
   },
 };

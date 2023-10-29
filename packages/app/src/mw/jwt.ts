@@ -5,6 +5,6 @@ export const jwt = {
   lifeCycle: 'load',
   mw: (opts) => {
     // console.dir(opts);
-    return koajwt(opts);
+    return koajwt(opts).unless({ path: opts.unless });
   },
 };

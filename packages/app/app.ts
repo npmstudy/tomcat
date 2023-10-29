@@ -12,15 +12,33 @@ import { createApp } from './src/index';
     buildin: {
       serve: { enable: true, root: join(import.meta.url, '.', 'public'), opts: {} },
       cors: { enable: true },
+      jwt: {
+        enable: true,
+        secret: 'shhhhhh',
+        debug: true,
+        unless: ['/public', '/a'],
+      },
+      view: {
+        enable: true,
+        root: join(import.meta.url, '.', 'view'),
+        opts: {
+          map: {
+            html: 'ejs',
+          },
+        },
+      },
     },
     beforeAll: async (ctx, next) => {
-      console.dir(ctx.jwt);
+      // console.dir(ctx.jwt);
       await next();
     },
   });
 
+  // rpc.view vs rpc.fn变成插件
   rpc.fn('a', function (a) {
-    return a;
+    console.dir(this.render);
+    // this.render('user', { user: { name: 'alfred' } });
+    return { a: a };
   });
 
   rpc.start();
