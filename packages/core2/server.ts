@@ -211,6 +211,7 @@ export interface Strategy {
   prefix;
   app;
   proxy;
+  compose;
 
   // doAlgorithm(data: string[]): string[];
 }

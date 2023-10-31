@@ -9,6 +9,7 @@ export default class Plugable implements Strategy {
   public name;
   public app;
   public prefix;
+  public compose;
 
   constructor() {
     this.name = 'fn';
@@ -17,6 +18,7 @@ export default class Plugable implements Strategy {
     this.init = [];
     this.load = [];
     this.use(this.getMiddleware());
+    this.compose = compose;
   }
 
   proxy() {
