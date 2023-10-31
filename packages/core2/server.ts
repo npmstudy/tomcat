@@ -1,11 +1,8 @@
 import { bodyParser } from '@koa/bodyparser';
 import debug from 'debug';
 import Koa from 'koa';
-import compose from 'koa-compose';
 const log = debug('@tomrpc/core2');
 import mount from 'koa-mount';
-
-import Fn from './fn';
 
 export const LifeCycleConfig = {
   hooks: {
@@ -22,17 +19,11 @@ export const LifeCycleConfig = {
     },
   },
   init: async (server) => {
-    console.dir('init s');
+    console.dir('init');
     // console.dir(server);
     const app = server.app;
     const loadMiddlewares = server.config.hooks.init;
-    console.dir(loadMiddlewares);
     loadMiddlewares.forEach((mw) => {
-      const m = async (ctx, next) => {
-        await next();
-      };
-      console.dir(m + '');
-      console.dir(mw + '');
       app.use(mw);
     });
   },
@@ -46,8 +37,6 @@ export const LifeCycleConfig = {
   load: async (server) => {
     const app = server.app;
     const loadMiddlewares = server.config.hooks.load;
-    console.log('load Middlewares');
-    console.log(loadMiddlewares);
     loadMiddlewares.forEach((mw) => {
       app.use(mw);
     });
@@ -138,26 +127,26 @@ export default class RpcServer {
     for (const plugin of this.plugins) {
       if (plugin.init.length > 0) this.config.hooks.init.push(...plugin.init);
 
-      console.dir(plugin);
-      console.dir(this.config.hooks.init);
+      // console.dir(plugin);
+      // console.dir(this.config.hooks.init);
     }
 
     this.config.init(this);
 
     for (const plugin of this.plugins) {
       if (plugin.load.length > 0) this.config.hooks.load.push(...plugin.load);
-      console.dir('load plugin');
-      console.dir(plugin.load);
-      console.dir('load end plugin');
-      console.dir(this.config.hooks.init);
+      // console.dir('load plugin');
+      // console.dir(plugin.load);
+      // console.dir('load end plugin');
+      // console.dir(this.config.hooks.init);
     }
 
     this.config.load(this);
 
     // mount app
     for (const plugin of this.plugins) {
-      console.dir('plugin.proxy() ' + plugin.prefix);
-      console.dir(plugin.proxy());
+      // console.dir('plugin.proxy() ' + plugin.prefix);
+      // console.dir(plugin.proxy());
       // this.app.use(compose([plugin.proxy(), mount(plugin.prefix, plugin.app)]));
       this.app.use(mount(plugin.prefix, plugin.app));
     }

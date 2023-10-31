@@ -14,7 +14,6 @@ export default class Plugable implements Strategy {
   constructor() {
     this.name = 'fn';
     this.app = new Koa();
-    console.dir('base');
     this.init = [];
     this.load = [];
     this.use(this.getMiddleware());
