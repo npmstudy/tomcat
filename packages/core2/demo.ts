@@ -5,7 +5,7 @@ export default class Fn extends Plugable {
   constructor() {
     super();
 
-    this.prefix = '/api';
+    this.prefix = '/demo';
     // this.name = 'fn';
 
     const a = this.a();
