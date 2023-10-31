@@ -10,7 +10,7 @@ export default class Fn extends Plugable {
 
     const a = this.a();
     const b = this.b();
-    console.dir(a + '');
+    // console.dir(a + '');
     // this.addInit(a);
     // this.addInit(b);
 
