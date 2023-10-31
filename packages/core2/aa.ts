@@ -67,33 +67,33 @@ interface Strategy {
   doAlgorithm(data: string[]): string[];
 }
 
-/**
- * Concrete Strategies implement the algorithm while following the base Strategy
- * interface. The interface makes them interchangeable in the Context.
- */
-class ConcreteStrategyA implements Strategy {
-  public doAlgorithm(data: string[]): string[] {
-    return data.sort();
-  }
-}
+// /**
+//  * Concrete Strategies implement the algorithm while following the base Strategy
+//  * interface. The interface makes them interchangeable in the Context.
+//  */
+// class ConcreteStrategyA implements Strategy {
+//   public doAlgorithm(data: string[]): string[] {
+//     return data.sort();
+//   }
+// }
 
-class ConcreteStrategyB implements Strategy {
-  public doAlgorithm(data: string[]): string[] {
-    return data.reverse();
-  }
-}
+// class ConcreteStrategyB implements Strategy {
+//   public doAlgorithm(data: string[]): string[] {
+//     return data.reverse();
+//   }
+// }
 
-/**
- * The client code picks a concrete strategy and passes it to the context. The
- * client should be aware of the differences between strategies in order to make
- * the right choice.
- */
-// const context = new Context(new ConcreteStrategyA());
-// console.log('Client: Strategy is set to normal sorting.');
-// context.start();
+// /**
+//  * The client code picks a concrete strategy and passes it to the context. The
+//  * client should be aware of the differences between strategies in order to make
+//  * the right choice.
+//  */
+// // const context = new Context(new ConcreteStrategyA());
+// // console.log('Client: Strategy is set to normal sorting.');
+// // context.start();
 
-// console.log('');
+// // console.log('');
 
-// console.log('Client: Strategy is set to reverse sorting.');
-// context.plugin(new ConcreteStrategyB());
-// context.start();
+// // console.log('Client: Strategy is set to reverse sorting.');
+// // context.plugin(new ConcreteStrategyB());
+// // context.start();
