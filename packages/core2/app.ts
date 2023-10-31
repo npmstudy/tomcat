@@ -1,8 +1,13 @@
-import { createServer } from './src/index';
+import Demo from './demo';
+import Fn from './fn';
+import RpcServer from './server';
 
-const rpc = createServer({});
+const rpc = new RpcServer({});
 
-rpc.plugin();
-rpc.plugin();
+const fn = new Fn();
+const demo = new Demo();
 
-rpc.listen(3000);
+rpc.plugin(fn);
+rpc.plugin(demo);
+
+rpc.start(2091);
