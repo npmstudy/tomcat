@@ -111,7 +111,8 @@ export default class RpcServer {
 
   public mount() {
     console.dir('mount');
-    // hooks
+
+    // setting
     for (const plugin of this.plugins) {
       plugin.server = this;
       plugin.serverConfig = this.config;
@@ -120,8 +121,20 @@ export default class RpcServer {
       if (plugin.name !== 'base') {
         console.error('plugin name 没有修改，可能会出现serverConfig获取问题，请关注');
       }
-      this.config.plugin[plugin.name] = plugin.config;
+      console.log('mount plugin.config');
+      console.log(plugin);
+      console.log(plugin.config);
+      console.log(plugin.config.bind);
+      for (const bindnName in plugin.config.bind) {
+        console.dir(bindnName);
+        this[bindnName] = plugin.config['bind'][bindnName];
+      }
 
+      this.config[plugin.name] = plugin.config;
+    }
+
+    // hooks
+    for (const plugin of this.plugins) {
       if (plugin.init.length > 0) this.config.hooks.init.push(...plugin.init);
 
       // console.dir(plugin);

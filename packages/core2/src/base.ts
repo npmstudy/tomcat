@@ -33,13 +33,20 @@ export default class Plugable implements Strategy {
   public config;
 
   constructor(cfg?) {
-    this.config = Object.assign({}, cfg);
+    this.config = Object.assign(
+      {
+        bind: {},
+      },
+      cfg
+    );
     this.name = 'base';
     this.app = new Koa();
     this.init = [];
     this.load = [];
-    this.use(this.getMiddleware());
     this.compose = compose;
+
+    // TODO: 此处最好改成mount
+    this.load.push(this.getMiddleware());
   }
 
   proxy() {
@@ -58,6 +65,7 @@ export default class Plugable implements Strategy {
   }
 
   getMiddleware() {
+    console.dir('getMiddleware');
     const pre = this.pre();
     const process = this.process();
     const after = this.after();
