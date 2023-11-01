@@ -12,9 +12,12 @@ export interface Strategy {
   init: any[];
   load: any[];
   prefix;
+  name;
   app;
   compose;
   proxy;
+  server;
+  serverConfig;
 }
 
 export default class Plugable implements Strategy {
@@ -22,11 +25,13 @@ export default class Plugable implements Strategy {
   public load: any[] = [];
   public name;
   public app;
+  public server;
+  public serverConfig;
   public prefix;
   public compose;
 
   constructor() {
-    this.name = 'fn';
+    this.name = 'base';
     this.app = new Koa();
     this.init = [];
     this.load = [];
