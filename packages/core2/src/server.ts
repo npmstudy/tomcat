@@ -4,6 +4,8 @@ import Koa from 'koa';
 const log = debug('@tomrpc/core2');
 import mount from 'koa-mount';
 
+import { Strategy } from './base';
+
 export const LifeCycleConfig = {
   hooks: {
     init: [],
@@ -186,46 +188,3 @@ export default class RpcServer {
     });
   }
 }
-
-/**
- * The Strategy interface declares operations common to all supported versions
- * of some algorithm.
- *
- * The Context uses this interface to call the algorithm defined by Concrete
- * Strategies.
- */
-export interface Strategy {
-  init: any[];
-  load: any[];
-  prefix;
-  app;
-  proxy;
-  compose;
-
-  // doAlgorithm(data: string[]): string[];
-}
-
-// /**
-//  * Concrete Strategies implement the algorithm while following the base Strategy
-//  * interface. The interface makes them interchangeable in the Context.
-//  */
-// class ConcreteStrategyA implements Strategy {
-//   public doAlgorithm(data: string[]): string[] {
-//     return data.sort();
-//   }
-// }
-
-// class ConcreteStrategyB implements Strategy {
-//   public doAlgorithm(data: string[]): string[] {
-//     return data.reverse();
-//   }
-// }
-
-// // console.log('Client: Strategy is set to normal sorting.');
-// // context.start();
-
-// // console.log('');
-
-// // console.log('Client: Strategy is set to reverse sorting.');
-// // context.plugin(new ConcreteStrategyB());
-// // context.start();
