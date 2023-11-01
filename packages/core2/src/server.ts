@@ -50,20 +50,6 @@ export const LifeCycleConfig = {
       app.use(mw);
     });
   },
-  beforeMount: async (server) => {
-    const app = server.app;
-    const loadMiddlewares = server.config.hooks.beforeMount;
-    loadMiddlewares.forEach((mw) => {
-      app.use(mw);
-    });
-  },
-  afterMount: async (server) => {
-    const app = server.app;
-    const loadMiddlewares = server.config.hooks.afterMount;
-    loadMiddlewares.forEach((mw) => {
-      app.use(mw);
-    });
-  },
   beforeAll: async (ctx, next) => {
     log('beforeAll');
     await next();
@@ -127,6 +113,12 @@ export default class RpcServer {
     console.dir('mount');
     // hooks
     for (const plugin of this.plugins) {
+      plugin.server = this;
+      plugin.serverConfig = this.config;
+
+      // set config namespace
+      if (plugin.name !== 'base') this.config.plugin[plugin.name] = {};
+
       if (plugin.init.length > 0) this.config.hooks.init.push(...plugin.init);
 
       // console.dir(plugin);
@@ -170,13 +162,13 @@ export default class RpcServer {
     const _port = port || 3000;
     console.dir(_port);
 
-    // this.config.load(this);
+    this.config.before(this);
 
     // this.config.beforeMount(this);
     this.mount();
 
     // this.config.afterMount(this);
-    // this.config.after(this);
+    this.config.after(this);
     // this.app.use(this.config.afterAll);
 
     this.app.listen(_port, (err) => {
