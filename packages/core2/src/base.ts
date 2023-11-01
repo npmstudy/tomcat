@@ -16,6 +16,7 @@ export interface Strategy {
   app;
   compose;
   proxy;
+  config;
   server;
   serverConfig;
 }
@@ -29,8 +30,10 @@ export default class Plugable implements Strategy {
   public serverConfig;
   public prefix;
   public compose;
+  public config;
 
-  constructor() {
+  constructor(cfg?) {
+    this.config = Object.assign({}, cfg);
     this.name = 'base';
     this.app = new Koa();
     this.init = [];

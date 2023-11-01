@@ -2,8 +2,8 @@ import Plugable from './src/base';
 export default class Fn extends Plugable {
   // public name: string;
 
-  constructor() {
-    super();
+  constructor(cfg?) {
+    super(cfg);
 
     this.prefix = '/demo';
     // this.name = 'fn';
