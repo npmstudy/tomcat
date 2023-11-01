@@ -1,5 +1,5 @@
 import debug from 'debug';
-const log = debug('@tomrpc/core');
+const log = console.log; //debug('@tomrpc/core');
 
 export function mountMiddleware(routers) {
   log(routers);
@@ -15,6 +15,7 @@ export function mountMiddleware(routers) {
 
       log(key);
       log(param);
+      log(routers[key]);
 
       if (routers[key]) {
         const args = [...param, ctx];

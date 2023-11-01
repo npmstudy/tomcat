@@ -7,6 +7,10 @@ const rpc = new RpcServer({});
 const fn = new Fn({});
 const demo = new Demo({});
 
+fn.fn('/a', function (a) {
+  return { a: a };
+});
+
 rpc.plugin(fn);
 rpc.plugin(demo);
 
