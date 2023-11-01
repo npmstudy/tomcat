@@ -1,7 +1,21 @@
 import Koa from 'koa';
 import compose from 'koa-compose';
 
-import { Strategy } from '../server';
+/**
+ * The Strategy interface declares operations common to all supported versions
+ * of some algorithm.
+ *
+ * The Context uses this interface to call the algorithm defined by Concrete
+ * Strategies.
+ */
+export interface Strategy {
+  init: any[];
+  load: any[];
+  prefix;
+  app;
+  compose;
+  proxy;
+}
 
 export default class Plugable implements Strategy {
   public init: any[] = [];

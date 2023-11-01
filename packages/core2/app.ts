@@ -1,6 +1,6 @@
 import Demo from './demo';
-import Fn from './fn';
-import RpcServer from './server';
+import Fn from './src/fn';
+import RpcServer from './src/server';
 
 const rpc = new RpcServer({});
 
