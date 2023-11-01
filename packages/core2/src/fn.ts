@@ -2,8 +2,8 @@ import Plugable from './base';
 export default class Fn extends Plugable {
   // public name: string;
 
-  constructor() {
-    super();
+  constructor(cfg?: any) {
+    super(cfg);
 
     this.prefix = '/api';
     // this.name = 'fn';
@@ -16,6 +16,10 @@ export default class Fn extends Plugable {
 
     const c = this.c();
     // this.addLoad(c);
+    this.server['fn'].add = function (i) {
+      if (!this.config['functions']) this.config['functions'] = [];
+      this.config['functions'].push(i);
+    };
   }
   process() {
     return async (ctx, next) => {

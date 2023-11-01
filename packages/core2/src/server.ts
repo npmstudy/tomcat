@@ -117,7 +117,10 @@ export default class RpcServer {
       plugin.serverConfig = this.config;
 
       // set config namespace
-      if (plugin.name !== 'base') this.config.plugin[plugin.name] = {};
+      if (plugin.name !== 'base') {
+        console.error('plugin name 没有修改，可能会出现serverConfig获取问题，请关注');
+      }
+      this.config.plugin[plugin.name] = plugin.config;
 
       if (plugin.init.length > 0) this.config.hooks.init.push(...plugin.init);
 
