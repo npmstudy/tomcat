@@ -135,15 +135,16 @@ export default class RpcServer {
 
     // hooks
     for (const plugin of this.plugins) {
+      console.dir('init stage');
       if (plugin.init.length > 0) this.config.hooks.init.push(...plugin.init);
 
-      // console.dir(plugin);
       // console.dir(this.config.hooks.init);
     }
 
     this.config.init(this);
 
     for (const plugin of this.plugins) {
+      console.dir('load stage');
       if (plugin.load.length > 0) this.config.hooks.load.push(...plugin.load);
       // console.dir('load plugin');
       // console.dir(plugin.load);
@@ -151,18 +152,19 @@ export default class RpcServer {
       // console.dir(this.config.hooks.init);
     }
 
+    console.dir('load');
     this.config.load(this);
 
     // mount app
     for (const plugin of this.plugins) {
-      // console.dir('plugin.proxy() ' + plugin.prefix);
+      console.dir('mount plugin ' + plugin.prefix);
       // console.dir(plugin.proxy());
       // this.app.use(compose([plugin.proxy(), mount(plugin.prefix, plugin.app)]));
       this.app.use(mount(plugin.prefix, plugin.app));
     }
 
     // 兜底的else
-
+    console.dir('兜底的else');
     this.app.use(this.config.hooks.default);
     // this.app.use(async (ctx, next) => {
     //   console.dir(ctx.path);
