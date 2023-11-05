@@ -112,6 +112,7 @@ export default class RpcServer {
   public mount() {
     console.dir('mount');
 
+    const cfg = {};
     // setting
     for (const plugin of this.plugins) {
       plugin.server = this;
@@ -122,16 +123,27 @@ export default class RpcServer {
         console.error('plugin name 没有修改，可能会出现serverConfig获取问题，请关注');
       }
       console.log('mount plugin.config');
-      console.log(plugin);
-      console.log(plugin.config);
-      console.log(plugin.config.bind);
+      // console.log(plugin);
+      // console.log(plugin.config);
+      // console.log(plugin.config.bind);
       for (const bindnName in plugin.config.bind) {
         console.dir(bindnName);
-        this[bindnName] = plugin.config['bind'][bindnName];
+        // this[bindnName] = plugin.config['bind'][bindnName];
       }
 
       this.config[plugin.name] = plugin.config;
+      cfg[plugin.name] = plugin;
     }
+
+    this.app.use(async (ctx, next) => {
+      // ;
+      for (const fn in cfg) {
+        // console.log('--' + fn);
+        ctx[fn] = cfg[fn];
+      }
+
+      await next();
+    });
 
     // hooks
     for (const plugin of this.plugins) {
@@ -158,7 +170,7 @@ export default class RpcServer {
     // mount app
     for (const plugin of this.plugins) {
       console.dir('mount plugin ' + plugin.prefix);
-      // console.dir(plugin.proxy());
+      // console.dir(plugin);
       // this.app.use(compose([plugin.proxy(), mount(plugin.prefix, plugin.app)]));
       this.app.use(mount(plugin.prefix, plugin.app));
     }
