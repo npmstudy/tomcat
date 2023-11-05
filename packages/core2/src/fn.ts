@@ -1,11 +1,10 @@
 import debug from 'debug';
 
 import Plugable from './base';
-import { mountMiddleware } from './core';
 import { isArrowFunction, getHttpMethods } from './utils';
 const log = debug('@tomrpc/core');
 
-export default class Fn extends Plugable {
+export class Fn extends Plugable {
   // public name: string;
 
   constructor(cfg?: any) {
@@ -15,38 +14,69 @@ export default class Fn extends Plugable {
     this.prefix = '/api';
   }
   fn(key, fn) {
-    console.dir('=this.config=');
-    console.dir(this.config);
+    // console.dir('=this.config=');
+    // console.dir(this.config);
     if (!this.config['functions']) this.config['functions'] = {};
     this.config['functions'][key] = fn;
-    // if (Object.entries(items)) {
-    //   // for (const [name, fn] of Object.entries(items)) {
-    //   //   if (isArrowFunction(fn)) {
-    //   //     console.log(
-    //   //       `this.rpcFunctions[${name}] is arrow function, please use ctx as param, not this`
-    //   //     );
-    //   //   }
-    //   //   if (this.rpcFunctions[name]) {
-    //   //     log(`add ${name}: ${fn}`);
-    //   //     console.log(`this.rpcFunctions[${name}] exisit`);
-    //   //   }
-    //   //   this.rpcFunctions[name] = fn;
-    //   // }
-    // } else {
-    //   this.config['functions'].push(items);
-    // }
+  }
+  add(items) {
+    for (const [name, fn] of Object.entries(items)) {
+      if (isArrowFunction(fn)) {
+        console.log(
+          `this.rpcFunctions[${name}] is arrow function, please use ctx as param, not this`
+        );
+      }
+      if (this.config['functions'][name]) {
+        log(`add ${name}: ${fn}`);
+        console.log(`this.rpcFunctions[${name}] exisit`);
+      }
+      // this.rpcFunctions[name] = fn;
+      this.config['functions'][name] = fn;
+    }
   }
 
   process() {
-    console.dir("this.config['functions']");
-    console.dir(this);
-    console.dir(this.serverConfig);
-    return mountMiddleware(this);
+    console.dir('process');
+    return this.mount();
   }
 
+  mount() {
+    return async (ctx, next) => {
+      const prefix = this.prefix;
+      const routers = this.config['functions'];
+      log(routers);
+      const path = ctx.path.replace(prefix, '');
+      log('mountMiddleware' + ctx.path);
+      const key = '/' + path.replace('/', '').split('/').join('.');
+
+      if (!['POST', 'PUT', 'PATCH'].includes(ctx.method) && !ctx.query.$p) {
+        console.log('not match $p param, no process');
+        ctx.body = 'not match $p param, no process';
+      } else {
+        const param = ctx.method === 'POST' ? ctx.request.body : JSON.parse(ctx.query.$p);
+
+        log(key);
+        log(param);
+        log(routers[key]);
+
+        if (routers[key]) {
+          const args = [...param, ctx];
+          // console.dir(args);
+          const result = routers[key].apply(ctx, args);
+          // console.dir(result);
+          ctx.body = result;
+        } else {
+          const msg = JSON.stringify(ctx, null, 4);
+          ctx.body = ` not match path ${ctx.path}  \n ctx = ${msg}`;
+          await next();
+        }
+        //
+      }
+    };
+  }
   pre() {
     return async (ctx, next) => {
-      console.log('beforeOne');
+      // console.log('pre');
       const key = ctx.path.replace('/', '').split('/').join('.');
       // this.config.beforeOne(ctx, key);
 
@@ -56,7 +86,7 @@ export default class Fn extends Plugable {
       const supportMethods = [];
       httpMethods.forEach(function (m) {
         if (lastKey.indexOf(m) != -1) {
-          console.log(m);
+          // console.log(m);
           supportMethods.push(m);
           return m;
         }
@@ -64,7 +94,7 @@ export default class Fn extends Plugable {
       // console.log(supportMethods);
 
       if (supportMethods.length === 0) {
-        console.log('没有匹配到包含get/post等方法的函数');
+        console.log(ctx.path + ',没有匹配到包含get/post等开头的函数');
         await next();
       } else if (ctx.method === supportMethods[0]) {
         log('匹配到包含get/post等方法的函数');

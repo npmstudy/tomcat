@@ -49,6 +49,10 @@ export default class Plugable implements Strategy {
     this.load.push(this.getMiddleware());
   }
 
+  getConfig(ctx) {
+    return ctx[this.name];
+  }
+
   proxy() {
     return async (ctx, next) => {
       console.dir('proxy prefix=' + this.prefix);
@@ -65,11 +69,11 @@ export default class Plugable implements Strategy {
   }
 
   getMiddleware() {
-    console.dir('getMiddleware');
+    // console.dir('getMiddleware');
     const pre = this.pre();
     const process = this.process();
-    const after = this.after();
-    return compose([pre, process, after]);
+    const post = this.post();
+    return compose([pre, process, post]);
   }
 
   pre() {
@@ -79,7 +83,7 @@ export default class Plugable implements Strategy {
       console.dir('pre end');
     };
   }
-  after() {
+  post() {
     return async (ctx, next) => {
       console.dir('after');
       await next();
