@@ -21,7 +21,7 @@ export interface Strategy {
   serverConfig;
 }
 
-export default class Plugable implements Strategy {
+export class Plugable implements Strategy {
   public init: any[] = [];
   public load: any[] = [];
   public name;

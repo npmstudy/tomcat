@@ -1,6 +1,6 @@
 import debug from 'debug';
 
-import Plugable from './base';
+import { Plugable } from './base';
 import { isArrowFunction, getHttpMethods } from './utils';
 const log = debug('@tomrpc/core');
 
@@ -94,8 +94,10 @@ export class Fn extends Plugable {
       // console.log(supportMethods);
 
       if (supportMethods.length === 0) {
-        console.log(ctx.path + ',没有匹配到包含get/post等开头的函数');
-        await next();
+        if (ctx.path.indexOf(this.prefix) != -1) {
+          console.log(ctx.path + ',没有匹配到包含get/post等开头的函数');
+          await next();
+        }
       } else if (ctx.method === supportMethods[0]) {
         log('匹配到包含get/post等方法的函数');
         await next();
