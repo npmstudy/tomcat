@@ -175,7 +175,7 @@ export class RpcServer {
       if (err) {
         console.error(err);
       } else {
-        console.log('Koa app listening on ' + _port);
+        console.log('@tomrpc/core listening on ' + _port);
       }
     });
   }
