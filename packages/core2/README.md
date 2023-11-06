@@ -135,3 +135,15 @@ export default class Fn extends Plugable {
 - post（可选，返回值是Koa中间件）
 
 
+## RpcServer
+
+
+```js
+const rpc = new RpcServer({});
+
+const fn = new Fn({});
+
+rpc.plugin(fn);
+
+rpc.start(3000)
+```
