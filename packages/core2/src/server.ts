@@ -9,8 +9,6 @@ export const LifeCycleConfig = {
     init: [],
     before: [],
     load: [],
-    beforeMount: [],
-    afterMount: [],
     after: [],
     default: async (ctx, next) => {
       log('default');
@@ -18,18 +16,19 @@ export const LifeCycleConfig = {
       log('default end');
     },
   },
+
+  before: async (server) => {
+    const app = server.app;
+    const loadMiddlewares = server.config.hooks.before;
+    loadMiddlewares.forEach((mw) => {
+      app.use(mw);
+    });
+  },
   init: async (server) => {
     // console.dir('init');
     // console.dir(server);
     const app = server.app;
     const loadMiddlewares = server.config.hooks.init;
-    loadMiddlewares.forEach((mw) => {
-      app.use(mw);
-    });
-  },
-  before: async (server) => {
-    const app = server.app;
-    const loadMiddlewares = server.config.hooks.before;
     loadMiddlewares.forEach((mw) => {
       app.use(mw);
     });
@@ -47,32 +46,6 @@ export const LifeCycleConfig = {
     loadMiddlewares.forEach((mw) => {
       app.use(mw);
     });
-  },
-  beforeAll: async (ctx, next) => {
-    log('beforeAll');
-    await next();
-    log('beforeAll end');
-  },
-  beforeEach: async (ctx, next) => {
-    log('beforeEach');
-    await next();
-    log('beforeEach end');
-  },
-  afterEach: async (ctx, next) => {
-    log('afterEach');
-    await next();
-    log('afterEach end');
-  },
-  afterAll: async (ctx, next) => {
-    log('afterAll');
-    await next();
-    log('afterAll end');
-  },
-  beforeOne: function (ctx, key: string) {
-    log('beforeOne key=' + key);
-  },
-  afterOne: function (ctx, key: string) {
-    log('afterOne key=' + key);
   },
 };
 
@@ -117,7 +90,7 @@ export class RpcServer {
       plugin.serverConfig = this.config;
 
       // set config namespace
-      if (plugin.name !== 'base') {
+      if (plugin.name === 'base') {
         console.error('plugin name 没有修改，可能会出现serverConfig获取问题，请关注');
       }
       // console.log('mount plugin.config');
@@ -194,12 +167,9 @@ export class RpcServer {
 
     this.config.before(this);
 
-    // this.config.beforeMount(this);
     this.mount();
 
-    // this.config.afterMount(this);
     this.config.after(this);
-    // this.app.use(this.config.afterAll);
 
     this.app.listen(_port, (err) => {
       if (err) {

@@ -111,10 +111,15 @@ export default class Fn extends Plugable {
 
 生命周期
 
-- init:[] 可变数组
-- load:[] 可变数组
-- mount(plugin.prefix, plugin.app) 默认行为，不可操作
-- default 可在server配置里覆写
+- before:[] 可变数组
+  - init:[] 可变数组
+  - load:[] 可变数组
+  - mount(plugin.prefix, plugin.app) 默认行为，不可操作
+    - pre（可选，返回值是 Koa 中间件）
+    - process（可选，返回值是 Koa 中间件）
+    - post（可选，返回值是 Koa 中间件）
+  - config.hooks.default 可在server配置里覆写
+- after:[] 可变数组
 
 生命周期操作方法，在构造函数中，增加到对应的数组即可
 
