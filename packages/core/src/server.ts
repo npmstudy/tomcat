@@ -6,7 +6,7 @@ import { Strategy, log } from './index';
 
 export const LifeCycleConfig = {
   hooks: {
-    init: [],
+    init: [], // 后面需要改成Set，否则会出现重复问题
     before: [],
     load: [],
     after: [],
