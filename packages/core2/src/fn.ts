@@ -35,7 +35,6 @@ export class Fn extends Plugable {
   }
 
   process() {
-    console.dir('process');
     return this.mount();
   }
 
