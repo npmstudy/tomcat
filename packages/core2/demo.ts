@@ -1,4 +1,4 @@
-import { Plugable } from './src/base';
+import { Plugable } from './src/plugin';
 export default class Fn extends Plugable {
   // public name: string;
 
