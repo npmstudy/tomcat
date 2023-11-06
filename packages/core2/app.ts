@@ -12,6 +12,14 @@ rpc['fn']('/a', function (a) {
   return { a: a };
 });
 
+rpc['add']({
+  c: (a: string) => {
+    return a;
+  },
+  a: function (a: string, b: string) {
+    return `${this.path} , ${a} c2 ${b}`;
+  },
+});
 // rpc.plugin(fn);
 // rpc.plugin(demo);
 
