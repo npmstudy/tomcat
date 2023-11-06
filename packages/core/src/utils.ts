@@ -1,3 +1,6 @@
+import debug from 'debug';
+const debugLog = debug('@tomrpc/core');
+
 export const isArrowFunction = (func) => {
   if (typeof func === 'function') {
     const source = func.toString();
@@ -35,4 +38,12 @@ export function getHttpMethods() {
     'search',
     'connect',
   ];
+}
+
+export function log(msg, debugFlag?) {
+  if (debugFlag) {
+    console.log(msg);
+  } else {
+    debugLog(msg);
+  }
 }
