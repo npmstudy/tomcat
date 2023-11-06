@@ -4,7 +4,7 @@ export default class Fn extends Plugable {
     super(cfg);
 
     this.prefix = '/demo';
-    this.name = '';
+    this.name = 'demo';
 
     const a = this.a();
     const b = this.b();
