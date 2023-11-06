@@ -8,11 +8,11 @@ const rpc = createServer({});
 const fn = new Fn({});
 const demo = new Demo({});
 
-rpc['fn']('/a', function (a) {
+rpc.fn('/a', function (a) {
   return { a: a };
 });
 
-rpc['add']({
+rpc.add({
   c: (a: string) => {
     return a;
   },

@@ -10,14 +10,14 @@ export function createServer(cfg?: any) {
 
   const fn = new Fn(Object.assign({}, cfg.fn));
 
-  rpc['fn'] = function (key, fun) {
-    fn.fn(key, fun);
-  };
-  rpc['add'] = function (items) {
-    fn.add(items);
-  };
-
   rpc.plugin(fn);
 
-  return rpc;
+  return Object.assign(rpc, {
+    fn: function (key, fun) {
+      fn.fn(key, fun);
+    },
+    add: function (items) {
+      fn.add(items);
+    },
+  });
 }
