@@ -13,9 +13,10 @@ export class Fn extends Plugable {
   }
   fn(key, fn) {
     // console.dir('=this.config=');
-    // console.dir(this.config);
+    // console.dir('fn=' + key);
     if (!this.config['functions']) this.config['functions'] = {};
-    this.config['functions'][key] = fn;
+    const pre = key.split('')[0] == '/' ? '' : '/';
+    this.config['functions'][pre + key] = fn;
   }
   add(items) {
     for (const [name, fn] of Object.entries(items)) {
@@ -29,7 +30,7 @@ export class Fn extends Plugable {
         console.log(`this.rpcFunctions[${name}] exisit`);
       }
       // this.rpcFunctions[name] = fn;
-      this.config['functions'][name] = fn;
+      this.fn(name, fn);
     }
   }
 

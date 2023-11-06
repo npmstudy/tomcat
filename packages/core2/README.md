@@ -75,35 +75,3 @@ rpc.add({
 
 rpc.start(3000);
 ```
-
-
-const app = new Koa()
-
-
-const app1 = new Koa()
-const app2 = new Koa()
-const app3 = new Koa()
-
-app.mount(app1.prefix,fn)
-app.mount(app2.prefix,view)
-app.mount(app3.prefix,static)
-
-=>
-
-const app = new Koa()
-
-
-
-app.plugin({
-  prefix,
-  fn
-})
-
-return fn={
-  name='fn'
-  init:[],
-  load:[]
-
-}
-app.plugin(app2.prefix,view)
-app.plugin(app3.prefix,static)
