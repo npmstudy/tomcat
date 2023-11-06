@@ -4,7 +4,7 @@ import Koa from 'koa';
 const log = debug('@tomrpc/core2');
 import mount from 'koa-mount';
 
-import { Strategy } from './base';
+import { Strategy } from './plugin';
 
 export const LifeCycleConfig = {
   hooks: {
@@ -78,7 +78,7 @@ export const LifeCycleConfig = {
   },
 };
 
-export default class RpcServer {
+export class RpcServer {
   /**
    * @type {Strategy} The Context maintains a reference to one of the Strategy
    * objects. The Context does not know the concrete class of a strategy. It

@@ -1,12 +1,10 @@
 import debug from 'debug';
 
-import { Plugable } from './base';
+import { Plugable } from './plugin';
 import { isArrowFunction, getHttpMethods } from './utils';
 const log = debug('@tomrpc/core');
 
 export class Fn extends Plugable {
-  // public name: string;
-
   constructor(cfg?: any) {
     super(cfg);
 
@@ -42,6 +40,7 @@ export class Fn extends Plugable {
 
   mount() {
     return async (ctx, next) => {
+      log(this);
       const prefix = this.prefix;
       const routers = this.config['functions'];
       log(routers);
