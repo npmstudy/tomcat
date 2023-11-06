@@ -1,10 +1,8 @@
 import { bodyParser } from '@koa/bodyparser';
-import debug from 'debug';
 import Koa from 'koa';
-const log = debug('@tomrpc/core2');
 import mount from 'koa-mount';
 
-import { Strategy } from './plugin';
+import { Strategy, log } from './index';
 
 export const LifeCycleConfig = {
   hooks: {
@@ -21,7 +19,7 @@ export const LifeCycleConfig = {
     },
   },
   init: async (server) => {
-    console.dir('init');
+    // console.dir('init');
     // console.dir(server);
     const app = server.app;
     const loadMiddlewares = server.config.hooks.init;
@@ -110,7 +108,7 @@ export class RpcServer {
   }
 
   public mount() {
-    console.dir('mount');
+    // console.dir('mount');
 
     const cfg = {};
     // setting
@@ -122,12 +120,12 @@ export class RpcServer {
       if (plugin.name !== 'base') {
         console.error('plugin name 没有修改，可能会出现serverConfig获取问题，请关注');
       }
-      console.log('mount plugin.config');
+      // console.log('mount plugin.config');
       // console.log(plugin);
       // console.log(plugin.config);
       // console.log(plugin.config.bind);
       for (const bindnName in plugin.config.bind) {
-        console.dir(bindnName);
+        // console.dir(bindnName);
         // this[bindnName] = plugin.config['bind'][bindnName];
       }
 
@@ -145,7 +143,7 @@ export class RpcServer {
       await next();
     });
 
-    // hooks
+    // init
     for (const plugin of this.plugins) {
       console.dir('init stage');
       if (plugin.init.length > 0) this.config.hooks.init.push(...plugin.init);
@@ -153,8 +151,10 @@ export class RpcServer {
       // console.dir(this.config.hooks.init);
     }
 
+    // use inits middleware
     this.config.init(this);
 
+    // load
     for (const plugin of this.plugins) {
       console.dir('load stage');
       if (plugin.load.length > 0) this.config.hooks.load.push(...plugin.load);
@@ -164,7 +164,7 @@ export class RpcServer {
       // console.dir(this.config.hooks.init);
     }
 
-    console.dir('load');
+    // use loads middleware
     this.config.load(this);
 
     // mount app
@@ -190,7 +190,7 @@ export class RpcServer {
    */
   public start(port?: number): void {
     const _port = port || 3000;
-    console.dir(_port);
+    // console.dir(_port);
 
     this.config.before(this);
 

@@ -1,21 +1,16 @@
 import { Plugable } from './src/plugin';
 export default class Fn extends Plugable {
-  // public name: string;
-
   constructor(cfg?) {
     super(cfg);
 
     this.prefix = '/demo';
-    // this.name = 'fn';
+    this.name = '';
 
     const a = this.a();
     const b = this.b();
-    // console.dir(a + '');
-    // this.addInit(a);
-    // this.addInit(b);
 
-    const c = this.c();
-    // this.addLoad(c);
+    this.addInit(a);
+    this.addInit(b);
   }
   process() {
     return async (ctx, next) => {
@@ -38,13 +33,6 @@ export default class Fn extends Plugable {
   b() {
     return async (ctx, next) => {
       console.dir('b ' + ctx.path);
-      await next();
-    };
-  }
-
-  c() {
-    return async (ctx, next) => {
-      console.dir('c ' + ctx.path);
       await next();
     };
   }
