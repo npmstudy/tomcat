@@ -5,11 +5,6 @@ import mount from '@tomrpc/mount';
 (async () => {
   const rpc = createServer({
     base: import.meta.url,
-    beforeOne: function (ctx: any, key: string) {
-      console.log(ctx.path);
-      console.log(ctx.method);
-      console.log('beforeOne key=' + key);
-    },
   });
 
   rpc.fn('getUsers', function (a: string) {
