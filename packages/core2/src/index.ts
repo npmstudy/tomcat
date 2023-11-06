@@ -13,7 +13,9 @@ export function createServer(cfg?: any) {
   rpc['fn'] = function (key, fun) {
     fn.fn(key, fun);
   };
-  // rpc['add'] = fn.add;
+  rpc['add'] = function (items) {
+    fn.add(items);
+  };
 
   rpc.plugin(fn);
 
