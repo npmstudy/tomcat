@@ -8,7 +8,7 @@ import { createApp } from './src/index';
     base: import.meta.url,
     port: 3001,
     debug: false,
-    // mount?: './fn'';
+    mount: './f',
     buildin: {
       serve: { enable: true, root: join(import.meta.url, '.', 'public'), opts: {} },
       cors: { enable: true },

@@ -1,10 +1,15 @@
+import { Plugable } from '@tomrpc/core';
 import koajwt from 'koa-jwt';
 
-export const jwt = {
-  name: 'jwt',
-  lifeCycle: 'load',
-  mw: (opts) => {
-    // console.dir(opts);
-    return koajwt(opts).unless({ path: opts.unless });
-  },
-};
+export class Jwt extends Plugable {
+  constructor(cfg?) {
+    super(cfg);
+
+    this.prefix = '';
+    this.name = 'jwt';
+    // this.init.push(this.a());
+  }
+  // a() {
+  //   return return koajwt(this.config.opts).unless({ path: this.config.opts.unless });
+  // }
+}

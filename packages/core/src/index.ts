@@ -13,6 +13,10 @@ export function createServer(cfg?: any) {
   rpc.plugin(fn);
 
   return Object.assign(rpc, {
+    base: '.',
+    dump: function () {
+      console.dir('dump');
+    },
     fn: function (key, fun) {
       fn.fn(key, fun);
     },
