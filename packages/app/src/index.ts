@@ -63,18 +63,14 @@ export async function createApp(cfg: IConfig) {
     Object.assign(
       {
         base: import.meta.url,
-        beforeOne: function (ctx: any, key: string) {
-          console.log(ctx.path);
-          console.log(ctx.method);
-          console.log('beforeOne key=' + key);
-        },
       },
       cfg
     )
   );
 
-  await loadInitMiddleware(rpc, init);
-  await loadBuildinMiddlewaire(rpc);
+  // await mount(rpc, cfg.mount);
+  // await loadInitMiddleware(rpc, init);
+  // await loadBuildinMiddlewaire(rpc);
 
   // rpc[load].push([someMw])
   // mount with lifecycle
@@ -92,7 +88,7 @@ export async function createApp(cfg: IConfig) {
       if (cfg.debug) {
         rpc.dump();
       }
-      rpc.listen(cfg.port);
+      rpc.start(cfg.port);
     },
   });
 }

@@ -1,5 +1,5 @@
 import Demo from './demo';
-import { Fn, createServer } from './src/index';
+import { Fn, createServer, Plugable } from './src/index';
 // import { RpcServer } from './src/server';
 
 // const rpc = new RpcServer({});

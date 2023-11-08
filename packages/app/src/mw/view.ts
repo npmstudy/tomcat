@@ -1,10 +1,15 @@
+import { Plugable } from '@tomrpc/core';
 import views from 'koa-views';
 
-export const view = {
-  name: 'view',
-  lifeCycle: 'load',
-  mw: (cfg) => {
-    // console.dir(opts);
-    return views(cfg.root, cfg.opts);
-  },
-};
+export class View extends Plugable {
+  constructor(cfg?) {
+    super(cfg);
+
+    this.prefix = '';
+    this.name = 'serve';
+    this.init.push(this.a());
+  }
+  a() {
+    return views(this.config?.opts?.root, this.config?.opts);
+  }
+}

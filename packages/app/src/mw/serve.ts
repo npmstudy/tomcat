@@ -1,10 +1,15 @@
+import { Plugable } from '@tomrpc/core';
 import serveMiddleware from 'koa-static';
 
-export const serve = {
-  name: 'serve',
-  lifeCycle: 'load',
-  mw: (opts) => {
-    // console.dir(opts);
-    return serveMiddleware(opts.root, opts);
-  },
-};
+export class Serve extends Plugable {
+  constructor(cfg?) {
+    super(cfg);
+
+    this.prefix = '';
+    this.name = 'serve';
+    this.init.push(this.a());
+  }
+  a() {
+    return serveMiddleware(this.config.opts.root, this.config.opts);
+  }
+}
