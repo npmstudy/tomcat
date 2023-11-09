@@ -4,6 +4,7 @@ import debug from 'debug';
 
 import { init } from './init';
 import { loadBuildinMiddlewaire, loadInitMiddleware } from './load';
+import { Serve } from './mw/serve';
 
 const log = debug('@tomrpc/app');
 
@@ -57,7 +58,6 @@ interface IConfig {
   };
   beforeAll: any;
 }
-
 export async function createApp(cfg: IConfig) {
   const rpc = createServer(
     Object.assign(
@@ -67,6 +67,9 @@ export async function createApp(cfg: IConfig) {
       cfg
     )
   );
+
+  const serve = new Serve(cfg.buildin.serve);
+  rpc.plugin(serve);
 
   // await mount(rpc, cfg.mount);
   // await loadInitMiddleware(rpc, init);
@@ -84,11 +87,11 @@ export async function createApp(cfg: IConfig) {
   // }
 
   return Object.assign(rpc, {
-    start: function () {
-      if (cfg.debug) {
-        rpc.dump();
-      }
-      rpc.start(cfg.port);
-    },
+    // start: function () {
+    //   // if (cfg.debug) {
+    //   //   rpc.dump();
+    //   // }
+    //   rpc.start(cfg.port);
+    // },
   });
 }

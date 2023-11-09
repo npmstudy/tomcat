@@ -5,11 +5,14 @@ export class Serve extends Plugable {
   constructor(cfg?) {
     super(cfg);
 
-    this.prefix = '';
+    console.dir(cfg);
+
+    // this.prefix = '';
     this.name = 'serve';
     this.init.push(this.a());
   }
   a() {
-    return serveMiddleware(this.config.opts.root, this.config.opts);
+    console.dir('serve');
+    return serveMiddleware(this.config.root, this.config.opts);
   }
 }
