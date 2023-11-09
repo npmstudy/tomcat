@@ -10,6 +10,6 @@ export class View extends Plugable {
     this.init.push(this.a());
   }
   a() {
-    return views(this.config?.opts?.root, this.config?.opts);
+    return views(this.config?.root, this.config);
   }
 }

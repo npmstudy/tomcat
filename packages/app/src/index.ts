@@ -4,7 +4,7 @@ import debug from 'debug';
 
 import { init } from './init';
 import { loadBuildinMiddlewaire, loadInitMiddleware } from './load';
-import { Serve } from './mw/serve';
+import { Serve, Cors, View } from './mw/index';
 
 const log = debug('@tomrpc/app');
 
@@ -68,8 +68,14 @@ export async function createApp(cfg: IConfig) {
     )
   );
 
+  const cors = new Cors(cfg.buildin.cors);
+  rpc.plugin(cors);
+
   const serve = new Serve(cfg.buildin.serve);
   rpc.plugin(serve);
+
+  const view = new View(cfg.buildin.view);
+  rpc.plugin(view);
 
   // await mount(rpc, cfg.mount);
   // await loadInitMiddleware(rpc, init);

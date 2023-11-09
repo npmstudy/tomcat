@@ -4,10 +4,6 @@ import serveMiddleware from 'koa-static';
 export class Serve extends Plugable {
   constructor(cfg?) {
     super(cfg);
-
-    console.dir(cfg);
-
-    // this.prefix = '';
     this.name = 'serve';
     this.init.push(this.a());
   }

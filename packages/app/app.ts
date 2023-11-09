@@ -34,12 +34,27 @@ import { createApp } from './src/index';
     },
   });
 
+  rpc.app.use(async (ctx, next) => {
+    if (ctx.path === 'view') {
+      ctx.render('user', {
+        user: {
+          name: 'alfred',
+        },
+      });
+    } else {
+      await next();
+    }
+  });
+
   // rpc.view vs rpc.fn变成插件
   rpc.fn('a', function (a) {
-    console.dir(this.render);
+    console.dir(rpc.fn);
+    console.dir(this);
     // this.render('user', { user: { name: 'alfred' } });
     return { a: a };
   });
+
+  console.dir(rpc);
 
   rpc.start();
 })();
