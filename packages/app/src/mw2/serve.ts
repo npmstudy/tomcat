@@ -1,6 +1,6 @@
 import serveMiddleware from 'koa-static';
 
-export const serve = {
+export const Serve = {
   name: 'serve',
   lifeCycle: 'load',
   mw: (opts) => {

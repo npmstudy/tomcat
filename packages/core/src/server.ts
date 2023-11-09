@@ -145,7 +145,9 @@ export class RpcServer {
       console.dir('mount plugin ' + plugin.prefix);
       // console.dir(plugin);
       // this.app.use(compose([plugin.proxy(), mount(plugin.prefix, plugin.app)]));
-      const mw = plugin.prefix != '' ? mount(plugin.app) : mount(plugin.prefix, plugin.app);
+      const mw = plugin.prefix === '' ? mount(plugin.app) : mount(plugin.prefix, plugin.app);
+      console.dir(plugin.prefix === '');
+      console.dir(mw);
       this.app.use(mw);
     }
 
