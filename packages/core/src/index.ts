@@ -19,6 +19,7 @@ export function createServer(cfg?: any) {
     },
     fn: function (key, fun) {
       fn.fn(key, fun);
+      console.dir(fn);
     },
     add: function (items) {
       fn.add(items);
