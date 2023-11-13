@@ -4,7 +4,7 @@ import debug from 'debug';
 
 import { init } from './init';
 import { loadBuildinMiddlewaire, loadInitMiddleware } from './load';
-import { Serve, Cors, View } from './mw/index';
+import { Serve, Cors, View, Jwt } from './mw/index';
 
 const log = debug('@tomrpc/app');
 
@@ -77,6 +77,8 @@ export async function createApp(cfg: IConfig) {
   const view = new View(cfg.buildin.view);
   rpc.plugin(view);
 
+  const jwt = new Jwt(cfg.buildin.view);
+  rpc.plugin(jwt);
   // await mount(rpc, cfg.mount);
   // await loadInitMiddleware(rpc, init);
   // await loadBuildinMiddlewaire(rpc);
@@ -93,9 +95,13 @@ export async function createApp(cfg: IConfig) {
   // }
 
   return Object.assign(rpc, {
-    render: function (tpl, cb) {
+    jwt: function (cb) {
       const mw = combine([cb]);
       console.dir(rpc.config);
+      rpc.init.push(mw);
+    },
+    render: function (path, cb) {
+      const mw = combine([cb]);
       rpc.load.push(mw);
     },
   });

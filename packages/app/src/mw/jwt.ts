@@ -7,9 +7,9 @@ export class Jwt extends Plugable {
 
     this.prefix = '';
     this.name = 'jwt';
-    // this.init.push(this.a());
+    this.init.push(this.a());
   }
-  // a() {
-  //   return return koajwt(this.config.opts).unless({ path: this.config.opts.unless });
-  // }
+  a() {
+    return koajwt(this.config.opts).unless({ path: this.config.opts.unless });
+  }
 }
