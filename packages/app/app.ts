@@ -34,27 +34,24 @@ import { createApp } from './src/index';
     },
   });
 
-  rpc.app.use(async (ctx, next) => {
-    if (ctx.path === 'view') {
-      ctx.render('user', {
-        user: {
-          name: 'alfred',
-        },
-      });
-    } else {
-      await next();
-    }
+  rpc.render('/view', async (ctx, next) => {
+    // console.dir('view');
+    ctx.state = {
+      session: ctx.session,
+      title: 'app',
+    };
+    await ctx.render('user.ejs', { user: { name: 'alfred' } });
   });
 
   // rpc.view vs rpc.fn变成插件
   rpc.fn('a', function (a) {
-    console.dir(rpc.fn);
-    console.dir(this);
+    // console.dir(rpc.fn);
+    // console.dir(this);
     // this.render('user', { user: { name: 'alfred' } });
     return { a: a };
   });
 
-  console.dir(rpc);
+  // console.dir(rpc);
 
   rpc.start();
 })();
