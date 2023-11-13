@@ -1,4 +1,4 @@
-import { createServer } from '@tomrpc/core';
+import { createServer, combine } from '@tomrpc/core';
 import mount from '@tomrpc/mount';
 import debug from 'debug';
 
@@ -93,11 +93,10 @@ export async function createApp(cfg: IConfig) {
   // }
 
   return Object.assign(rpc, {
-    // start: function () {
-    //   // if (cfg.debug) {
-    //   //   rpc.dump();
-    //   // }
-    //   rpc.start(cfg.port);
-    // },
+    render: function (tpl, cb) {
+      const mw = combine([cb]);
+      console.dir(rpc.config);
+      rpc.load.push(mw);
+    },
   });
 }
