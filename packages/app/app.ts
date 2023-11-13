@@ -16,7 +16,7 @@ import { createApp } from './src/index';
         enable: true,
         secret: 'shhhhhh',
         debug: true,
-        unless: ['/public', '/a'],
+        unless: ['/public', '/api/*'],
       },
       view: {
         enable: true,
@@ -32,6 +32,16 @@ import { createApp } from './src/index';
       // console.dir(ctx.jwt);
       await next();
     },
+  });
+
+  rpc.jwt(async (ctx, next) => {
+    // console.dir('view');
+    await next();
+    // if (['/', '/view', '/api*'].some((e) => ctx.path.match(e))) {
+    //   await next();
+    // } else {
+    //   ctx.body = { jwt: 'not jwt' };
+    // }
   });
 
   rpc.render('/view', async (ctx, next) => {
