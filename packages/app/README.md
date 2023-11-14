@@ -31,3 +31,17 @@ const rpc = createServer(cfg);
 rpc.start();
 
 ```
+
+jwt豁免
+
+```js
+  rpc.jwt(async (ctx, next) => {
+    // console.dir('view');
+    await next();
+    // if (['/', '/view', '/api*'].some((e) => ctx.path.match(e))) {
+    //   await next();
+    // } else {
+    //   ctx.body = { jwt: 'not jwt' };
+    // }
+  });
+```
