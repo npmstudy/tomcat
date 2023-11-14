@@ -4,12 +4,15 @@ import koajwt from 'koa-jwt';
 export class Jwt extends Plugable {
   constructor(cfg?) {
     super(cfg);
+    console.dir('jwt = ');
+    console.dir(this.config);
 
     this.prefix = '';
     this.name = 'jwt';
     this.init.push(this.a());
   }
   a() {
-    return koajwt(this.config.opts).unless({ path: this.config.opts.unless });
+    console.dir(this.config);
+    return koajwt(this.config).unless({ path: this.config.unless });
   }
 }

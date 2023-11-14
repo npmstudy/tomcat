@@ -145,10 +145,20 @@ export class RpcServer {
       console.dir('mount plugin ' + plugin.prefix);
       // console.dir(plugin);
       // this.app.use(compose([plugin.proxy(), mount(plugin.prefix, plugin.app)]));
-      const mw = plugin.prefix === '' ? mount(plugin.app) : mount(plugin.prefix, plugin.app);
+
+      if (Array.isArray(plugin.prefix) === true) {
+        console.dir('prefix is array' + plugin.prefix);
+        plugin.prefix.forEach((path) => {
+          console.dir('mount path' + path);
+          const i = mount(path, plugin.app);
+          this.app.use(path, i);
+        });
+      } else {
+        const mw = plugin.prefix === '' ? mount(plugin.app) : mount(plugin.prefix, plugin.app);
+        this.app.use(mw);
+      }
       // console.dir(plugin.prefix === '');
       // console.dir(mw);
-      this.app.use(mw);
     }
 
     // 兜底的else

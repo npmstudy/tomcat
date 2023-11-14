@@ -1,4 +1,5 @@
 import { dirname, filename, join } from 'desm';
+import jwt from 'jsonwebtoken';
 
 import { createApp } from './src/index';
 
@@ -16,7 +17,7 @@ import { createApp } from './src/index';
         enable: true,
         secret: 'shhhhhh',
         debug: true,
-        unless: ['/public', '/api/*'],
+        unless: { path: ['/public', '/view', '/', '/api/*'] },
       },
       view: {
         enable: true,
@@ -35,7 +36,10 @@ import { createApp } from './src/index';
   });
 
   rpc.jwt(async (ctx, next) => {
-    // console.dir('view');
+    const secret = 'shhhhhh';
+    const token = jwt.sign({ foo: 'bar' }, secret);
+    console.dir(ctx.path);
+
     await next();
     // if (['/', '/view', '/api*'].some((e) => ctx.path.match(e))) {
     //   await next();
