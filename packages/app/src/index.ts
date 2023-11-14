@@ -42,7 +42,7 @@ interface IJwt {
   secret?: string;
   issuer?: string;
   debug: boolean;
-  unless?: Array<string>;
+  unless?: any;
 }
 interface IConfig {
   name: string | 'tomapp';
@@ -77,7 +77,7 @@ export async function createApp(cfg: IConfig) {
   const view = new View(cfg.buildin.view);
   rpc.plugin(view);
 
-  const jwt = new Jwt(cfg.buildin.view);
+  const jwt = new Jwt(cfg.buildin.jwt);
   rpc.plugin(jwt);
   // await mount(rpc, cfg.mount);
   // await loadInitMiddleware(rpc, init);
