@@ -66,7 +66,7 @@ export class Fn extends Plugable {
 
         if (routers[key]) {
           const args = [...param, ctx];
-          // console.dir(args);
+          console.dir(`call fn ${ctx.path}, with [${param}]`);
           const result = routers[key].apply(ctx, args);
           // console.dir(result);
           ctx.body = result;

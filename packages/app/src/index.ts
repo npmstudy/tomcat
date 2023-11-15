@@ -56,7 +56,6 @@ interface IConfig {
     view?: IView;
     jwt?: IJwt;
   };
-  beforeAll: any;
 }
 export async function createApp(cfg: IConfig) {
   const rpc = createServer(
@@ -78,7 +77,7 @@ export async function createApp(cfg: IConfig) {
   rpc.plugin(view);
 
   const jwt = new Jwt(cfg.buildin.jwt);
-  rpc.plugin(jwt);
+  // rpc.plugin(jwt);
   // await mount(rpc, cfg.mount);
   // await loadInitMiddleware(rpc, init);
   // await loadBuildinMiddlewaire(rpc);
@@ -97,7 +96,7 @@ export async function createApp(cfg: IConfig) {
   return Object.assign(rpc, {
     jwt: function (cb) {
       const mw = combine([cb]);
-      console.dir(rpc.config);
+      // console.dir(rpc.config);
       rpc.init.push(mw);
     },
     render: function (path, cb) {
