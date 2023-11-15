@@ -150,7 +150,7 @@ export class RpcServer {
       // console.dir('prefix is string ' + plugin.prefix);
 
       const mw = plugin.prefix === '' ? mount(plugin.app) : mount(plugin.prefix, plugin.app);
-      // console.dir(this);
+      console.dir(plugin.prefix);
       this.app.use(mw);
 
       // console.dir(plugin.prefix === '');
