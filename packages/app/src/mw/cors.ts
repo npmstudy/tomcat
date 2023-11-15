@@ -9,6 +9,7 @@ export class Cors extends Plugable {
     this.init.push(this.a());
   }
   a() {
+    console.dir('register Cors');
     return corsMiddleware(this.config);
   }
 }

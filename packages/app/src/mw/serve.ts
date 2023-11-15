@@ -8,7 +8,7 @@ export class Serve extends Plugable {
     this.init.push(this.a());
   }
   a() {
-    console.dir('serve');
+    console.dir('register Serve');
     return serveMiddleware(this.config.root, this.config.opts);
   }
 }
