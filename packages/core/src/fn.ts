@@ -115,8 +115,8 @@ export class Fn extends Plugable {
           supportMethods[0] +
           ' request from client';
       }
-
-      log('beforeOne end');
+      await next();
+      // log('beforeOne end');
     };
   }
 }

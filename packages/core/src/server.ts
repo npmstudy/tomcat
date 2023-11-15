@@ -72,6 +72,9 @@ export class RpcServer {
     this.app = new Koa();
     this.app.use(bodyParser());
     this.use = this.app.use;
+    this.app.use(async (ctx, next) => {
+      await next();
+    });
   }
 
   /**
@@ -179,6 +182,10 @@ export class RpcServer {
     this.mount();
 
     this.config.after(this);
+
+    this.app.use(function (ctx, next) {
+      ctx.body = 'default';
+    });
 
     this.app.listen(_port, (err) => {
       if (err) {
