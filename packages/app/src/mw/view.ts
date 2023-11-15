@@ -6,10 +6,11 @@ export class View extends Plugable {
     super(cfg);
 
     this.prefix = '';
-    this.name = 'serve';
+    this.name = 'view';
     this.init.push(this.a());
   }
   a() {
+    console.dir('register View');
     return views(this.config?.root, this.config);
   }
 }
