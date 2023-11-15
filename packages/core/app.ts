@@ -5,7 +5,7 @@ import { Fn, createServer, Plugable } from './src/index';
 // const rpc = new RpcServer({});
 const rpc = createServer({
   fn: {
-    prefix: ['/apk', '/aaa'],
+    prefix: '/apk2',
   },
 });
 
