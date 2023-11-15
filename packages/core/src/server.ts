@@ -1,5 +1,6 @@
 import { bodyParser } from '@koa/bodyparser';
 import Koa from 'koa';
+import compose from 'koa-compose';
 import mount from 'koa-mount';
 
 import { Strategy, log } from './index';
@@ -145,15 +146,21 @@ export class RpcServer {
       console.dir('mount plugin ' + plugin.prefix);
       // console.dir(plugin);
       // this.app.use(compose([plugin.proxy(), mount(plugin.prefix, plugin.app)]));
+      const that = this.app;
+      if (Array.isArray(plugin.config.prefix) === true) {
+        console.dir('prefix is array ' + plugin.config.prefix);
 
-      if (Array.isArray(plugin.prefix) === true) {
-        console.dir('prefix is array' + plugin.prefix);
-        plugin.prefix.forEach((path) => {
-          console.dir('mount path' + path);
-          const i = mount(path, plugin.app);
-          this.app.use(path, i);
-        });
+        for (const i in plugin.config.prefix) {
+          const path = plugin.config.prefix[i];
+          console.dir('mount path = ' + path);
+          const mw = mount(path, plugin.app);
+          console.dir(mw);
+          // console.dir(this);
+          this.app.use(mw);
+        }
       } else {
+        console.dir('prefix is string ' + plugin.prefix);
+
         const mw = plugin.prefix === '' ? mount(plugin.app) : mount(plugin.prefix, plugin.app);
         this.app.use(mw);
       }

@@ -8,14 +8,13 @@ export class Fn extends Plugable {
   constructor(cfg?: any) {
     super(cfg);
 
-    console.dir(this.config);
+    // console.dir(this.config);
 
     this.name = 'Fn';
-    if (this.config.prefix === '') {
+    if (this.prefix === '') {
       this.prefix = '/api';
     }
-
-    console.dir(this.config);
+    // console.dir(this.config);
   }
   fn(key, fn) {
     // console.dir('=this.config=');

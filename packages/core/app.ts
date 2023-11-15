@@ -3,12 +3,11 @@ import { Fn, createServer, Plugable } from './src/index';
 // import { RpcServer } from './src/server';
 
 // const rpc = new RpcServer({});
-const rpc = createServer({});
-
-const fn = new Fn({
-  prefix: ['/api', '/apk'],
+const rpc = createServer({
+  fn: {
+    prefix: ['/apk', '/aaa'],
+  },
 });
-const demo = new Demo({});
 
 rpc.fn('/a', function (a) {
   return { a: a };

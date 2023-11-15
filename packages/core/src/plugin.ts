@@ -43,7 +43,8 @@ export class Plugable implements Strategy {
     this.app = new Koa();
     this.init = [];
     this.load = [];
-    this.prefix = '';
+    this.prefix = this.config.prefix ? this.config.prefix : '';
+
     this.compose = compose;
 
     // TODO: 此处最好改成mount
