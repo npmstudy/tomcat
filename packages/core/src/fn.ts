@@ -49,6 +49,7 @@ export class Fn extends Plugable {
       const prefix = this.prefix;
       const routers = this.config['functions'];
       log(routers);
+
       const path = ctx.path.replace(prefix, '');
       log('mountMiddleware' + ctx.path);
       const key = '/' + path.replace('/', '').split('/').join('.');

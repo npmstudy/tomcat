@@ -143,27 +143,16 @@ export class RpcServer {
 
     // mount app
     for (const plugin of this.plugins) {
-      console.dir('mount plugin ' + plugin.prefix);
+      // console.dir('mount plugin ' + plugin.prefix);
       // console.dir(plugin);
       // this.app.use(compose([plugin.proxy(), mount(plugin.prefix, plugin.app)]));
-      const that = this.app;
-      if (Array.isArray(plugin.config.prefix) === true) {
-        console.dir('prefix is array ' + plugin.config.prefix);
 
-        for (const i in plugin.config.prefix) {
-          const path = plugin.config.prefix[i];
-          console.dir('mount path = ' + path);
-          const mw = mount(path, plugin.app);
-          console.dir(mw);
-          // console.dir(this);
-          this.app.use(mw);
-        }
-      } else {
-        console.dir('prefix is string ' + plugin.prefix);
+      // console.dir('prefix is string ' + plugin.prefix);
 
-        const mw = plugin.prefix === '' ? mount(plugin.app) : mount(plugin.prefix, plugin.app);
-        this.app.use(mw);
-      }
+      const mw = plugin.prefix === '' ? mount(plugin.app) : mount(plugin.prefix, plugin.app);
+      // console.dir(this);
+      this.app.use(mw);
+
       // console.dir(plugin.prefix === '');
       // console.dir(mw);
     }

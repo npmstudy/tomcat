@@ -31,6 +31,7 @@ export class Plugable implements Strategy {
   public prefix;
   public compose;
   public config;
+  public _prefix;
 
   constructor(cfg?) {
     this.config = Object.assign(
