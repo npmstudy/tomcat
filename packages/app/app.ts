@@ -17,7 +17,7 @@ import { createApp } from './src/index';
         enable: true,
         secret: 'shhhhhh',
         debug: true,
-        unless: { path: ['/public', '/view', '/', '/api/*'] },
+        unless: { path: ['/view'] },
       },
       view: {
         enable: true,
@@ -29,24 +29,20 @@ import { createApp } from './src/index';
         },
       },
     },
-    beforeAll: async (ctx, next) => {
-      // console.dir(ctx.jwt);
-      await next();
-    },
   });
 
-  rpc.jwt(async (ctx, next) => {
-    const secret = 'shhhhhh';
-    const token = jwt.sign({ foo: 'bar' }, secret);
-    console.dir(ctx.path);
+  // rpc.jwt(async (ctx, next) => {
+  //   const secret = 'shhhhhh';
+  //   const token = jwt.sign({ foo: 'bar' }, secret);
+  //   console.dir(ctx.path);
 
-    await next();
-    // if (['/', '/view', '/api*'].some((e) => ctx.path.match(e))) {
-    //   await next();
-    // } else {
-    //   ctx.body = { jwt: 'not jwt' };
-    // }
-  });
+  //   await next();
+  //   // if (['/', '/view', '/api*'].some((e) => ctx.path.match(e))) {
+  //   //   await next();
+  //   // } else {
+  //   //   ctx.body = { jwt: 'not jwt' };
+  //   // }
+  // });
 
   rpc.render('/view', async (ctx, next) => {
     // console.dir('view');
@@ -54,7 +50,11 @@ import { createApp } from './src/index';
       session: ctx.session,
       title: 'app',
     };
-    await ctx.render('user.ejs', { user: { name: 'alfred' } });
+    if (ctx.path === '/view') {
+      await ctx.render('user.ejs', { user: { name: 'alfred' } });
+    } else {
+      await next();
+    }
   });
 
   // rpc.view vs rpc.fn变成插件

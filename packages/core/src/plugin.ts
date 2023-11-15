@@ -15,7 +15,6 @@ export interface Strategy {
   name;
   app;
   compose;
-  proxy;
   config;
   server;
   serverConfig;
@@ -54,21 +53,6 @@ export class Plugable implements Strategy {
 
   getConfig(ctx) {
     return ctx[this.name];
-  }
-
-  proxy() {
-    return async (ctx, next) => {
-      console.dir('proxy prefix=' + this.prefix);
-      if (ctx.path.match(this.prefix)) {
-        console.dir('proxy ' + ctx.path);
-        await next();
-        console.dir('proxy end ' + ctx.path);
-      } else {
-        console.dir('not proxy ' + ctx.path);
-        await next();
-        console.dir('not proxy end ' + ctx.path);
-      }
-    };
   }
 
   getMiddleware() {
