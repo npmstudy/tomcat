@@ -2,7 +2,7 @@ import debug from 'debug';
 
 import { Plugable } from './plugin';
 import { isArrowFunction, getHttpMethods } from './utils';
-const log = debug('@tomrpc/core');
+const log = console.dir; //debug('@tomrpc/core');
 
 export class Fn extends Plugable {
   constructor(cfg?: any) {
@@ -45,7 +45,7 @@ export class Fn extends Plugable {
 
   mount() {
     return async (ctx, next) => {
-      log(this);
+      // log(this);
       const prefix = this.prefix;
       const routers = this.config['functions'];
       log(routers);
@@ -115,7 +115,6 @@ export class Fn extends Plugable {
           supportMethods[0] +
           ' request from client';
       }
-      await next();
       // log('beforeOne end');
     };
   }
