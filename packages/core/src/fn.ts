@@ -49,7 +49,6 @@ export class Fn extends Plugable {
   mount() {
     return async (ctx, next) => {
       log(this);
-      const prefix = this.prefix;
       const routers = this.config['functions'];
       log(routers);
 
@@ -86,7 +85,6 @@ export class Fn extends Plugable {
     return async (ctx, next) => {
       log('pre');
       const key = ctx.path.replace('/', '').split('/').join('.');
-      // this.config.beforeOne(ctx, key);
 
       const lastKey = key.split('.').pop();
       const httpMethods = getHttpMethods();
