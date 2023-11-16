@@ -1,6 +1,8 @@
+import debug from 'debug';
 import Koa from 'koa';
 import compose from 'koa-compose';
 
+const log = debug('@tomrpc/core/plugin');
 /**
  * The Strategy interface declares operations common to all supported versions
  * of some algorithm.
@@ -65,23 +67,23 @@ export class Plugable implements Strategy {
 
   pre() {
     return async (ctx, next) => {
-      console.dir('pre');
+      log('pre');
       await next();
-      console.dir('pre end');
+      log('pre end');
     };
   }
   post() {
     return async (ctx, next) => {
-      console.dir('after');
+      log('after');
       await next();
-      console.dir('after end');
+      log('after end');
     };
   }
   process() {
     return async (ctx, next) => {
-      console.dir('process default');
+      log('process default');
       await next();
-      console.dir('process default end');
+      log('process default end');
     };
   }
 

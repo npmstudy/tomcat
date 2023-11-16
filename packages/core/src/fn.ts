@@ -2,19 +2,18 @@ import debug from 'debug';
 
 import { Plugable } from './plugin';
 import { isArrowFunction, getHttpMethods } from './utils';
-const log = console.dir; //debug('@tomrpc/core');
+const log = debug('@tomrpc/core/fn');
 
 export class Fn extends Plugable {
   constructor(cfg?: any) {
     super(cfg);
 
-    // console.dir(this.config);
-
     this.name = 'Fn';
     if (this.prefix === '') {
       this.prefix = '/api';
     }
-    // console.dir(this.config);
+
+    this.app.use(this.compose([this.before(), this.mount(), this.default()]));
   }
   fn(key, fn) {
     // console.dir('=this.config=');
@@ -39,18 +38,22 @@ export class Fn extends Plugable {
     }
   }
 
-  process() {
-    return this.mount();
+  default() {
+    return async (ctx, next) => {
+      log('default');
+      ctx.body = '[fn plugin] no fn repsonse, please check your fn if exist';
+      log('default end');
+    };
   }
 
   mount() {
     return async (ctx, next) => {
-      // log(this);
+      log(this);
       const prefix = this.prefix;
       const routers = this.config['functions'];
       log(routers);
 
-      const path = ctx.path.replace(prefix, '');
+      const path = ctx.path; //.replace(prefix, '');
       log('mountMiddleware' + ctx.path);
       const key = '/' + path.replace('/', '').split('/').join('.');
 
@@ -79,9 +82,9 @@ export class Fn extends Plugable {
       }
     };
   }
-  pre() {
+  before() {
     return async (ctx, next) => {
-      // console.log('pre');
+      log('pre');
       const key = ctx.path.replace('/', '').split('/').join('.');
       // this.config.beforeOne(ctx, key);
 
@@ -99,10 +102,10 @@ export class Fn extends Plugable {
       // console.log(supportMethods);
 
       if (supportMethods.length === 0) {
-        if (ctx.path.indexOf(this.prefix) != -1) {
-          console.log(ctx.path + ',没有匹配到包含get/post等开头的函数');
-          await next();
-        }
+        // if (ctx.path.indexOf(this.prefix) != -1) {
+        log(ctx.path + ',没有匹配到包含get/post等开头的函数');
+        await next();
+        // }
       } else if (ctx.method === supportMethods[0]) {
         log('匹配到包含get/post等方法的函数');
         await next();
