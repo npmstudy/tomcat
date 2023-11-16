@@ -74,7 +74,7 @@ export default class Fn extends Plugable {
     this.name = 'demo';
     const a = this.a();
 
-    this.addInit(a);
+    this.use(a);
   }
   process() {
     return async (ctx, next) => {
