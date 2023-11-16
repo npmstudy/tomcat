@@ -72,9 +72,6 @@ export class RpcServer {
     this.app = new Koa();
     this.app.use(bodyParser());
     this.use = this.app.use;
-    this.app.use(async (ctx, next) => {
-      await next();
-    });
   }
 
   /**
@@ -146,7 +143,7 @@ export class RpcServer {
 
     // mount app
     for (const plugin of this.plugins) {
-      // console.dir('mount plugin ' + plugin.prefix);
+      console.dir('mount plugin ' + plugin.prefix);
       // console.dir(plugin);
       // this.app.use(compose([plugin.proxy(), mount(plugin.prefix, plugin.app)]));
 
