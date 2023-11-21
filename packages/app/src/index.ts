@@ -77,7 +77,7 @@ export async function createApp(cfg: IConfig) {
   rpc.plugin(view);
 
   const jwt = new Jwt(cfg.buildin.jwt);
-  rpc.plugin(jwt);
+  // rpc.plugin(jwt);
   // await mount(rpc, cfg.mount);
   // await loadInitMiddleware(rpc, init);
   // await loadBuildinMiddlewaire(rpc);
@@ -95,13 +95,14 @@ export async function createApp(cfg: IConfig) {
 
   return Object.assign(rpc, {
     jwt: function (cb) {
-      const mw = combine([cb]);
+      // const mw = combine([cb]);
       // console.dir(rpc.config);
-      rpc.init.push(mw);
+      // rpc.init.push(mw);
     },
     render: function (path, cb) {
+      console.dir('render');
       const mw = combine([cb]);
-      rpc.load.push(mw);
+      rpc.app.use(mw);
     },
   });
 }
