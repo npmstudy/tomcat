@@ -3,7 +3,7 @@ export default class TestProxy extends Proxy {
   constructor(cfg?) {
     super(cfg);
 
-    this.config.proxy.inject = 'before';
+    this.config.proxy.inject = 'init';
     this.config.proxy.before = ['fn'];
   }
   proxy() {

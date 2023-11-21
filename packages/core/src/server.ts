@@ -125,8 +125,10 @@ export class RpcServer {
     // proxy
     for (const plugin of this.plugins) {
       console.dir('init proxy stage');
+
       if (plugin.config.proxy) {
         if (plugin.config.proxy.inject === 'init') {
+          console.dir('plugin.config.proxy.inject init');
           this.proxy.init.push(plugin.proxy());
         }
         if (plugin.config.proxy.inject === 'load') {
