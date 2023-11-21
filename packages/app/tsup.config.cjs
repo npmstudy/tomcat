@@ -9,4 +9,5 @@ export default defineConfig((options) => ({
   loader: {
     '.js': 'jsx',
   },
+  clean: true,
 }));

@@ -121,6 +121,26 @@ export default class Fn extends Plugable {
 - process（可选，返回值是Koa中间件）
 - post（可选，返回值是Koa中间件）
 
+## 实现Proxy
+
+```ts
+import { Proxy } from './src/proxy';
+export default class TestProxy extends Proxy {
+  constructor(cfg?) {
+    super(cfg);
+
+    this.config.proxy.inject = 'before';
+    this.config.proxy.before = ['fn'];
+  }
+  proxy() {
+    return async (ctx, next) => {
+      console.dir('TestProxy process child' + ctx.path);
+      await next();
+    };
+  }
+}
+```
+
 
 ## RpcServer
 

@@ -10,16 +10,17 @@ const log = debug('@tomrpc/core/plugin');
  * The Context uses this interface to call the algorithm defined by Concrete
  * Strategies.
  */
-export interface Strategy {
+export declare interface Strategy {
   init: any[];
   load: any[];
   prefix;
   name;
   app;
   compose;
-  config;
   server;
   serverConfig;
+  config: any;
+  proxy?(): any;
 }
 
 export class Plugable implements Strategy {
@@ -31,7 +32,8 @@ export class Plugable implements Strategy {
   public serverConfig;
   public prefix;
   public compose;
-  public config;
+  public config: any;
+
   public _prefix;
 
   constructor(cfg?) {

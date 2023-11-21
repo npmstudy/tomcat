@@ -1,6 +1,6 @@
 /* @ts-ignore */
 import { createServer } from '@tomrpc/core';
-import mount from '@tomrpc/mount';
+// import mount from '@tomrpc/mount';
 
 (async () => {
   const rpc = createServer({
@@ -54,7 +54,7 @@ import mount from '@tomrpc/mount';
 
   // console.dir(mount);
   rpc.base = import.meta.url;
-  await mount(rpc, './fn');
+  // await mount(rpc, './fn');
 
   // https://bobbyhadz.com/blog/typescript-no-overload-matches-this-call
   // rpc.dump();
