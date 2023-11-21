@@ -4,10 +4,7 @@ export default defineConfig((options) => ({
   entry: 'src/index.ts',
   sourcemap: !options.watch,
   minify: !options.watch,
-  dts: true,
-  format: ['esm'],
-  loader: {
-    '.js': 'jsx',
-  },
+  // dts: true,
+  format: ['esm', 'cjs'],
   clean: true,
 }));
