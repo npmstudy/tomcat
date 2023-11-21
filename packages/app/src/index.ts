@@ -75,6 +75,7 @@ export async function createApp(cfg: IConfig) {
 
   const view = new View(cfg.buildin.view);
   rpc.plugin(view);
+  console.dir(view);
 
   const jwt = new Jwt(cfg.buildin.jwt);
   // rpc.plugin(jwt);

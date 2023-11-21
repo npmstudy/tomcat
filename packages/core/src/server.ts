@@ -125,6 +125,7 @@ export class RpcServer {
     // proxy
     for (const plugin of this.plugins) {
       console.dir('init proxy stage');
+      // console.dir(plugin);
 
       if (plugin.config.proxy) {
         if (plugin.config.proxy.inject === 'init') {
@@ -132,9 +133,11 @@ export class RpcServer {
           this.proxy.init.push(plugin.proxy());
         }
         if (plugin.config.proxy.inject === 'load') {
+          console.dir('plugin.config.proxy.inject load');
           this.proxy.load.push(plugin.proxy());
         }
         if (plugin.config.proxy.inject === 'before') {
+          console.dir('plugin.config.proxy.inject before');
           for (const i in plugin.config.proxy.before) {
             const name = plugin.config.proxy.before[i];
             if (!this.proxy.before[name.toLowerCase()]) this.proxy.before[name.toLowerCase()] = [];
