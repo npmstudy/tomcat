@@ -15,6 +15,7 @@ export function createServer(cfg?: any) {
   const rpc = new RpcServer(Object.assign({ fn: {} }, cfg));
 
   const fn = new Fn(Object.assign({}, cfg.fn));
+  console.dir('createServer');
 
   rpc.plugin(fn);
 
