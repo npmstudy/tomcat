@@ -4,6 +4,7 @@ import { Fn } from './fn';
 import { RpcServer } from './server';
 
 export * from './plugin';
+export * from './proxy';
 export * from './fn';
 export * from './server';
 export * from './utils';

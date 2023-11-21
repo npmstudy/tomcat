@@ -1,4 +1,4 @@
-import Demo from './demo';
+import TestProxy from './proxy';
 import { Fn, createServer, Plugable } from './src/index';
 // import { RpcServer } from './src/server';
 
@@ -8,6 +8,12 @@ const rpc = createServer({
     // prefix: '/apk2',
   },
 });
+
+const tp = new TestProxy({});
+
+rpc.plugin(tp);
+
+console.dir(rpc);
 
 rpc.fn('/a', function (a) {
   return { a: a };
