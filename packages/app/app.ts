@@ -45,7 +45,7 @@ import { createApp } from './src/index';
   // });
 
   rpc.render('/view', async (ctx, next) => {
-    // console.dir('view');
+    console.dir('view');
     ctx.state = {
       session: ctx.session,
       title: 'app',
