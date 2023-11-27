@@ -4,6 +4,7 @@ import compose from 'koa-compose';
 import mount from 'koa-mount';
 
 import { Strategy, log } from './index';
+import { mergeDeep } from './utils';
 
 export const LifeCycleConfig = {
   hooks: {
@@ -26,11 +27,12 @@ export const LifeCycleConfig = {
     });
   },
   init: async (server) => {
-    // console.dir('init');
+    console.dir('init');
     // console.dir(server);
     const app = server.app;
     const loadMiddlewares = server.config.hooks.init;
     loadMiddlewares.forEach((mw) => {
+      console.dir(mw);
       app.use(mw);
     });
   },
@@ -73,7 +75,7 @@ export class RpcServer {
    */
   constructor(cfg) {
     // init
-    this.config = Object.assign(LifeCycleConfig, cfg);
+    this.config = mergeDeep(LifeCycleConfig, cfg);
     this.app = new Koa();
     this.app.use(bodyParser());
     this.use = this.app.use;

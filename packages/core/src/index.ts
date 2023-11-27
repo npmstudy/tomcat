@@ -2,6 +2,7 @@ import compose from 'koa-compose';
 
 import { Fn } from './fn';
 import { RpcServer } from './server';
+import { mergeDeep } from './utils';
 
 export * from './plugin';
 export * from './proxy';
@@ -12,14 +13,14 @@ export * from './utils';
 export const combine = compose;
 
 export function createServer(cfg?: any) {
-  const rpc = new RpcServer(Object.assign({ fn: {} }, cfg));
+  const rpc = new RpcServer(mergeDeep({ fn: {} }, cfg));
 
-  const fn = new Fn(Object.assign({}, cfg.fn));
-  console.dir('createServer');
+  const fn = new Fn(mergeDeep({}, cfg.fn));
+  // console.dir('createServer');
 
   rpc.plugin(fn);
 
-  return Object.assign(rpc, {
+  return mergeDeep(rpc, {
     base: '.',
     init: rpc['config']['hooks']['init'],
     before: rpc['config']['hooks']['before'],

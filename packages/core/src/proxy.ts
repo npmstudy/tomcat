@@ -1,7 +1,7 @@
 import debug from 'debug';
 
 import { Plugable, Strategy } from './plugin';
-import { isArrowFunction, getHttpMethods } from './utils';
+import { isArrowFunction, getHttpMethods, mergeDeep } from './utils';
 const log = debug('@tomrpc/core/fn');
 
 const ProxyDefaultConfig = {
@@ -15,7 +15,7 @@ export class Proxy extends Plugable implements Strategy {
   public inject;
 
   constructor(cfg?: any) {
-    super(Object.assign(ProxyDefaultConfig, cfg));
+    super(mergeDeep(ProxyDefaultConfig, cfg));
     //this.app.use(this.compose([this.before(), this.mount(), this.default()]));
   }
 
