@@ -65,7 +65,7 @@ import { createApp } from './src/index';
     return { a: a };
   });
 
-  console.dir(rpc);
+  // console.dir(rpc);
 
   rpc.start();
 })();

@@ -2,6 +2,8 @@ import debug from 'debug';
 import Koa from 'koa';
 import compose from 'koa-compose';
 
+import { mergeDeep } from './utils';
+
 const log = debug('@tomrpc/core/plugin');
 /**
  * The Strategy interface declares operations common to all supported versions
@@ -37,7 +39,7 @@ export class Plugable implements Strategy {
   public _prefix;
 
   constructor(cfg?) {
-    this.config = Object.assign(
+    this.config = mergeDeep(
       {
         bind: {},
       },

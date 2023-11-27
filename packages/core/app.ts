@@ -17,7 +17,7 @@ const tp2 = new TestProxy2({});
 
 rpc.plugin(tp2);
 
-console.dir('rpc2');
+// console.dir('rpc2');
 // console.dir(rpc.plugins[1]['config']);
 
 // console.dir(rpc.plugins[2]['config']);
