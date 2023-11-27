@@ -1,4 +1,4 @@
-import TestProxy from './proxy';
+import { TestProxy, TestProxy2 } from './proxy';
 import { Fn, createServer, Plugable } from './src/index';
 // import { RpcServer } from './src/server';
 
@@ -12,8 +12,15 @@ const rpc = createServer({
 const tp = new TestProxy({});
 
 rpc.plugin(tp);
+// console.dir(rpc.plugins[1]['config']);
+const tp2 = new TestProxy2({});
 
-console.dir(rpc);
+rpc.plugin(tp2);
+
+console.dir('rpc2');
+// console.dir(rpc.plugins[1]['config']);
+
+// console.dir(rpc.plugins[2]['config']);
 
 rpc.fn('/a', function (a) {
   return { a: a };
