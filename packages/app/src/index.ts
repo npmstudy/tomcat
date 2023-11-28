@@ -75,8 +75,7 @@ export async function createApp(cfg: IConfig) {
   const serve = new Serve(cfg.buildin.serve);
   rpc.plugin(serve);
 
-  const view = new View(cfg.buildin.view);
-  rpc.plugin(view);
+  // rpc.plugin(view);
   // console.dir(view);
 
   const jwt = new Jwt(cfg.buildin.jwt);
@@ -85,25 +84,15 @@ export async function createApp(cfg: IConfig) {
   // await loadInitMiddleware(rpc, init);
   // await loadBuildinMiddlewaire(rpc);
 
-  // rpc[load].push([someMw])
-  // mount with lifecycle
-
-  // await loadCustomMiddlewaire(rpc);
-
-  // console.dir(mount);
-  // if (cfg.mount) {
-  //   rpc.base = import.meta.url;
-  //   // await mount(rpc, './fn');
-  // }
-
-  return Object.assign(rpc, {
+  return mergeDeep(rpc, {
     jwt: function (cb) {
       // const mw = combine([cb]);
       // console.dir(rpc.config);
       // rpc.init.push(mw);
     },
     render: function (path, cb) {
-      console.dir('render');
+      // console.dir('render');
+      const view = new View(cfg.buildin.view);
       const mw = combine([view.proxy(), cb]);
       rpc.app.use(mw);
     },

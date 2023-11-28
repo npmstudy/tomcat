@@ -27,7 +27,7 @@ export const LifeCycleConfig = {
     });
   },
   init: async (server) => {
-    console.dir('init');
+    log('init');
     // console.dir(server);
     const app = server.app;
     const loadMiddlewares = server.config.hooks.init;
@@ -99,7 +99,7 @@ export class RpcServer {
 
       // set config namespace
       if (plugin.name === 'base') {
-        console.error('plugin name 没有修改，可能会出现serverConfig获取问题，请关注');
+        log('plugin name 没有修改，可能会出现serverConfig获取问题，请关注');
       }
       // console.log('mount plugin.config');
       // console.log(plugin);
@@ -126,20 +126,20 @@ export class RpcServer {
 
     // proxy
     for (const plugin of this.plugins) {
-      console.dir('init proxy stage');
+      // console.dir('init proxy stage');
       // console.dir(plugin);
 
       if (plugin.config.proxy) {
         if (plugin.config.proxy.inject === 'init') {
-          console.dir('plugin.config.proxy.inject init');
+          log('plugin.config.proxy.inject init');
           this.proxy.init.push(plugin.proxy());
         }
         if (plugin.config.proxy.inject === 'load') {
-          console.dir('plugin.config.proxy.inject load');
+          log('plugin.config.proxy.inject load');
           this.proxy.load.push(plugin.proxy());
         }
         if (plugin.config.proxy.inject === 'before') {
-          console.dir('plugin.config.proxy.inject before');
+          log('plugin.config.proxy.inject before');
           for (const i in plugin.config.proxy.before) {
             const name = plugin.config.proxy.before[i];
             if (!this.proxy.before[name.toLowerCase()]) this.proxy.before[name.toLowerCase()] = [];
@@ -152,9 +152,8 @@ export class RpcServer {
     // init
     this.config.hooks.init = this.proxy.init;
     for (const plugin of this.plugins) {
-      console.dir('init stage');
+      log('init stage');
       if (plugin.init.length > 0) this.config.hooks.init.push(...plugin.init);
-
       // console.dir(this.config.hooks.init);
     }
 
@@ -164,7 +163,7 @@ export class RpcServer {
     // load
     this.config.hooks.load = this.proxy.load;
     for (const plugin of this.plugins) {
-      console.dir('load stage');
+      log('load stage');
       if (plugin.load.length > 0) this.config.hooks.load.push(...plugin.load);
       // console.dir('load plugin');
       // console.dir(plugin.load);
@@ -177,12 +176,12 @@ export class RpcServer {
 
     // mount app
     for (const plugin of this.plugins) {
-      console.dir('mount plugin ' + plugin.prefix);
+      log('mount plugin ' + plugin.prefix);
 
       const mw = this.proxy.before[plugin.name.toLowerCase()] || [];
 
       const app = plugin.prefix === '' ? mount(plugin.app) : mount(plugin.prefix, plugin.app);
-      console.dir(plugin.prefix);
+      log(plugin.prefix);
       this.app.use(compose([...mw, app]));
 
       // console.dir(plugin.prefix === '');
@@ -190,7 +189,7 @@ export class RpcServer {
     }
 
     // 兜底的else
-    console.dir('兜底的else');
+    log('兜底的else');
     this.app.use(this.config.hooks.default);
     // this.app.use(async (ctx, next) => {
     //   console.dir(ctx.path);
