@@ -1,7 +1,8 @@
 import debug from 'debug';
 
 import { Plugable, Strategy } from './plugin';
-import { isArrowFunction, getHttpMethods, mergeDeep } from './utils';
+import { mergeDeep } from './utils';
+import type { JSONValue } from './utils';
 const log = debug('@tomrpc/core/fn');
 
 const ProxyDefaultConfig = {
@@ -14,7 +15,7 @@ const ProxyDefaultConfig = {
 export class Proxy extends Plugable implements Strategy {
   public inject;
 
-  constructor(cfg?: any) {
+  constructor(cfg?: JSONValue) {
     super(mergeDeep(ProxyDefaultConfig, cfg));
     //this.app.use(this.compose([this.before(), this.mount(), this.default()]));
   }
