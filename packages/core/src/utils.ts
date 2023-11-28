@@ -79,3 +79,5 @@ export function mergeDeep(target, ...sources) {
 
   return mergeDeep(target, ...sources);
 }
+
+export type JSONValue = string | number | boolean | { [x: string]: JSONValue } | Array<JSONValue>;
