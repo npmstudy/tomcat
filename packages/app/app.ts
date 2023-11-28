@@ -17,6 +17,12 @@ import { createApp } from './src/index';
         enable: true,
         secret: 'shhhhhh',
         debug: true,
+        getToken: () => {
+          const token = jwt.sign({ foo: 'bar' }, 'bad');
+          console.dir('token');
+          console.dir(token);
+          return token;
+        },
         unless: { path: ['/view'] },
       },
       view: {

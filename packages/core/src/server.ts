@@ -32,7 +32,7 @@ export const LifeCycleConfig = {
     const app = server.app;
     const loadMiddlewares = server.config.hooks.init;
     loadMiddlewares.forEach((mw) => {
-      console.dir(mw);
+      // console.dir(mw);
       app.use(mw);
     });
   },
