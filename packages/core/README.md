@@ -16,10 +16,8 @@ const rpc = createServer({
 import { createServer } from '@tomrpc/core';
 
 const rpc = createServer({
-  beforeOne: function (ctx: any, key: string) {
-    console.log(ctx.path);
-    console.log(ctx.method);
-    console.log('beforeOne key=' + key);
+   fn: {
+    prefix: '/apk',
   },
 });
 
