@@ -44,6 +44,7 @@ interface IJwt {
   issuer?: string;
   debug: boolean;
   unless?: any;
+  getToken;
 }
 interface IConfig {
   name: string | 'tomapp';
@@ -103,7 +104,7 @@ export async function createApp(cfg: IConfig) {
     },
     render: function (path, cb) {
       console.dir('render');
-      const mw = combine([cb]);
+      const mw = combine([view.proxy(), cb]);
       rpc.app.use(mw);
     },
   });
