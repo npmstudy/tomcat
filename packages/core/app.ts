@@ -1,5 +1,5 @@
 import { TestProxy, TestProxy2 } from './proxy';
-import { Fn, createServer, Plugable } from './src/index';
+import { createServer } from './src/index';
 // import { RpcServer } from './src/server';
 
 // const rpc = new RpcServer({});
