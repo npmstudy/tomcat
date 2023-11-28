@@ -23,7 +23,7 @@ export class TestProxy2 extends Proxy {
   }
   proxy() {
     return async (ctx, next) => {
-      console.dir('TestProxy process child' + ctx.path);
+      console.dir('TestProxy2 process child' + ctx.path);
       await next();
     };
   }
