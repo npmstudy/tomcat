@@ -1,7 +1,7 @@
 import supertest from 'supertest';
-import { describe, expect, it, beforeAll } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import { TestProxy, TestProxy2 } from '../../proxy';
+// import { TestProxy, TestProxy2 } from '../../proxy';
 import { createServer } from '../index';
 
 const rpc = createServer({
