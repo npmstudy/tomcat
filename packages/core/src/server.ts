@@ -198,24 +198,36 @@ export class RpcServer {
   }
 
   /**
-   * The Context delegates some work to the Strategy object instead of
-   * implementing multiple versions of the algorithm on its own.
+   * make app ready, add before hook & mount & after hook
    */
-  public start(port?: number): void {
-    const _port = port || 3000;
-    // console.dir(_port);
-
+  public prepare(): void {
     this.config.before(this);
 
     this.mount();
 
     this.config.after(this);
 
-    this.app.use(function (ctx, next) {
+    // never see it
+    this.app.use(function (ctx) {
       ctx.body = 'default';
     });
+  }
 
-    this.app.listen(_port, (err) => {
+  public callback(): void {
+    this.prepare();
+
+    return this.app.callback();
+  }
+
+  /**
+   * Start @tomrpc/core server with port
+   */
+  public start(port?: number): void {
+    // make app ready
+    this.prepare();
+
+    const _port = port || 3000;
+    return this.app.listen(_port, (err) => {
       if (err) {
         console.error(err);
       } else {
