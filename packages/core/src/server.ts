@@ -1,5 +1,5 @@
 import { bodyParser } from '@koa/bodyparser';
-import Koa from 'koa';
+import Koa, { Middleware } from 'koa';
 import compose from 'koa-compose';
 import mount from 'koa-mount';
 
@@ -19,39 +19,53 @@ export const LifeCycleConfig = {
     },
   },
 
-  before: async (server) => {
+  before: async (server: RpcServer) => {
     const app = server.app;
     const loadMiddlewares = server.config.hooks.before;
-    loadMiddlewares.forEach((mw) => {
+    loadMiddlewares.forEach((mw: Middleware) => {
       app.use(mw);
     });
   },
-  init: async (server) => {
+  init: async (server: RpcServer) => {
     log('init');
     // console.dir(server);
     const app = server.app;
     const loadMiddlewares = server.config.hooks.init;
-    loadMiddlewares.forEach((mw) => {
+    loadMiddlewares.forEach((mw: Middleware) => {
       // console.dir(mw);
       app.use(mw);
     });
   },
-  load: async (server) => {
+  load: async (server: RpcServer) => {
     const app = server.app;
     const loadMiddlewares = server.config.hooks.load;
-    loadMiddlewares.forEach((mw) => {
+    loadMiddlewares.forEach((mw: Middleware) => {
       app.use(mw);
     });
   },
-  after: async (server) => {
+  after: async (server: RpcServer) => {
     const app = server.app;
     const loadMiddlewares = server.config.hooks.after;
-    loadMiddlewares.forEach((mw) => {
+    loadMiddlewares.forEach((mw: Middleware) => {
       app.use(mw);
     });
   },
 };
 
+interface IConfig {
+  name: string | 'tomapp';
+  hooks?: {
+    init: Array<Middleware>;
+    before: Array<Middleware>;
+    load: Array<Middleware>;
+    after: Array<Middleware>;
+    default(): Promise<Middleware>;
+  };
+  before?(server: RpcServer): Promise<void>;
+  init?(server: RpcServer): Promise<void>;
+  load?(server: RpcServer): Promise<void>;
+  after?(server: RpcServer): Promise<void>;
+}
 /**
  * @type {RpcServer} The Server maintains a server to bind one of the Strategy
  * objects. The Server does not know the concrete class of a strategy. It
@@ -73,7 +87,7 @@ export class RpcServer {
    * Usually, the Server accepts a strategy through the constructor, but also
    * provides a setter to change it at runtime.
    */
-  constructor(cfg) {
+  constructor(cfg?: IConfig) {
     // init
     this.config = mergeDeep(LifeCycleConfig, cfg);
     this.app = new Koa();
@@ -84,11 +98,11 @@ export class RpcServer {
   /**
    * Usually, the Server allows replacing a Strategy object at runtime.
    */
-  public plugin(strategy: Strategy) {
+  public plugin(strategy: Strategy): void {
     this.plugins.push(strategy);
   }
 
-  public mount() {
+  public mount(): void {
     log('mount');
     const cfg = {};
     // setting
@@ -188,7 +202,7 @@ export class RpcServer {
     this.config.after(this);
 
     // never see it
-    this.app.use(function (ctx) {
+    this.app.use(function (ctx: Koa.BaseContext) {
       ctx.body = 'default';
     });
   }
@@ -209,7 +223,7 @@ export class RpcServer {
     this.prepare();
 
     const _port = port || 3000;
-    return this.app.listen(_port, (err) => {
+    return this.app.listen(_port, (err: Error) => {
       if (err) {
         console.error(err);
       } else {
