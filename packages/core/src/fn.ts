@@ -1,17 +1,28 @@
 import debug from 'debug';
 
 import { Plugable } from './plugin';
-import { isArrowFunction, getHttpMethods } from './utils';
+import { mergeDeep, isArrowFunction, getHttpMethods } from './utils';
 const log = debug('@tomrpc/core/fn');
 
+export interface IFnConfig {
+  name?: string;
+  prefix?: string;
+}
+
 export class Fn extends Plugable {
-  constructor(cfg?: any) {
-    super(cfg);
+  constructor(cfg?: IFnConfig) {
+    super(
+      mergeDeep(
+        {
+          prefix: '/api',
+          functions: [],
+        },
+        cfg
+      )
+    );
 
     this.name = 'Fn';
-    if (this.prefix === '') {
-      this.prefix = '/api';
-    }
+    this.prefix = this.config.prefix;
 
     this.app.use(this.compose([this.before(), this.mount(), this.default()]));
   }

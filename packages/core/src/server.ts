@@ -53,8 +53,8 @@ export const LifeCycleConfig = {
   },
 };
 
-interface IConfig {
-  name: string | 'tomapp';
+export interface IRpcServerConfig {
+  name?: string | 'tomapp';
   hooks?: {
     init: Array<Middleware>;
     before: Array<Middleware>;
@@ -88,7 +88,7 @@ export class RpcServer {
    * Usually, the Server accepts a strategy through the constructor, but also
    * provides a setter to change it at runtime.
    */
-  constructor(cfg?: IConfig) {
+  constructor(cfg?: IRpcServerConfig) {
     // init
     this.config = mergeDeep(LifeCycleConfig, cfg);
     this.app = new Koa();
@@ -178,7 +178,7 @@ export class RpcServer {
       const mw = this.proxy.before[plugin.name.toLowerCase()] || [];
 
       const app = plugin.prefix === '' ? mount(plugin.app) : mount(plugin.prefix, plugin.app);
-      log(plugin.prefix);
+      // log(plugin.config.prefix);
       this.app.use(compose([...mw, app]));
     }
 

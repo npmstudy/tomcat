@@ -1,8 +1,8 @@
 import debug from 'debug';
 import compose from 'koa-compose';
 
-import { Fn } from './fn';
-import { RpcServer } from './server';
+import { Fn, IFnConfig } from './fn';
+import { RpcServer, IRpcServerConfig } from './server';
 import { mergeDeep } from './utils';
 
 export * from './plugin';
@@ -14,20 +14,14 @@ export * from './utils';
 const log = debug('@tomrpc/core/index');
 export const combine = compose;
 
-interface IConfig {
-  name: string | 'tomapp';
+interface IServerConfig {
   base?: string;
-  port?: number | 3000;
-  debug?: boolean | false;
-  mount?: string;
-  buildin: {
-    // serve?: IServe;
-    // cors?: ICors;
-    // view?: IView;
-    // jwt?: IJwt;
-  };
+  fn?: IFnConfig;
 }
-export function createServer(cfg?: any) {
+
+type IIndexServerConfig = IRpcServerConfig & IServerConfig;
+
+export function createServer(cfg?: IIndexServerConfig) {
   const rpc = new RpcServer(mergeDeep({ fn: {} }, cfg));
   const fn = new Fn(mergeDeep({}, cfg.fn));
   rpc.plugin(fn);
