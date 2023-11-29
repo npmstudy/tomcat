@@ -52,12 +52,12 @@ export const LifeCycleConfig = {
   },
 };
 
+/**
+ * @type {RpcServer} The Server maintains a server to bind one of the Strategy
+ * objects. The Server does not know the concrete class of a strategy. It
+ * should work with all strategies via the Strategy interface.
+ */
 export class RpcServer {
-  /**
-   * @type {Strategy} The Context maintains a reference to one of the Strategy
-   * objects. The Context does not know the concrete class of a strategy. It
-   * should work with all strategies via the Strategy interface.
-   */
   private plugins: Strategy[] = [];
   app;
   use;
@@ -70,7 +70,7 @@ export class RpcServer {
   init: [];
   load: [];
   /**
-   * Usually, the Context accepts a strategy through the constructor, but also
+   * Usually, the Server accepts a strategy through the constructor, but also
    * provides a setter to change it at runtime.
    */
   constructor(cfg) {
@@ -82,15 +82,14 @@ export class RpcServer {
   }
 
   /**
-   * Usually, the Context allows replacing a Strategy object at runtime.
+   * Usually, the Server allows replacing a Strategy object at runtime.
    */
   public plugin(strategy: Strategy) {
     this.plugins.push(strategy);
   }
 
   public mount() {
-    // console.dir('mount');
-
+    log('mount');
     const cfg = {};
     // setting
     for (const plugin of this.plugins) {
@@ -101,34 +100,22 @@ export class RpcServer {
       if (plugin.name === 'base') {
         log('plugin name 没有修改，可能会出现serverConfig获取问题，请关注');
       }
-      // console.log('mount plugin.config');
-      // console.log(plugin);
-      // console.log(plugin.config);
-      // console.log(plugin.config.bind);
-      for (const bindnName in plugin.config.bind) {
-        // console.dir(bindnName);
-        // this[bindnName] = plugin.config['bind'][bindnName];
-      }
 
       this.config[plugin.name] = plugin.config;
       cfg[plugin.name] = plugin;
     }
 
-    this.app.use(async (ctx, next) => {
-      // ;
-      for (const fn in cfg) {
-        // console.log('--' + fn);
-        ctx[fn] = cfg[fn];
-      }
+    // this.app.use(async (ctx, next) => {
+    //   for (const fn in cfg) {
+    //     // console.log('--' + fn);
+    //     ctx[fn] = cfg[fn];
+    //   }
 
-      await next();
-    });
+    //   await next();
+    // });
 
     // proxy
     for (const plugin of this.plugins) {
-      // console.dir('init proxy stage');
-      // console.dir(plugin);
-
       if (plugin.config.proxy) {
         if (plugin.config.proxy.inject === 'init') {
           log('plugin.config.proxy.inject init');
@@ -154,7 +141,6 @@ export class RpcServer {
     for (const plugin of this.plugins) {
       log('init stage');
       if (plugin.init.length > 0) this.config.hooks.init.push(...plugin.init);
-      // console.dir(this.config.hooks.init);
     }
 
     // use inits middleware
@@ -165,10 +151,6 @@ export class RpcServer {
     for (const plugin of this.plugins) {
       log('load stage');
       if (plugin.load.length > 0) this.config.hooks.load.push(...plugin.load);
-      // console.dir('load plugin');
-      // console.dir(plugin.load);
-      // console.dir('load end plugin');
-      // console.dir(this.config.hooks.init);
     }
 
     // use loads middleware
@@ -183,28 +165,26 @@ export class RpcServer {
       const app = plugin.prefix === '' ? mount(plugin.app) : mount(plugin.prefix, plugin.app);
       log(plugin.prefix);
       this.app.use(compose([...mw, app]));
-
-      // console.dir(plugin.prefix === '');
-      // console.dir(mw);
     }
 
     // 兜底的else
     log('兜底的else');
     this.app.use(this.config.hooks.default);
-    // this.app.use(async (ctx, next) => {
-    //   console.dir(ctx.path);
-    //   ctx.body = { 23: 23 };
-    // });
   }
 
   /**
    * make app ready, add before hook & mount & after hook
    */
-  public prepare(): void {
+  private prepare(): void {
+    log('prepare');
+
+    // before
     this.config.before(this);
 
+    // mount plugin with strategy
     this.mount();
 
+    // after
     this.config.after(this);
 
     // never see it
@@ -214,6 +194,7 @@ export class RpcServer {
   }
 
   public callback(): void {
+    log('callback');
     this.prepare();
 
     return this.app.callback();
@@ -223,6 +204,7 @@ export class RpcServer {
    * Start @tomrpc/core server with port
    */
   public start(port?: number): void {
+    log('start');
     // make app ready
     this.prepare();
 

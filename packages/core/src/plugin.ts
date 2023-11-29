@@ -9,7 +9,7 @@ const log = debug('@tomrpc/core/plugin');
  * The Strategy interface declares operations common to all supported versions
  * of some algorithm.
  *
- * The Context uses this interface to call the algorithm defined by Concrete
+ * The Server uses this interface to call the algorithm defined by Concrete
  * Strategies.
  */
 export declare interface Strategy {
@@ -53,16 +53,20 @@ export class Plugable implements Strategy {
 
     this.compose = compose;
 
-    // TODO: 此处最好改成mount
+    // load can before mount
     this.load.push(this.getMiddleware());
   }
-
+  /**
+   * ?
+   */
   getConfig(ctx) {
     return ctx[this.name];
   }
-
+  /**
+   * move middleware to load stage, use template pattern & compose
+   */
   getMiddleware() {
-    // console.dir('getMiddleware');
+    log('getMiddleware');
     const pre = this.pre();
     const process = this.process();
     const post = this.post();
@@ -76,6 +80,7 @@ export class Plugable implements Strategy {
       log('pre end');
     };
   }
+
   post() {
     return async (ctx, next) => {
       log('after');
@@ -83,6 +88,7 @@ export class Plugable implements Strategy {
       log('after end');
     };
   }
+
   process() {
     return async (ctx, next) => {
       log('process default');

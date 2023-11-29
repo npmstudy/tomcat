@@ -17,7 +17,6 @@ export class Proxy extends Plugable implements Strategy {
 
   constructor(cfg?: JSONValue) {
     super(mergeDeep(ProxyDefaultConfig, cfg));
-    //this.app.use(this.compose([this.before(), this.mount(), this.default()]));
   }
 
   proxy() {
