@@ -1,8 +1,9 @@
 import debug from 'debug';
+import Koa from 'koa';
 
-import { Plugable, Strategy } from './plugin';
+import { Plugable } from './plugin';
 import { mergeDeep } from './utils';
-import type { JSONValue } from './utils';
+
 const log = debug('@tomrpc/core/fn');
 
 const ProxyDefaultConfig = {
@@ -12,15 +13,23 @@ const ProxyDefaultConfig = {
   },
 };
 
-export class Proxy extends Plugable implements Strategy {
+export interface IProxyConfig {
+  name?: string | 'tomapp';
+  proxy?: {
+    inject: 'init' | 'load' | 'before' | 'after';
+    before: [];
+  };
+}
+
+export class Proxy extends Plugable {
   public inject;
 
-  constructor(cfg?: JSONValue) {
+  constructor(cfg?: IProxyConfig) {
     super(mergeDeep(ProxyDefaultConfig, cfg));
   }
 
   proxy() {
-    return async (ctx, next) => {
+    return async (ctx: Koa.BaseContext, next) => {
       log('proxy default');
       await next();
       log('proxy default end');
