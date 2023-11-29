@@ -1,5 +1,6 @@
 import { bodyParser } from '@koa/bodyparser';
 import Koa, { Middleware } from 'koa';
+import Application from 'koa';
 import compose from 'koa-compose';
 import mount from 'koa-mount';
 
@@ -73,7 +74,7 @@ interface IConfig {
  */
 export class RpcServer {
   private plugins: Strategy[] = [];
-  app;
+  app: Application;
   use;
   proxy = {
     init: [],
@@ -189,7 +190,7 @@ export class RpcServer {
   /**
    * make app ready, add before hook & mount & after hook
    */
-  private prepare(): void {
+  private prepare() {
     log('prepare');
 
     // before
@@ -207,7 +208,7 @@ export class RpcServer {
     });
   }
 
-  public callback(): void {
+  public callback() {
     log('callback');
     this.prepare();
 
@@ -217,18 +218,14 @@ export class RpcServer {
   /**
    * Start @tomrpc/core server with port
    */
-  public start(port?: number): void {
+  public start(port?: number) {
     log('start');
     // make app ready
     this.prepare();
 
     const _port = port || 3000;
-    return this.app.listen(_port, (err: Error) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log('@tomrpc/core listening on ' + _port);
-      }
+    return this.app.listen(_port, (): void => {
+      console.log('@tomrpc/core listening on ' + _port);
     });
   }
 }
