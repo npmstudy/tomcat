@@ -23,11 +23,11 @@ describe('app', async () => {
     }
   });
 
-  rpc.fn('com.yourcompony.a', function (a: string) {
+  rpc.fn('com.yourcompany.a', function (a: string) {
     return { a: a };
   });
 
-  rpc.fn('com.yourcompony.b', function (a: string) {
+  rpc.fn('com.yourcompany.b', function (a: string) {
     return `${this.path} , ${a} `;
   });
 
@@ -55,10 +55,10 @@ describe('app', async () => {
     expect(res.body).toEqual({ a: 'hello', method: 'post' });
   });
 
-  it('should access com.yourcompony.b', async () => {
-    const res = await request.get('/api/com/yourcompony/b?$p=["hello"]');
+  it('should access com.yourcompany.b', async () => {
+    const res = await request.get('/api/com/yourcompany/b?$p=["hello"]');
     expect(res.type).toEqual('text/plain');
     expect(res.status).toEqual(200);
-    expect(res.text).toEqual('/com/yourcompony/b , hello ');
+    expect(res.text).toEqual('/com/yourcompany/b , hello ');
   });
 });
