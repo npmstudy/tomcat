@@ -79,7 +79,7 @@ console.dir(res);
 this === koa ctx
 
 ```js
-rpc.fn('com.yourcompony.a', function (a: string) {
+rpc.fn('com.yourcompany.a', function (a: string) {
   return return `${this.path} , ${a} `;
 });
 ```
@@ -89,7 +89,7 @@ rpc.fn('com.yourcompony.a', function (a: string) {
 server
 
 ```js
-rpc.fn('com.yourcompony.a', function (a: string) {
+rpc.fn('com.yourcompany.a', function (a: string) {
   if (this.method === 'post'){
     return return `${this.path} , ${a} `;
   }
@@ -104,7 +104,7 @@ import { createClient } from '@tomrpc/client';
 const client = createClient({
   host: '127.0.0.1',
   port: 3000,
-  namespace: 'com.yourcompony',
+  namespace: 'com.yourcompany',
   methodFilter: function (lastKey: string) {
     if (lastKey === 'a') {
       return 'post';
