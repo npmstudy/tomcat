@@ -5,18 +5,6 @@ import { describe, expect, it } from 'vitest';
 import { Fn } from '../index';
 
 describe('app', async () => {
-  // const rpc = createServer({
-  //   fn: {
-  //     // prefix: '/apk2',
-  //   },
-  // });
-
-  // rpc.fn('/a', function (a) {
-  //   return { a: a };
-  // });
-
-  // const request = supertest(rpc.callback());
-
   it('init default', async () => {
     const fn = new Fn();
     expect(fn.name).toEqual('Fn');
@@ -52,5 +40,20 @@ describe('app', async () => {
 
     const count = Object.keys(fn.config['functions']).length;
     expect(2).to.equal(count);
+  });
+
+  it('use fn add a function', async () => {
+    const fn = new Fn({ prefix: '/apk' });
+
+    fn.fn('/a', function (a) {
+      return { a: a };
+    });
+
+    const request = supertest(fn.app.callback());
+
+    const res = await request.get('/a?$p=["hello"]');
+    expect(res.type).toEqual('application/json');
+    expect(res.status).toEqual(200);
+    expect(res.body).toEqual({ a: 'hello' });
   });
 });
