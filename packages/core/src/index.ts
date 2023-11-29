@@ -14,6 +14,19 @@ export * from './utils';
 const log = debug('@tomrpc/core/index');
 export const combine = compose;
 
+interface IConfig {
+  name: string | 'tomapp';
+  base?: string;
+  port?: number | 3000;
+  debug?: boolean | false;
+  mount?: string;
+  buildin: {
+    // serve?: IServe;
+    // cors?: ICors;
+    // view?: IView;
+    // jwt?: IJwt;
+  };
+}
 export function createServer(cfg?: any) {
   const rpc = new RpcServer(mergeDeep({ fn: {} }, cfg));
   const fn = new Fn(mergeDeep({}, cfg.fn));
