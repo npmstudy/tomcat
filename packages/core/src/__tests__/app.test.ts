@@ -1,7 +1,6 @@
 import supertest from 'supertest';
 import { describe, expect, it } from 'vitest';
 
-// import { TestProxy, TestProxy2 } from '../../proxy';
 import { createServer } from '../index';
 
 describe('app', async () => {
