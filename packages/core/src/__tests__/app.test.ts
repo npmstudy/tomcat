@@ -33,21 +33,21 @@ describe('app', async () => {
 
   const request = supertest(rpc.callback());
 
-  it('should acess /a', async () => {
+  it('should access /a', async () => {
     const res = await request.get('/api/a?$p=["hello"]');
     expect(res.type).toEqual('application/json');
     expect(res.status).toEqual(200);
     expect(res.body).toEqual({ a: 'hello' });
   });
 
-  it('should acess GET /b', async () => {
+  it('should access GET /b', async () => {
     const res = await request.get('/api/b?$p=["hello1"]');
     expect(res.type).toEqual('application/json');
     expect(res.status).toEqual(200);
     expect(res.body).toEqual({ a: 'hello1', method: 'get' });
   });
 
-  it('should acess POST /b', async () => {
+  it('should access POST /b', async () => {
     const res = await request.post('/api/b').send(['hello']).set('Accept', 'application/json');
 
     expect(res.type).toEqual('application/json');
@@ -55,7 +55,7 @@ describe('app', async () => {
     expect(res.body).toEqual({ a: 'hello', method: 'post' });
   });
 
-  it('should acess com.yourcompony.b', async () => {
+  it('should access com.yourcompony.b', async () => {
     const res = await request.get('/api/com/yourcompony/b?$p=["hello"]');
     expect(res.type).toEqual('text/plain');
     expect(res.status).toEqual(200);
