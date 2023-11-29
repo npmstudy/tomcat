@@ -1,3 +1,4 @@
+import debug from 'debug';
 import compose from 'koa-compose';
 
 import { Fn } from './fn';
@@ -10,14 +11,12 @@ export * from './fn';
 export * from './server';
 export * from './utils';
 
+const log = debug('@tomrpc/core/index');
 export const combine = compose;
 
 export function createServer(cfg?: any) {
   const rpc = new RpcServer(mergeDeep({ fn: {} }, cfg));
-
   const fn = new Fn(mergeDeep({}, cfg.fn));
-  // console.dir('createServer');
-
   rpc.plugin(fn);
 
   return mergeDeep(rpc, {
@@ -26,14 +25,12 @@ export function createServer(cfg?: any) {
     before: rpc['config']['hooks']['before'],
     load: rpc['config']['hooks']['load'],
     after: rpc['config']['hooks']['after'],
-    dump: function () {
-      console.dir('dump');
-    },
     fn: function (key, fun) {
+      log('use rpc.fn add fn =' + key);
       fn.fn(key, fun);
-      // console.dir(fn);
     },
     add: function (items) {
+      log('use rpc.add add fn =' + items);
       fn.add(items);
     },
   });
