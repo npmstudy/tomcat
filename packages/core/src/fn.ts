@@ -44,7 +44,6 @@ export class Fn extends Plugable {
         log(`add ${name}: ${fn}`);
         console.log(`this.rpcFunctions[${name}] exisit`);
       }
-      // this.rpcFunctions[name] = fn;
       this.fn(name, fn);
     }
   }
@@ -94,7 +93,7 @@ export class Fn extends Plugable {
   }
   before() {
     return async (ctx, next) => {
-      log('pre');
+      log('before');
       const key = ctx.path.replace('/', '').split('/').join('.');
 
       const lastKey = key.split('.').pop();
@@ -103,18 +102,15 @@ export class Fn extends Plugable {
       const supportMethods = [];
       httpMethods.forEach(function (m) {
         if (lastKey.indexOf(m) != -1) {
-          // console.log(m);
+          log(m);
           supportMethods.push(m);
           return m;
         }
       });
-      // console.log(supportMethods);
 
       if (supportMethods.length === 0) {
-        // if (ctx.path.indexOf(this.prefix) != -1) {
         log(ctx.path + ',没有匹配到包含get/post等开头的函数');
         await next();
-        // }
       } else if (ctx.method === supportMethods[0]) {
         log('匹配到包含get/post等方法的函数');
         await next();
@@ -127,7 +123,7 @@ export class Fn extends Plugable {
           supportMethods[0] +
           ' request from client';
       }
-      // log('beforeOne end');
+      log('beforeOne end');
     };
   }
 }
