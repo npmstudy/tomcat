@@ -39,11 +39,34 @@ describe('app', async () => {
 
   const request = supertest(rpc.callback());
 
+  it('should start === rpc.callback', async () => {
+    const request2 = supertest(rpc.start(3000));
+    const res = await request2.get('/api/a?$p=["hello"]');
+    expect(res.type).toEqual('application/json');
+    expect(res.status).toEqual(200);
+    expect(res.body).toEqual({ a: 'hello' });
+  });
+
   it('should access /a', async () => {
     const res = await request.get('/api/a?$p=["hello"]');
     expect(res.type).toEqual('application/json');
     expect(res.status).toEqual(200);
     expect(res.body).toEqual({ a: 'hello' });
+  });
+
+  it('should access no routers[key]', async () => {
+    //  if (!['POST', 'PUT', 'PATCH'].includes(ctx.method) && !ctx.query.$p) {
+    const res = await request.get('/api/a123');
+    expect(res.type).toEqual('text/plain');
+    expect(res.status).toEqual(200);
+    expect(res.text).toEqual('not match $p param, no process');
+  });
+
+  it('should access no routers[key]', async () => {
+    const res = await request.get('/api/a123?$p=["hello"]');
+    expect(res.type).toEqual('text/plain');
+    expect(res.status).toEqual(200);
+    expect(res.text).toEqual('[fn plugin] no fn repsonse, please check your fn if exist');
   });
 
   it('should access /add', async () => {

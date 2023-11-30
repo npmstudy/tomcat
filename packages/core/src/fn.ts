@@ -98,8 +98,8 @@ export class Fn extends Plugable {
 
       const lastKey = key.split('.').pop();
       const httpMethods = getHttpMethods();
-      console.dir('lastKey');
-      console.dir(lastKey);
+      // console.dir('lastKey');
+      // console.dir(lastKey);
 
       const supportMethods = [];
       httpMethods.forEach(function (m) {
@@ -110,9 +110,9 @@ export class Fn extends Plugable {
         }
       });
 
-      console.dir('supportMethods');
-      console.dir(ctx.method);
-      console.dir(supportMethods);
+      // console.dir('supportMethods');
+      // console.dir(ctx.method);
+      // console.dir(supportMethods);
 
       if (supportMethods.length === 0) {
         log(ctx.path + ',没有匹配到包含get/post等开头的函数');

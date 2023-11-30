@@ -71,7 +71,7 @@ describe('app', async () => {
     expect(res.body).toEqual({ a: 'hello' });
   });
 
-  // it('use fn add a  function', async () => {
+  // it('use fn add a get function', async () => {
   //   const fn = new Fn({ prefix: '/apk' });
 
   //   fn.fn('/postAbc', function (a) {
@@ -81,12 +81,10 @@ describe('app', async () => {
   //   const request = supertest(fn.app.callback());
 
   //   const res = await request.post('/postAbc').send(['hello']).set('Accept', 'application/json');
-
-  //   console.dir(res);
-
-  //   expect(res.type).toEqual('application/json');
+  //   // console.dir(res);
+  //   expect(res.type).toEqual('text/plain');
   //   expect(res.status).toEqual(200);
-  //   expect(res.body).toEqual({ a: 'hello' });
+  //   expect(res.text).toEqual('process fn:Abclock , you need send lock request from client');
   // });
 
   it('use fn add a lock function', async () => {
@@ -102,7 +100,7 @@ describe('app', async () => {
     const request = supertest(fn.app.callback());
 
     const res = await request.get('/Abclock?$p=["hello"]');
-
+    // console.dir(res);
     expect(res.type).toEqual('text/plain');
     expect(res.status).toEqual(200);
     expect(res.text).toEqual('process fn:Abclock , you need send lock request from client');

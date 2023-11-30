@@ -5,8 +5,9 @@ export const isArrowFunction = (func) => {
   if (typeof func === 'function') {
     const source = func.toString();
     return /^\([^)]*\)\s*=>/.test(source);
+  } else {
+    return false;
   }
-  return false;
 };
 
 export function getHttpMethods() {
