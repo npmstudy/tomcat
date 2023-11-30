@@ -31,10 +31,23 @@ describe('app', async () => {
     return `${this.path} , ${a} `;
   });
 
+  rpc.add({
+    '/add': function (a: string, b: string) {
+      return { a: a };
+    },
+  });
+
   const request = supertest(rpc.callback());
 
   it('should access /a', async () => {
     const res = await request.get('/api/a?$p=["hello"]');
+    expect(res.type).toEqual('application/json');
+    expect(res.status).toEqual(200);
+    expect(res.body).toEqual({ a: 'hello' });
+  });
+
+  it('should access /add', async () => {
+    const res = await request.get('/api/add?$p=["hello"]');
     expect(res.type).toEqual('application/json');
     expect(res.status).toEqual(200);
     expect(res.body).toEqual({ a: 'hello' });
