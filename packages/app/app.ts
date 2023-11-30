@@ -13,18 +13,18 @@ import { createApp } from './src/index';
     buildin: {
       serve: { enable: true, root: join(import.meta.url, '.', 'public'), opts: {} },
       cors: { enable: true },
-      jwt: {
-        enable: true,
-        secret: 'shhhhhh',
-        debug: true,
-        getToken: () => {
-          const token = jwt.sign({ foo: 'bar' }, 'bad');
-          console.dir('token');
-          console.dir(token);
-          return token;
-        },
-        unless: { path: ['/view'] },
-      },
+      // jwt: {
+      // enable: true,
+      // secret: 'shhhhhh',
+      // debug: true,
+      // getToken: () => {
+      //   const token = jwt.sign({ foo: 'bar' }, 'bad');
+      //   console.dir('token');
+      //   console.dir(token);
+      //   return token;
+      // },
+      // unless: { path: ['/view'] },
+      // },
       view: {
         enable: true,
         root: join(import.meta.url, '.', 'view'),
