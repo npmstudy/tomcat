@@ -218,6 +218,7 @@ export class RpcServer {
   /**
    * Start @tomrpc/core server with port
    */
+  /* v8 ignore next 3 */
   public start(port?: number) {
     log('start');
     // make app ready
