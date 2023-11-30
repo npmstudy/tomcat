@@ -56,12 +56,7 @@ export class Plugable implements Strategy {
     // load can before mount
     this.load.push(this.getMiddleware());
   }
-  /**
-   * ?
-   */
-  getConfig(ctx) {
-    return ctx[this.name];
-  }
+
   /**
    * move middleware to load stage, use template pattern & compose
    */
