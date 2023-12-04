@@ -1,6 +1,6 @@
 import debug from 'debug';
 
-const log = debug('@tomrpc/client');
+const log = console.dir; //debug('@tomrpc/client');
 
 import { TomClient } from '.';
 import { getHttpMethods } from './utils';

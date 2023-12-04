@@ -1,4 +1,7 @@
 import { createServer } from '@tomrpc/core';
+// import fetch1 from 'isomorphic-unfetch';
+import fetch1 from 'node-fetch';
+import { ofetch } from 'ofetch';
 import { describe, expect, it } from 'vitest';
 
 import { createClient } from '..';
@@ -59,12 +62,26 @@ describe('lib', () => {
       // },
     });
 
+    console.dir(client);
     // const res1 = await client.a('hello');
+    const res = await ofetch('http://127.0.0.1:3000/a.json');
+    console.dir(res);
     // console.dir(res1);
     // const res = await client.postUsers('hello postUsers');
     // console.dir(res);
   });
-  it('should render lib', () => {
-    // expect(lib()).toBe('lib');
+  // it.only('should render lib', async () => {
+  //   const res = await ofetch('https://jsonplaceholder.typicode.com/todos/1');
+  //   console.dir(res);
+  //   expect('lib').toBe('lib');
+  // });
+
+  it.only('should render lib', async () => {
+    const res = ofetch('http://127.0.0.1:3000/a.json', {
+      method: 'GET',
+      parseResponse: JSON.parse,
+    });
+    console.dir(res);
+    expect('lib').toBe('lib');
   });
 });
