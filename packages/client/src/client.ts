@@ -1,7 +1,9 @@
 import debug from 'debug';
-import fetch from 'isomorphic-unfetch';
+// import fetch1 from 'isomorphic-unfetch';
+import fetch1 from 'node-fetch';
+import { ofetch } from 'ofetch';
 
-const log = debug('@tomrpc/client');
+const log = console.dir; //debug('@tomrpc/client');
 
 /**
  *
@@ -19,12 +21,14 @@ export class TomClient {
   private config;
   private host = '127.0.0.1';
   private port = '3000';
+  private prefix = '/api';
   constructor(config) {
     log(config);
     // ...
     this.config = config;
     if (config.host) this.host = config.host;
     if (config.port) this.port = config.port;
+    if (config.prefix) this.prefix = config.prefix;
   }
 
   async get(key: string, ...r: unknown[]) {
@@ -32,10 +36,12 @@ export class TomClient {
     // console.dir(key);
     // ...
     const path = key.split('.').join('/');
-    const url = `http://${this.host}:${this.port}/${path}?$p=${JSON.stringify(r)}`;
+    const url = `http://${this.host}:${this.port}${this.prefix}/${path}?$p=${JSON.stringify(r)}`;
 
     log(url);
-    const response = await fetch(url);
+    console.dir(ofetch + ' - - - ');
+    const response = await ofetch(url);
+    log(response);
     const data = await response.text();
     log(data);
     return data;
