@@ -1,9 +1,9 @@
 import debug from 'debug';
 
-const log = console.dir; //debug('@tomrpc/client');
+const log = debug('@tomrpc/client');
 
 import { TomClient } from '.';
-import { getHttpMethods, mergeDeep } from './utils';
+import { getHttpMethods } from './utils';
 
 export const defaultConfig = {
   methodFilter: function (lastKey: string) {

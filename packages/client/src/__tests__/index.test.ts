@@ -41,22 +41,12 @@ describe('lib', () => {
     },
   });
 
-  // const request = supertest(rpc.callback());
-
   it('should GET return json', async () => {
     rpc.start(30001);
 
     const client = createClient({
       host: '127.0.0.1',
       port: 30001,
-      // namespace: 'a',
-      // methodFilter: function (lastKey: string) {
-      //   if (lastKey === 'a') {
-      //     return 'post';
-      //   } else {
-      //     return 'get';
-      //   }
-      // },
     });
 
     // console.dir(client);
@@ -73,42 +63,26 @@ describe('lib', () => {
 
   it('should GET return text', async () => {
     rpc.start(30002);
-    // const res = await request2.get('/api/a?$p=["hello"]');
-    // expect(res.type).toEqual('application/json');
-    // expect(res.status).toEqual(200);
-    // expect(res.body).toEqual({ a: 'hello' });
 
     const client = createClient({
       host: '127.0.0.1',
       port: 30002,
-      // namespace: 'a',
-      // methodFilter: function (lastKey: string) {
-      //   if (lastKey === 'a') {
-      //     return 'post';
-      //   } else {
-      //     return 'get';
-      //   }
-      // },
     });
 
     // console.dir(client);
-    const res1 = await client.b('hello', 'text');
+    const res1 = await client.text('hello', 'text');
     // const res1 = await req.json();
     console.dir(res1);
 
     expect(res1).toBe('hello');
   });
 
-  it.only('should POST return json', async () => {
-    rpc.start(30002);
-    // const res = await request2.get('/api/a?$p=["hello"]');
-    // expect(res.type).toEqual('application/json');
-    // expect(res.status).toEqual(200);
-    // expect(res.body).toEqual({ a: 'hello' });
+  it('should POST return json', async () => {
+    rpc.start(30003);
 
     const client = createClient({
       host: '127.0.0.1',
-      port: 30002,
+      port: 30003,
       // namespace: 'a',
       methodFilter: function (lastKey: string) {
         if (lastKey === 'b') {
