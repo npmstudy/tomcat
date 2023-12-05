@@ -1,7 +1,8 @@
 import { createServer } from '@tomrpc/core';
+import fetch from 'isomorphic-unfetch';
 // import fetch1 from 'isomorphic-unfetch';
-import fetch1 from 'node-fetch';
-import { ofetch } from 'ofetch';
+
+// import { ofetch } from 'ofetch';
 import { describe, expect, it } from 'vitest';
 
 import { createClient } from '..';
@@ -64,8 +65,9 @@ describe('lib', () => {
 
     console.dir(client);
     // const res1 = await client.a('hello');
-    const res = await ofetch('http://127.0.0.1:3000/a.json');
-    console.dir(res);
+    const res = await fetch('http://127.0.0.1:30001/api/a?$p=["hello"]');
+    const s = await res.json();
+    console.dir(s);
     // console.dir(res1);
     // const res = await client.postUsers('hello postUsers');
     // console.dir(res);
@@ -75,13 +77,4 @@ describe('lib', () => {
   //   console.dir(res);
   //   expect('lib').toBe('lib');
   // });
-
-  it.only('should render lib', async () => {
-    const res = ofetch('http://127.0.0.1:3000/a.json', {
-      method: 'GET',
-      parseResponse: JSON.parse,
-    });
-    console.dir(res);
-    expect('lib').toBe('lib');
-  });
 });

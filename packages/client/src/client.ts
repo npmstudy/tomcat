@@ -1,7 +1,7 @@
 import debug from 'debug';
-// import fetch1 from 'isomorphic-unfetch';
-import fetch1 from 'node-fetch';
-import { ofetch } from 'ofetch';
+import fetch from 'isomorphic-unfetch';
+
+// import { ofetch } from 'ofetch';
 
 const log = console.dir; //debug('@tomrpc/client');
 
@@ -39,8 +39,8 @@ export class TomClient {
     const url = `http://${this.host}:${this.port}${this.prefix}/${path}?$p=${JSON.stringify(r)}`;
 
     log(url);
-    console.dir(ofetch + ' - - - ');
-    const response = await ofetch(url);
+    // console.dir(ofetch + ' - - - ');
+    const response = await fetch(url);
     log(response);
     const data = await response.text();
     log(data);
