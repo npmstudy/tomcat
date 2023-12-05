@@ -1,8 +1,5 @@
 import { createServer } from '@tomrpc/core';
 import fetch from 'isomorphic-unfetch';
-// import fetch1 from 'isomorphic-unfetch';
-
-// import { ofetch } from 'ofetch';
 import { describe, expect, it } from 'vitest';
 
 import { createClient } from '..';
@@ -16,6 +13,9 @@ describe('lib', () => {
 
   rpc.fn('/a', function (a) {
     return { a: a };
+  });
+  rpc.fn('/text', function (a) {
+    return a;
   });
 
   rpc.fn('/b', function (a) {
@@ -43,12 +43,8 @@ describe('lib', () => {
 
   // const request = supertest(rpc.callback());
 
-  it('should start === rpc.callback', async () => {
+  it('should GET return json', async () => {
     rpc.start(30001);
-    // const res = await request2.get('/api/a?$p=["hello"]');
-    // expect(res.type).toEqual('application/json');
-    // expect(res.status).toEqual(200);
-    // expect(res.body).toEqual({ a: 'hello' });
 
     const client = createClient({
       host: '127.0.0.1',
@@ -63,18 +59,72 @@ describe('lib', () => {
       // },
     });
 
-    console.dir(client);
-    // const res1 = await client.a('hello');
+    // console.dir(client);
+    const res1 = await client.a('hello', 'json');
+    // const res1 = await req.json();
+
+    expect(res1['a']).toBe('hello');
+
     const res = await fetch('http://127.0.0.1:30001/api/a?$p=["hello"]');
     const s = await res.json();
-    console.dir(s);
-    // console.dir(res1);
-    // const res = await client.postUsers('hello postUsers');
-    // console.dir(res);
+    // console.dir(s);
+    expect(s['a']).toBe('hello');
   });
-  // it.only('should render lib', async () => {
-  //   const res = await ofetch('https://jsonplaceholder.typicode.com/todos/1');
-  //   console.dir(res);
-  //   expect('lib').toBe('lib');
-  // });
+
+  it('should GET return text', async () => {
+    rpc.start(30002);
+    // const res = await request2.get('/api/a?$p=["hello"]');
+    // expect(res.type).toEqual('application/json');
+    // expect(res.status).toEqual(200);
+    // expect(res.body).toEqual({ a: 'hello' });
+
+    const client = createClient({
+      host: '127.0.0.1',
+      port: 30002,
+      // namespace: 'a',
+      // methodFilter: function (lastKey: string) {
+      //   if (lastKey === 'a') {
+      //     return 'post';
+      //   } else {
+      //     return 'get';
+      //   }
+      // },
+    });
+
+    // console.dir(client);
+    const res1 = await client.b('hello', 'text');
+    // const res1 = await req.json();
+    console.dir(res1);
+
+    expect(res1).toBe('hello');
+  });
+
+  it.only('should POST return json', async () => {
+    rpc.start(30002);
+    // const res = await request2.get('/api/a?$p=["hello"]');
+    // expect(res.type).toEqual('application/json');
+    // expect(res.status).toEqual(200);
+    // expect(res.body).toEqual({ a: 'hello' });
+
+    const client = createClient({
+      host: '127.0.0.1',
+      port: 30002,
+      // namespace: 'a',
+      methodFilter: function (lastKey: string) {
+        if (lastKey === 'b') {
+          return 'post';
+        } else {
+          return 'get';
+        }
+      },
+    });
+
+    // console.dir(client);
+    const res1 = await client.b('hello');
+    // const res1 = await req.json();
+    console.dir(res1);
+
+    expect(res1['a']).toBe('hello');
+    expect(res1['method']).toBe('post');
+  });
 });

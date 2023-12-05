@@ -1,9 +1,6 @@
 import debug from 'debug';
 import fetch from 'isomorphic-unfetch';
-
-// import { ofetch } from 'ofetch';
-
-const log = console.dir; //debug('@tomrpc/client');
+const log = debug('@tomrpc/client');
 
 /**
  *
@@ -42,23 +39,27 @@ export class TomClient {
     // console.dir(ofetch + ' - - - ');
     const response = await fetch(url);
     log(response);
-    const data = await response.text();
-    log(data);
-    return data;
+    // const data = await response.json();
+    // log(data);
+    return response;
   }
 
   async post(key: string, ...r: unknown[]) {
+    console.dir(' - post- - ');
     // ...
     const path = key.split('.').join('/');
 
-    const response = await fetch(`http://${this.host}:${this.port}/${path}`, {
+    const url = `http://${this.host}:${this.port}${this.prefix}/${path}`;
+
+    log(url);
+    const response = await fetch(url, {
       method: 'post',
       body: JSON.stringify(r),
       headers: { 'Content-Type': 'application/json' },
     });
 
-    const data = await response.text();
-    log(data);
-    return data;
+    // const data = await response.text();
+    // log(data);
+    return response;
   }
 }

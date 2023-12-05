@@ -3,7 +3,7 @@ import debug from 'debug';
 const log = console.dir; //debug('@tomrpc/client');
 
 import { TomClient } from '.';
-import { getHttpMethods } from './utils';
+import { getHttpMethods, mergeDeep } from './utils';
 
 export const defaultConfig = {
   methodFilter: function (lastKey: string) {
@@ -33,8 +33,34 @@ export const defaultConfig = {
     if (supportMethods.length > 0) method = supportMethods[0];
     log(lastKey);
     log(method);
+
+    // console.dir('parms');
+    // console.dir(parms);
+    let type1 = 'json';
+    const a = (val) => val === parms[parms.length - 1];
+    if (['json', 'text'].some(a)) {
+      // console.dir('dfd ');
+      type1 = parms.pop();
+    }
+
     const _p = [key.replace('default.', ''), ...parms];
-    return await o[method](..._p);
+
+    const response = await o[method](..._p);
+
+    let data;
+    switch (type1) {
+      case 'json':
+        data = await response.json();
+        break;
+      case 'text':
+        data = await response.text();
+        break;
+      default:
+        data = await response.json();
+        break;
+    }
+
+    return data;
   },
 };
 
