@@ -4,6 +4,7 @@ const log = debug('@tomrpc/client');
 
 /**
  *
+https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#response_objects
  *
 http://127.0.0.1:3000/a?$p=[%22hello%22,%22world%22]
 
