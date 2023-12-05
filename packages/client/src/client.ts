@@ -29,24 +29,21 @@ export class TomClient {
   }
 
   async get(key: string, ...r: unknown[]) {
-    // console.dir('client get request');
-    // console.dir(key);
-    // ...
+    log('client get request');
+
     const path = key.split('.').join('/');
     const url = `http://${this.host}:${this.port}${this.prefix}/${path}?$p=${JSON.stringify(r)}`;
 
     log(url);
-    // console.dir(ofetch + ' - - - ');
+
     const response = await fetch(url);
-    log(response);
-    // const data = await response.json();
-    // log(data);
+
     return response;
   }
 
   async post(key: string, ...r: unknown[]) {
-    console.dir(' - post- - ');
-    // ...
+    log('client post request');
+
     const path = key.split('.').join('/');
 
     const url = `http://${this.host}:${this.port}${this.prefix}/${path}`;
@@ -58,8 +55,6 @@ export class TomClient {
       headers: { 'Content-Type': 'application/json' },
     });
 
-    // const data = await response.text();
-    // log(data);
     return response;
   }
 }
