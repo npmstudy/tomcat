@@ -69,20 +69,20 @@ export async function createApp(cfg: IConfig) {
     )
   );
 
-  const cors = new Cors(cfg.buildin.cors);
-  rpc.plugin(cors);
+  if (cfg.buildin.cors) {
+    const cors = new Cors(cfg.buildin.cors);
+    rpc.plugin(cors);
+  }
 
-  const serve = new Serve(cfg.buildin.serve);
-  rpc.plugin(serve);
+  if (cfg.buildin.serve) {
+    const serve = new Serve(cfg.buildin.serve);
+    rpc.plugin(serve);
+  }
 
-  // rpc.plugin(view);
-  // console.dir(view);
-
-  const jwt = new Jwt(cfg.buildin.jwt);
-  rpc.plugin(jwt);
-  // await mount(rpc, cfg.mount);
-  // await loadInitMiddleware(rpc, init);
-  // await loadBuildinMiddlewaire(rpc);
+  if (cfg.buildin.jwt) {
+    const jwt = new Jwt(cfg.buildin.jwt);
+    rpc.plugin(jwt);
+  }
 
   return mergeDeep(rpc, {
     jwt: function (cb) {

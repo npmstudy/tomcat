@@ -8,7 +8,7 @@ export class Jwt extends Proxy {
     this.config.proxy.inject = 'before';
     this.config.proxy.before = ['fn'];
   }
-  // proxy() {
-  //   // return koajwt(this.config).unless({ path: this.config.unless });
-  // }
+  proxy() {
+    return koajwt(this.config).unless({ path: this.config.unless });
+  }
 }
