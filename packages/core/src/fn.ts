@@ -49,7 +49,7 @@ export class Fn extends Plugable {
   }
 
   default() {
-    return async (ctx, next) => {
+    return async (ctx) => {
       log('default');
       ctx.body = '[fn plugin] no fn repsonse, please check your fn if exist';
       log('default end');

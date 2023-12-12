@@ -1,4 +1,4 @@
-import debug from 'debug';
+// import debug from 'debug';
 import supertest from 'supertest';
 import { describe, expect, it, vi } from 'vitest';
 

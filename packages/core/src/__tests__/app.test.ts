@@ -32,7 +32,7 @@ describe('app', async () => {
   });
 
   rpc.add({
-    '/add': function (a: string, b: string) {
+    '/add': function (a: string) {
       return { a: a };
     },
   });

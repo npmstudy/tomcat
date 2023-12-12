@@ -1,5 +1,4 @@
-import { dirname, filename, join } from 'desm';
-import jwt from 'jsonwebtoken';
+import { join } from 'desm';
 
 import { createApp } from './src/index';
 
