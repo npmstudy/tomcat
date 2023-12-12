@@ -1,3 +1,5 @@
+import { dirname, filename, join } from 'desm';
+import jwt from 'jsonwebtoken';
 import supertest from 'supertest';
 import { describe, expect, it } from 'vitest';
 
@@ -10,6 +12,31 @@ describe('app', async () => {
     port: 3001,
     debug: false,
     mount: './f',
+    buildin: {
+      serve: { enable: true, root: join(import.meta.url, '.', 'public'), opts: {} },
+      cors: { enable: true },
+      // jwt: {
+      // enable: true,
+      // secret: 'shhhhhh',
+      // debug: true,
+      // getToken: () => {
+      //   const token = jwt.sign({ foo: 'bar' }, 'bad');
+      //   console.dir('token');
+      //   console.dir(token);
+      //   return token;
+      // },
+      // unless: { path: ['/view'] },
+      // },
+      view: {
+        enable: true,
+        root: join(import.meta.url, '../..', 'view'),
+        opts: {
+          map: {
+            html: 'ejs',
+          },
+        },
+      },
+    },
   });
 
   rpc.fn('a', function (a) {
@@ -46,6 +73,19 @@ describe('app', async () => {
     },
   });
 
+  rpc.render('/view', async (ctx, next) => {
+    console.dir('view');
+    ctx.state = {
+      session: ctx.session,
+      title: 'app',
+    };
+    if (ctx.path === '/view') {
+      await ctx.render('user.ejs', { user: { name: 'alfred' } });
+    } else {
+      await next();
+    }
+  });
+
   const request = supertest(rpc.callback());
 
   it('should start === rpc.callback', async () => {
@@ -61,6 +101,14 @@ describe('app', async () => {
     expect(res.type).toEqual('application/json');
     expect(res.status).toEqual(200);
     expect(res.body).toEqual({ a: 'hello' });
+  });
+
+  it.only('should access /view', async () => {
+    const res = await request.get('/view');
+    expect(res.type).toEqual('text/html');
+    expect(res.status).toEqual(200);
+
+    expect(res.text).toEqual(`\n  <h2>alfred</h2>\n\n123\n`);
   });
 
   it('should access no routers[key]', async () => {
