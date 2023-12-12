@@ -1,6 +1,6 @@
 {
   "name": "@tomrpc/app",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "My Awesome lib",
   "license": "MIT",
   "publishConfig": {
@@ -33,8 +33,8 @@
   },
   "dependencies": {
     "@koa/cors": "^4.0.0",
-    "@tomrpc/client": "^2.0.2",
-    "@tomrpc/core": "^2.0.2",
+    "@tomrpc/client": "^2.0.3",
+    "@tomrpc/core": "^2.0.3",
     "@tomrpc/mount": "workspace:^",
     "debug": "^4.3.4",
     "desm": "^1.3.0",
