@@ -20,14 +20,14 @@ export const LifeCycleConfig = {
     },
   },
 
-  before: async (server: RpcServer) => {
+  before: async (server: BaseRpcServer) => {
     const app = server.app;
     const loadMiddlewares = server.config.hooks.before;
     loadMiddlewares.forEach((mw: Middleware) => {
       app.use(mw);
     });
   },
-  init: async (server: RpcServer) => {
+  init: async (server: BaseRpcServer) => {
     log('init');
     // console.dir(server);
     const app = server.app;
@@ -37,14 +37,14 @@ export const LifeCycleConfig = {
       app.use(mw);
     });
   },
-  load: async (server: RpcServer) => {
+  load: async (server: BaseRpcServer) => {
     const app = server.app;
     const loadMiddlewares = server.config.hooks.load;
     loadMiddlewares.forEach((mw: Middleware) => {
       app.use(mw);
     });
   },
-  after: async (server: RpcServer) => {
+  after: async (server: BaseRpcServer) => {
     const app = server.app;
     const loadMiddlewares = server.config.hooks.after;
     loadMiddlewares.forEach((mw: Middleware) => {
@@ -62,17 +62,17 @@ export interface IRpcServerConfig {
     after: Array<Middleware>;
     default(): Promise<Middleware>;
   };
-  before?(server: RpcServer): Promise<void>;
-  init?(server: RpcServer): Promise<void>;
-  load?(server: RpcServer): Promise<void>;
-  after?(server: RpcServer): Promise<void>;
+  before?(server: BaseRpcServer): Promise<void>;
+  init?(server: BaseRpcServer): Promise<void>;
+  load?(server: BaseRpcServer): Promise<void>;
+  after?(server: BaseRpcServer): Promise<void>;
 }
 /**
  * @type {RpcServer} The Server maintains a server to bind one of the Strategy
  * objects. The Server does not know the concrete class of a strategy. It
  * should work with all strategies via the Strategy interface.
  */
-export class RpcServer {
+export class BaseRpcServer {
   private plugins: Strategy[] = [];
   app: Application;
   use;
@@ -81,9 +81,9 @@ export class RpcServer {
     load: [],
     before: {},
   };
-  config;
-  init: [];
-  load: [];
+  public config;
+  public init: [];
+  public load: [];
   /**
    * Usually, the Server accepts a strategy through the constructor, but also
    * provides a setter to change it at runtime.

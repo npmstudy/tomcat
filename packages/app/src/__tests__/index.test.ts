@@ -1,9 +1,13 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
-// import mount from '../mount';
-
-describe('lib', () => {
+describe('app', async () => {
   it('should render lib', () => {
-    // expect(lib()).toBe('lib');
+    expect('lib').toBe('lib');
+  });
+
+  it('mock console.dir', () => {
+    const spy = vi.spyOn(console, 'dir');
+    console.dir('2323');
+    expect(spy).toHaveBeenCalled();
   });
 });
