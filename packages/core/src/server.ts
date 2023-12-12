@@ -13,7 +13,7 @@ export const LifeCycleConfig = {
     before: [],
     load: [],
     after: [],
-    default: async (ctx, next) => {
+    default: async (ctx) => {
       log('default');
       ctx.body = '[core server] no middleware repsonse, please check your route';
       log('default end');

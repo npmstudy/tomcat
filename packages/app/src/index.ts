@@ -1,31 +1,13 @@
-import { createServer, combine, RpcServer } from '@tomrpc/core';
-import type { IIndexServerConfig } from '@tomrpc/core';
+import { combine, RpcServer } from '@tomrpc/core';
+import type { IIndexServerConfig, JSONValue } from '@tomrpc/core';
 // import mount from '@tomrpc/mount';
-import exp from 'constants';
 import debug from 'debug';
 
-import { init } from './init';
-import { loadBuildinMiddlewaire, loadInitMiddleware } from './load';
 import { Serve, Cors, View, Jwt } from './mw/index';
 import { mergeDeep } from './utils';
 
 const log = debug('@tomrpc/app');
 
-// {
-//   name:'hi'
-//   base: import.meta.url
-//   static: 'public'
-//   cors: { enable: true }
-//   view: { enable: true }
-//   jwt: { enable: true }
-//   port: 3000
-//   mount: './fn'
-//   lifeCyle: {
-
-//   },
-//   debug: true
-//   logLevel:
-// }
 interface ICors {
   enable?: boolean | false;
   opts?: object;
@@ -45,7 +27,7 @@ interface IJwt {
   secret?: string;
   issuer?: string;
   debug: boolean;
-  unless?: any;
+  unless?: JSONValue;
   getToken;
 }
 interface IAppConfig1 {
@@ -66,19 +48,23 @@ type IAppConfig = IAppConfig1 & IIndexServerConfig;
 
 export class AppServer extends RpcServer {
   constructor(cfg?: IAppConfig) {
+    log('AppServer constructor');
     super(cfg);
 
     if (cfg?.buildin?.cors) {
+      log('cors enable');
       const cors = new Cors(cfg?.buildin?.cors);
       this.plugin(cors);
     }
 
     if (cfg?.buildin?.serve) {
+      log('serve enable');
       const serve = new Serve(cfg?.buildin?.serve);
       this.plugin(serve);
     }
 
     if (cfg?.buildin?.jwt) {
+      log('jwt enable');
       const jwt = new Jwt(cfg?.buildin?.jwt);
       this.plugin(jwt);
     }

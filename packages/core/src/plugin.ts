@@ -70,7 +70,7 @@ export class Plugable implements Strategy {
 
   pre() {
     return async (ctx, next) => {
-      log('pre');
+      log('pre ' + ctx.path);
       await next();
       log('pre end');
     };
@@ -78,7 +78,7 @@ export class Plugable implements Strategy {
 
   post() {
     return async (ctx, next) => {
-      log('after');
+      log('after ' + ctx.path);
       await next();
       log('after end');
     };
@@ -86,7 +86,7 @@ export class Plugable implements Strategy {
 
   process() {
     return async (ctx, next) => {
-      log('process default');
+      log('process default ' + ctx.path);
       await next();
       log('process default end');
     };

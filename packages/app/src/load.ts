@@ -12,7 +12,7 @@ export async function loadInitMiddleware(rpc?, m?) {
 
 export async function loadBuildinMiddlewaire(rpc?) {
   // const buildin = rpc.config.buildin;
-  // log(rpc.config);
+  log(rpc.config);
   // log(buildin);
   // const mw = await import('./mw');
   // for (const key in buildin) {
