@@ -1,5 +1,7 @@
-import { createServer, combine } from '@tomrpc/core';
+import { createServer, combine, RpcServer } from '@tomrpc/core';
+import type { IIndexServerConfig } from '@tomrpc/core';
 // import mount from '@tomrpc/mount';
+import exp from 'constants';
 import debug from 'debug';
 
 import { init } from './init';
@@ -46,55 +48,59 @@ interface IJwt {
   unless?: any;
   getToken;
 }
-interface IConfig {
-  name: string | 'tomapp';
+interface IAppConfig1 {
+  name?: string | 'tomapp';
   base?: string;
   port?: number | 3000;
   debug?: boolean | false;
   mount?: string;
-  buildin: {
+  buildin?: {
     serve?: IServe;
     cors?: ICors;
     view?: IView;
     jwt?: IJwt;
   };
 }
-export async function createApp(cfg: IConfig) {
-  const rpc = createServer(
+
+type IAppConfig = IAppConfig1 & IIndexServerConfig;
+
+export class AppServer extends RpcServer {
+  constructor(cfg?: IAppConfig) {
+    super(cfg);
+
+    if (cfg?.buildin?.cors) {
+      const cors = new Cors(cfg?.buildin?.cors);
+      this.plugin(cors);
+    }
+
+    if (cfg?.buildin?.serve) {
+      const serve = new Serve(cfg?.buildin?.serve);
+      this.plugin(serve);
+    }
+
+    if (cfg?.buildin?.jwt) {
+      const jwt = new Jwt(cfg?.buildin?.jwt);
+      this.plugin(jwt);
+    }
+  }
+
+  public render(path, cb): void {
+    // console.dir('render');
+    if (this.config?.buildin?.view) {
+      const view = new View(this.config?.buildin?.view);
+      const mw = combine([view.proxy(), cb]);
+      this.app.use(mw);
+    }
+  }
+}
+
+export function createApp(cfg?: IAppConfig): AppServer {
+  return new AppServer(
     mergeDeep(
       {
         base: import.meta.url,
       },
-      cfg
+      cfg || {}
     )
   );
-
-  if (cfg.buildin.cors) {
-    const cors = new Cors(cfg.buildin.cors);
-    rpc.plugin(cors);
-  }
-
-  if (cfg.buildin.serve) {
-    const serve = new Serve(cfg.buildin.serve);
-    rpc.plugin(serve);
-  }
-
-  if (cfg.buildin.jwt) {
-    const jwt = new Jwt(cfg.buildin.jwt);
-    rpc.plugin(jwt);
-  }
-
-  return mergeDeep(rpc, {
-    jwt: function (cb) {
-      // const mw = combine([cb]);
-      // console.dir(rpc.config);
-      // rpc.init.push(mw);
-    },
-    render: function (path, cb) {
-      // console.dir('render');
-      const view = new View(cfg.buildin.view);
-      const mw = combine([view.proxy(), cb]);
-      rpc.app.use(mw);
-    },
-  });
 }

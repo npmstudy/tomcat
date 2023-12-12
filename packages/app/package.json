@@ -26,8 +26,9 @@
     "awesome-keywords"
   ],
   "devDependencies": {
+    "@types/koa": "^2.13.10",
     "@vitest/coverage-v8": "^1.0.1",
-    "happy-dom": "^6.0.4",
+    "supertest": "^6.3.3",
     "vitest": "^1.0.1"
   },
   "dependencies": {
