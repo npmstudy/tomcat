@@ -148,51 +148,48 @@ console.dir(res);
 ## App
 
 ```js
-
 import { join } from 'desm';
 import { createApp } from '@tomcat/app';
 
-(async () => {
-  const rpc = createApp({
-    name: 'tomapp',
-    base: import.meta.url,
-    port: 3001,
-    debug: false,
-    mount: './f',
-    buildin: {
-      serve: {
-        enable: true, root: join(import.meta.url, '.', 'public'), opts: {}
+const rpc = createApp({
+  name: 'tomapp',
+  base: import.meta.url,
+  port: 3001,
+  debug: false,
+  mount: './f',
+  buildin: {
+    serve: {
+      enable: true, root: join(import.meta.url, '.', 'public'), opts: {}
+    },
+    cors: { enable: true },
+    view: {
+      enable: true,
+      root: join(import.meta.url, '.', 'view'),
+      opts: {
+      map: {
+        html: 'ejs',
       },
-      cors: { enable: true },
-      view: {
-        enable: true,
-        root: join(import.meta.url, '.', 'view'),
-        opts: {
-        map: {
-          html: 'ejs',
-        },
-        },
       },
     },
-  });
+  },
+});
 
-  rpc.fn('a', function (a) {
-    return { a: a };
-  });
+rpc.fn('a', function (a) {
+  return { a: a };
+});
 
-  rpc.start();
-})();
-
+rpc.start();
 ```
 
 ## 生命周期
 
-- init
-- before
-- load
-- after
-- default
+在core里，存在4个生命周期，每个都是middleware数组。
 
+- init: []
+- before: []
+- load: []
+- after: []
+- default: Middlewaire
 
 ```js
 import { createServer } from '@tomrpc/core';
