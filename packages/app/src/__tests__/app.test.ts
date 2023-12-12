@@ -13,7 +13,7 @@ describe('app', async () => {
     debug: false,
     mount: './f',
     buildin: {
-      serve: { enable: true, root: join(import.meta.url, '.', 'public'), opts: {} },
+      serve: { enable: true, root: join(import.meta.url, '../..', 'public'), opts: {} },
       cors: { enable: true },
       // jwt: {
       // enable: true,
@@ -101,6 +101,13 @@ describe('app', async () => {
     expect(res.type).toEqual('application/json');
     expect(res.status).toEqual(200);
     expect(res.body).toEqual({ a: 'hello' });
+  });
+
+  it('should access /a.json', async () => {
+    const res = await request.get('/a.json');
+    expect(res.type).toEqual('application/json');
+    expect(res.status).toEqual(200);
+    expect(res.body).toEqual({ a: 123 });
   });
 
   it.only('should access /view', async () => {
