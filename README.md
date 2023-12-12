@@ -9,10 +9,39 @@
   - @tomrpc/mount 自动加载某目录下面的所有文件，如果export的是函数，则通过rpc.fn加入。
 - Application（Todo）
   - @tomrpc/app 组合core和mount，增加内置中间件、环境判断等，用于应用创建。
+  - 内置cors、serve、view、jwt中间件
 
 
 
 # Usage
+
+Server 函数，app.js
+
+```js
+import { createServer } from '@tomrpc/core';
+
+const rpc = createServer({
+  fn: {
+    // prefix: '/apk2',
+  },
+});
+
+rpc.fn('/a', function (a) {
+  return { a: a };
+});
+
+rpc.start(2091);
+
+```
+
+execute app.js and start server with port 2091
+
+```
+$ node app.js
+```
+
+Client client.js
+
 
 ```js
 import { createClient } from '@tomrpc/client'
@@ -29,22 +58,20 @@ console.dir(res);
 实际上，执行
 
 ```
-http://127.0.0.1:3000/a?$p=[%22hello%22]
+http://127.0.0.1:3000/api/a?$p=[%22hello%22]
 ```
 
-对应的 Server 函数
+返回的结果
 
-```js
-rpc.fn('a', function (a: string) {
-  return a;
-});
+```json
+{a: 'hello'}
 ```
 
 ## 定义函数
 
 ```js
 rpc.fn('a', function (a: string) {
-  return a;
+  return { a: a };
 });
 ```
 
@@ -118,56 +145,65 @@ const res = await client.a('hello');
 console.dir(res);
 ```
 
-## 根据方法名确定get/post请求
+## App
 
 ```js
 
-rpc.fn('getUsers', function (a: string) {
-  return {
-    a: a,
-    msg: 'getUsers',
-  };
-});
+import { join } from 'desm';
+import { createApp } from '@tomcat/app';
 
-rpc.fn('postUsers', function (a: string) {
-  return {
-    a: a,
-    msg: 'postUsers',
-  };
-});
+(async () => {
+  const rpc = createApp({
+    name: 'tomapp',
+    base: import.meta.url,
+    port: 3001,
+    debug: false,
+    mount: './f',
+    buildin: {
+      serve: {
+        enable: true, root: join(import.meta.url, '.', 'public'), opts: {}
+      },
+      cors: { enable: true },
+      view: {
+        enable: true,
+        root: join(import.meta.url, '.', 'view'),
+        opts: {
+        map: {
+          html: 'ejs',
+        },
+        },
+      },
+    },
+  });
 
+  rpc.fn('a', function (a) {
+    return { a: a };
+  });
 
-
-const res = await client.getUsers('hello');
-const res = await client.postUsers('hello');
+  rpc.start();
+})();
 
 ```
 
-如果发送get请求`http://127.0.0.1:3000/postUsers?$p=[%22hello%22]
-`，会返回`process fn:postUsers , you need send post request from client
-`
-
 ## 生命周期
 
-- beforeAll（中间件）
-  - beforeEach（中间件）
-    - beforeOne（普通函数）
-      - 函数执行
-    - afterOne（普通函数）
-  - afterEach（中间件）
-- afterAll（中间件）
+- init
+- before
+- load
+- after
+- default
 
 
 ```js
 import { createServer } from '@tomrpc/core';
 
 const rpc = createServer({
-  beforeOne: function (ctx: any, key: string) {
-    console.log(ctx.path);
-    console.log(ctx.method);
-    console.log('beforeOne key=' + key);
-  },
+  default: async (ctx) => {
+    ctx.body = 'custom default'
+  }
 });
+
+rpc.init.push(someMiddleware)
 ```
 
 

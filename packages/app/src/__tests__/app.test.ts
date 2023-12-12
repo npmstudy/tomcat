@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { createApp, AppServer } from '../index';
 
 describe('app', async () => {
-  const rpc: AppServer = await createApp({
+  const rpc: AppServer = createApp({
     name: 'tomapp',
     base: import.meta.url,
     port: 3001,
