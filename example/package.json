@@ -13,6 +13,9 @@
     "coverage": "vitest run --coverage"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^1.0.1",
+    "supertest": "^6.3.3",
+    "vitest": "^1.0.1",
     "@types/koa": "^2.13.10",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
