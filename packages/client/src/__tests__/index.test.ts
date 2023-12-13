@@ -4,6 +4,10 @@ import { describe, expect, it } from 'vitest';
 
 import { createClient } from '..';
 
+const from = 15000;
+const range = 100;
+const port = from + ~~(Math.random() * range);
+
 describe('lib', () => {
   const rpc = createServer({
     fn: {
@@ -42,11 +46,11 @@ describe('lib', () => {
   });
 
   it('should GET return json', async () => {
-    rpc.start(30001);
+    rpc.start(port);
 
     const client = createClient({
       host: '127.0.0.1',
-      port: 30001,
+      port: port,
     });
 
     // console.dir(client);
@@ -55,7 +59,7 @@ describe('lib', () => {
 
     expect(res1['a']).toBe('hello');
 
-    const res = await fetch('http://127.0.0.1:30001/api/a?$p=["hello"]');
+    const res = await fetch(`http://127.0.0.1:${port}/api/a?$p=["hello"]`);
     const s = await res.json();
     // console.dir(s);
     expect(s['a']).toBe('hello');
