@@ -3,6 +3,9 @@ import supertest from 'supertest';
 import { describe, expect, it } from 'vitest';
 
 import { createApp, AppServer } from '../index';
+const from = 15000;
+const range = 100;
+const port = from + ~~(Math.random() * range);
 
 describe('app', async () => {
   const rpc: AppServer = createApp({
@@ -88,7 +91,7 @@ describe('app', async () => {
   const request = supertest(rpc.callback());
 
   it('should start === rpc.callback', async () => {
-    const request2 = supertest(rpc.start(30001));
+    const request2 = supertest(rpc.start(port));
     const res = await request2.get('/api/a?$p=["hello"]');
     expect(res.type).toEqual('application/json');
     expect(res.status).toEqual(200);
