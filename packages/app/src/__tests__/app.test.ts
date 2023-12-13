@@ -109,7 +109,7 @@ describe('app', async () => {
     expect(res.body).toEqual({ a: 123 });
   });
 
-  it.only('should access /view', async () => {
+  it('should access /view', async () => {
     const res = await request.get('/view');
     expect(res.type).toEqual('text/html');
     expect(res.status).toEqual(200);
