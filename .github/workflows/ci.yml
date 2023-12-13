@@ -18,8 +18,9 @@ jobs:
       - name: Install deps and build (with cache)
         run: pnpm install
 
-      # - name: Lint
-      #   run: npm run lint
+      - name: Dev
+        run: npm run dev
+        run: npm run build
 
       - name: Test
         run: npm run test
