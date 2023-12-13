@@ -19,7 +19,7 @@ jobs:
         run: pnpm install
 
       - name: Dev
-        run: npm run dev
+        run: npm run build
 
       - name: Test
         run: npm run test
