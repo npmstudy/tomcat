@@ -1,5 +1,8 @@
 # Tomcat
 
+[![Node.js CI](https://github.com/npmstudy/tomcat/actions/workflows/ci.yml/badge.svg)](https://github.com/npmstudy/tomcat/actions/workflows/ci.yml)
+
+
 > Build function-based API with minimal code
 
 - Basic
@@ -10,7 +13,6 @@
 - Application（Todo）
   - @tomrpc/app 组合core和mount，增加内置中间件、环境判断等，用于应用创建。
   - 内置cors、serve、view、jwt中间件
-
 
 
 # Usage
