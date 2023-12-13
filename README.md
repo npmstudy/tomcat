@@ -2,6 +2,15 @@
 
 [![Node.js CI](https://github.com/npmstudy/tomcat/actions/workflows/ci.yml/badge.svg)](https://github.com/npmstudy/tomcat/actions/workflows/ci.yml)
 
+- [![npm](https://img.shields.io/npm/v/@tomrpc/core
+.svg)](https://www.npmjs.com/package/@tomrpc/core)
+- [![npm](https://img.shields.io/npm/v/@tomrpc/client
+.svg)](https://www.npmjs.com/package/@tomrpc/client
+)
+- [![npm](https://img.shields.io/npm/v/@tomrpc/app
+.svg)](https://www.npmjs.com/package/@tomrpc/app
+)
+
 
 > Build function-based API with minimal code
 
