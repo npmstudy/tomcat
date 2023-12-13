@@ -53,3 +53,12 @@ jobs:
         with:
           file: ./packages/app/coverage/coverage-final.json
           flags: tomrpc/app
+
+      - name: Upload @tomrpc/mount coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          file: ./packages/mount/coverage/coverage-final.json
+          flags: tomrpc/mount
+
