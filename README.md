@@ -1,8 +1,9 @@
 # Tomcat
 
-[![npm](https://img.shields.io/npm/v/@tomrpc/core.svg)](https://www.npmjs.com/package/@tomrpc/core)  [![Node.js CI](https://github.com/npmstudy/tomcat/actions/workflows/ci.yml/badge.svg)](https://github.com/npmstudy/tomcat/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/npmstudy/tomcat/graph/badge.svg?token=JKAAY92RBH)](https://codecov.io/gh/npmstudy/tomcat)
-
 > Build function-based API with minimal code
+
+[![npm](https://img.shields.io/npm/v/@tomrpc/core.svg)](https://www.npmjs.com/package/@tomrpc/core) [![Node.js CI](https://github.com/npmstudy/tomcat/actions/workflows/ci.yml/badge.svg)](https://github.com/npmstudy/tomcat/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/npmstudy/tomcat/graph/badge.svg?token=JKAAY92RBH)](https://codecov.io/gh/npmstudy/tomcat)
+
 
 - Basic
   - @tomrpc/core 最核心的函数机制
