@@ -29,9 +29,27 @@ jobs:
 
       - name: Build
         run: npm run build
-      - name: Upload coverage reports to Codecov
+
+      - name: Upload @tomrpc/core coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
-          file: ./coverage/lcov.info
+          file: ./packages/core/coverage/coverage-final.json
+          flags: tomrpc/core
+
+      - name: Upload @tomrpc/client coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          file: ./packages/client/coverage/coverage-final.json
+          flags: tomrpc/client
+
+      - name: Upload @tomrpc/app coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          file: ./packages/app/coverage/coverage-final.json
+          flags: tomrpc/app
