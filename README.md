@@ -150,7 +150,7 @@ console.dir(res);
 
 ```js
 import { join } from 'desm';
-import { createApp } from '@tomcat/app';
+import { createApp } from '@tomrpc/app';
 
 const rpc = createApp({
   name: 'tomapp',
